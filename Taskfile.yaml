@@ -1,0 +1,52 @@
+---
+version: "3"
+
+interval: 500ms
+
+tasks:
+  i:
+    desc: install all dependencies for project
+    cmds:
+      - cd backend && npm run install
+      - cd frontend && npm run install
+
+  build:
+    desc: builds the project
+    cmds:
+      - cd backend && npm run build
+      - cd frontend && npm run build
+
+  dev:
+    desc: start all development servers concurrently (backend and frontend)
+    cmds:
+      - npm run conc
+
+  server:
+    desc: start server from backend service
+    cmds:
+      - cd backend && npm run dev
+
+  client:
+    desc: start reactjs server from frontend service
+    cmds:
+      - cd frontend && npm run dev
+
+  compose-up-backend:
+    desc: start backend services using Docker Compose
+    cmds:
+      - docker-compose -f ./backend/docker-compose.yml up -d
+
+  compose-down-backend:
+    desc: stop backend services using Docker Compose
+    cmds:
+      - docker-compose -f ./backend/docker-compose.yml down
+
+  compose-up-frontend:
+    desc: start frontend services using Docker Compose
+    cmds:
+      - docker-compose -f ./frontend/docker-compose.yml up -d
+
+  compose-down-frontend:
+    desc: stop frontend services using Docker Compose
+    cmds:
+      - docker-compose -f ./frontend/docker-compose.yml down

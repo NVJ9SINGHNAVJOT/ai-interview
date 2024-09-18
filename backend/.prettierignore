@@ -1,0 +1,15 @@
+dist
+build
+node_modules
+logs
+uploadStorage
+.env
+.env.example
+package-lock.json
+package.json
+src/db/postgresql/migrations
+.dockerignore
+docker-compose.yaml
+Dockerfile
+start.sh
+wait-for.sh

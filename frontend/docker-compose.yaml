@@ -1,0 +1,17 @@
+---
+version: "3.8"
+
+networks:
+  proxy:
+    external: true
+
+services:
+  ai-interview-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai-interview-frontend
+    networks:
+      - proxy
+    ports: [4173:4173] # disable in production
+    env_file: .env

@@ -1,0 +1,11 @@
+build
+dist
+logs
+node_modules
+uploadStorage
+nodemon.json
+.prettierrc
+.prettierignore
+.env.example
+# (optional) if schema files are already generated in the directory below, then comment out the line for dockerignore.
+src/db/postgresql/migrations
