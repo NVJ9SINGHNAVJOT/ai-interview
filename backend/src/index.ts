@@ -8,7 +8,7 @@ import app from "@/app/app";
 import { postgresqlDatabaseConnect, postgresqlDatabaseDisconnect } from "@/db/postgresql/connection";
 import { checkEnvVariables } from "@/validators/checkEnvVariables";
 import { migratePostgreSQL } from "@/db/postgresql/migrate";
-import { setupPostgreSQLTriggers } from "@/db/postgresql/triggers";
+import { setupPostgreSQLEventTrigger } from "@/db/postgresql/triggers";
 import { cloudinaryConnect } from "@/config/cloudinary";
 
 async function handleExit() {
@@ -27,13 +27,13 @@ async function main() {
   // postgresql migrations and triggers
   /* NOTE: commented only for development purpose, remove comment in production */
   await migratePostgreSQL();
-  await setupPostgreSQLTriggers();
+  await setupPostgreSQLEventTrigger();
 
   // connect cloudinary
   cloudinaryConnect();
 
   // get port number
-  const PORT = parseInt(`${process.env["PORT"]}`) || 5000;
+  const PORT = parseInt(`${process.env["PORT"]}`);
 
   // setup server
   const httpServer = app;
