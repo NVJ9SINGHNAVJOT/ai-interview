@@ -14,6 +14,7 @@ export function checkEnvVariables() {
     !process.env["CLOUD_NAME"] ||
     !process.env["API_KEY"] ||
     !process.env["API_SECRET"] ||
+    !process.env["GEMINI_API_KEY"] ||
     !process.env["POSTGRES_HOST"] ||
     !process.env["POSTGRES_USER"] ||
     !process.env["POSTGRES_DB"] ||

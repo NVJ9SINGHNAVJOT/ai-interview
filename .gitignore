@@ -14,9 +14,7 @@
 
 # environment
 *.env
-!example.env
-/frontend/.env
-/backend/.env
+!.env.example
 
 # development
 /backend/tmp
