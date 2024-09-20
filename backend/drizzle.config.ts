@@ -6,7 +6,7 @@ configDotenv();
 export default {
   schema: "./src/db/postgresql/schema/*",
   out: "./src/db/postgresql/migrations",
-  driver: "pg",
+  dialect: "postgresql",
   dbCredentials: {
     host: `${process.env["POSTGRES_HOST"]}`,
     user: `${process.env["POSTGRES_USER"]}`,

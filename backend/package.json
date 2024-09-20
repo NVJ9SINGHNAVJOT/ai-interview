@@ -4,7 +4,7 @@
   "description": "",
   "main": "./src/index.ts",
   "scripts": {
-    "postgresqldb:generate": "npx drizzle-kit generate:pg",
+    "postgresqldb:generate": "npx drizzle-kit generate",
     "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix",
     "prettier-write": "npx prettier . --write --ignore-unknown",
