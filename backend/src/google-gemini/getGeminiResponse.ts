@@ -43,9 +43,8 @@ const chatSession = model.startChat({
   history: [],
 });
 
-async function getGeminiResponse(jobPosition: string, jobDescription: string, yearOfExp: number) {
+async function getGeminiResponse(prompt: string) {
   try {
-    const prompt = `Job Position: ${jobPosition}. Job Description: ${jobDescription}. Years of Experience: ${yearOfExp}. Based on this information, provide 5 interview questions with answers in JSON format. Include 'Question' and 'Answer' as fields in the JSON.`;
     const result = await chatSession.sendMessage(prompt);
     const resData = JSON.parse(result.response.text().replace("```json", "").replace("```", ""));
     logger.log("Gemini-Api", resData);

@@ -9,7 +9,6 @@ import { postgresqlDatabaseConnect, postgresqlDatabaseDisconnect } from "@/db/po
 import { checkEnvVariables } from "@/validators/checkEnvVariables";
 import { migratePostgreSQL } from "@/db/postgresql/migrate";
 import { setupPostgreSQLEventTrigger } from "@/db/postgresql/triggers";
-import { cloudinaryConnect } from "@/config/cloudinary";
 
 async function handleExit() {
   await postgresqlDatabaseDisconnect();
@@ -28,9 +27,6 @@ async function main() {
   /* NOTE: commented only for development purpose, remove comment in production */
   await migratePostgreSQL();
   await setupPostgreSQLEventTrigger();
-
-  // connect cloudinary
-  cloudinaryConnect();
 
   // get port number
   const PORT = parseInt(`${process.env["PORT"]}`);
