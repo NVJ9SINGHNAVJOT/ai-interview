@@ -4,7 +4,7 @@ import cors from "cors";
 import serverKey from "@/middlewares/serverKey";
 import logging from "@/middlewares/logging";
 import { origins } from "@/config/corsOptions";
-
+import interviewRoutes from "@/routes/interviewRoutes";
 const app = express();
 
 app.use(
@@ -25,6 +25,7 @@ app.use(logging);
 app.use(serverKey);
 
 // routes
+app.use("/api/v1/interviews", interviewRoutes);
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({
