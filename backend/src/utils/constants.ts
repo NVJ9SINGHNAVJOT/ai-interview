@@ -42,9 +42,3 @@ export const jobRoles = [
   "Release Manager",
   "Software Test Engineer",
 ];
-
-export const difficultyLevel = {
-  easy: "easy",
-  medium: "medium",
-  hard: "hard",
-};

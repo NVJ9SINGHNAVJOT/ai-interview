@@ -10,7 +10,7 @@ export const mcq = pgTable("mcq", {
   reason: text("reason").notNull(),
   answer: integer("answer").notNull(),
   jobRole: varchar("job_role", { length: 255 }).notNull(),
-  difficultyLevel: varchar("difficulty_level", { length: 50 }).notNull(),
+  yearOfExp: integer("year_of_exp").notNull(),
   tags: varchar("tags", { length: 255 }).array().notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
