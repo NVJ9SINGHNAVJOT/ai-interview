@@ -1,7 +1,8 @@
+import { envs } from "@/config/envs";
 import { logger } from "@/logger/logger";
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 
-const apiKey = process.env["GEMINI_API_KEY"];
+const apiKey = envs.GEMINI_API_KEY
 const genAI = new GoogleGenerativeAI(apiKey);
 
 const model = genAI.getGenerativeModel({

@@ -2,14 +2,15 @@ import { configDotenv } from "dotenv";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { logger } from "@/logger/logger";
+import { envs } from "@/config/envs";
 
 configDotenv();
 
 export const pool = new Pool({
-  host: `${process.env["POSTGRES_HOST"]}`,
-  user: `${process.env["POSTGRES_USER"]}`,
-  database: `${process.env["POSTGRES_DB"]}`,
-  password: `${process.env["POSTGRES_PASSWORD"]}`,
+  host: envs.POSTGRES_HOST,
+  user: envs.POSTGRES_USER,
+  database: envs.POSTGRES_DB,
+  password: envs.POSTGRES_PASSWORD,
   /* INFO: only use for live connections */
   // ssl: { rejectUnauthorized: false },
 });
@@ -32,6 +33,5 @@ export async function postgresqlDatabaseDisconnect() {
 }
 
 export const db = drizzle(pool, {
-  schema: {
-  },
+  schema: {},
 });

@@ -1,26 +1,35 @@
 export function checkEnvVariables() {
-  if (
-    !process.env["ENVIRONMENT"] ||
-    !process.env["ALLOWED_ORIGINS"] ||
-    process.env["ALLOWED_ORIGINS"].split(",").map((origin) => origin.trim()).length === 0 ||
-    !process.env["SERVER_KEY"] ||
-    !process.env["PORT"] ||
-    !process.env["MAIL_HOST"] ||
-    !process.env["MAIL_USER"] ||
-    !process.env["MAIL_PASS"] ||
-    !process.env["JWT_SECRET"] ||
-    !process.env["TOKEN_NAME"] ||
-    !process.env["FOLDER_NAME"] ||
-    !process.env["CLOUD_NAME"] ||
-    !process.env["API_KEY"] ||
-    !process.env["API_SECRET"] ||
-    !process.env["GEMINI_API_KEY"] ||
-    !process.env["POSTGRES_HOST"] ||
-    !process.env["POSTGRES_USER"] ||
-    !process.env["POSTGRES_DB"] ||
-    !process.env["POSTGRES_PASSWORD"]
-  ) {
-    throw new Error("Invalid evironment variables");
-    process.exit();
+  const requiredEnvVars = [
+    "ENVIRONMENT",
+    "ALLOWED_ORIGINS",
+    "SERVER_KEY",
+    "PORT",
+    "MAIL_HOST",
+    "MAIL_USER",
+    "MAIL_PASS",
+    "JWT_SECRET",
+    "TOKEN_NAME",
+    "FOLDER_NAME",
+    "CLOUD_NAME",
+    "API_KEY",
+    "API_SECRET",
+    "GEMINI_API_KEY",
+    "POSTGRES_HOST",
+    "POSTGRES_USER",
+    "POSTGRES_DB",
+    "POSTGRES_PASSWORD",
+  ];
+
+  // Check if required environment variables are present
+  for (const envVar of requiredEnvVars) {
+    if (!process.env[envVar] || process.env[envVar]?.trim() === "") {
+      throw new Error(`Missing or empty environment variable: ${envVar}`);
+    }
+  }
+
+  // Validate ALLOWED_ORIGINS
+  const allowedOrigins = process.env["ALLOWED_ORIGINS"]?.split(",").map((origin) => origin.trim());
+  if (!allowedOrigins || allowedOrigins.length === 0 || allowedOrigins.includes("")) {
+    throw new Error("ALLOWED_ORIGINS must contain at least one valid origin");
   }
 }

@@ -3,13 +3,14 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import serverKey from "@/middlewares/serverKey";
 import logging from "@/middlewares/logging";
-import { origins } from "@/config/corsOptions";
 import interviewRoutes from "@/routes/interviewRoutes";
+import authRoutes from "@/routes/authRoutes";
+import { envs } from "@/config/envs";
 const app = express();
 
 app.use(
   cors({
-    origin: origins,
+    origin: envs.ALLOWED_ORIGINS,
     credentials: true,
     methods: ["PUT", "PATCH", "POST", "GET", "DELETE"],
   })
@@ -26,6 +27,7 @@ app.use(serverKey);
 
 // routes
 app.use("/api/v1/interviews", interviewRoutes);
+app.use("/api/v1/auths", authRoutes);
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({

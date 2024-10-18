@@ -1,4 +1,4 @@
-import { pgTable, serial, text, integer, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, integer, timestamp, boolean } from "drizzle-orm/pg-core";
 import { user } from "@/db/postgresql/schema/user";
 import { interview } from "@/db/postgresql/schema/interview";
 import { relations } from "drizzle-orm";
@@ -8,6 +8,8 @@ export const interviewResult = pgTable("interview_results", {
   interviewId: integer("interview_id")
     .references(() => interview.id)
     .notNull(),
+
+  checked: boolean("checked").notNull().default(false),
   userId: integer("user_id")
     .notNull()
     .references(() => user.id),

@@ -1,6 +1,6 @@
 // initialization environment for server
-import dotenv from "dotenv";
-dotenv.config();
+import { configDotenv } from "dotenv";
+configDotenv();
 
 // setup server config
 import { logger, loggerConfig } from "@/logger/logger";
@@ -9,6 +9,7 @@ import { postgresqlDatabaseConnect, postgresqlDatabaseDisconnect } from "@/db/po
 import { checkEnvVariables } from "@/validators/checkEnvVariables";
 import { migratePostgreSQL } from "@/db/postgresql/migrate";
 import { setupPostgreSQLEventTrigger } from "@/db/postgresql/triggers";
+import { envs } from "@/config/envs";
 
 async function handleExit() {
   await postgresqlDatabaseDisconnect();
@@ -18,7 +19,7 @@ async function main() {
   // check environment variables
   checkEnvVariables();
   // setup logger
-  loggerConfig(`${process.env["ENVIRONMENT"]}`);
+  loggerConfig(envs.ENVIRONMENT);
 
   // connect database
   await postgresqlDatabaseConnect();
@@ -29,7 +30,7 @@ async function main() {
   await setupPostgreSQLEventTrigger();
 
   // get port number
-  const PORT = parseInt(`${process.env["PORT"]}`);
+  const PORT = parseInt(envs.PORT);
 
   // setup server
   const httpServer = app;
