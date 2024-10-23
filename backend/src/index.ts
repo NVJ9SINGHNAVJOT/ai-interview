@@ -1,4 +1,3 @@
-// initialization environment for server
 import { configDotenv } from "dotenv";
 configDotenv();
 
@@ -10,37 +9,67 @@ import { checkEnvVariables } from "@/validators/checkEnvVariables";
 import { migratePostgreSQL } from "@/db/postgresql/migrate";
 import { setupPostgreSQLEventTrigger } from "@/db/postgresql/triggers";
 import { envs } from "@/config/envs";
+import http from "http";
 
-async function handleExit() {
-  await postgresqlDatabaseDisconnect();
+// Flag to track server status
+let isShuttingDown = false;
+
+// Graceful shutdown handler
+async function handleExit(server: http.Server) {
+  if (isShuttingDown) return;
+  isShuttingDown = true;
+
+  logger.info("Shutting down gracefully...");
+
+  // Stop accepting new connections
+  server.close(async (err) => {
+    if (err) {
+      logger.error("Error while closing the server", err);
+      process.exit(1); // Force exit if error occurs
+    }
+
+    // Disconnect from PostgreSQL
+    await postgresqlDatabaseDisconnect();
+
+    process.exit(0); // Exit cleanly
+  });
+
+  // Force exit if graceful shutdown takes too long (e.g., 10 seconds)
+  setTimeout(() => {
+    logger.warn("Forcing shutdown due to timeout.");
+    process.exit(1);
+  }, 10000); // 10 seconds
 }
 
 async function main() {
-  // check environment variables
+  // Check environment variables
   checkEnvVariables();
-  // setup logger
+
+  // Setup logger
   loggerConfig(envs.ENVIRONMENT);
 
-  // connect database
+  // Connect database
   await postgresqlDatabaseConnect();
 
-  // postgresql migrations and triggers
-  /* NOTE: commented only for development purpose, remove comment in production */
+  // PostgreSQL migrations and triggers
+  /* NOTE: Commented only for development purposes, remove comment in production */
   await migratePostgreSQL();
   await setupPostgreSQLEventTrigger();
 
-  // get port number
+  // Get port number
   const PORT = parseInt(envs.PORT);
 
-  // setup server
-  const httpServer = app;
+  // Setup server
+  const httpServer = http.createServer(app);
 
-  process.on("SIGINT", () => handleExit());
-  process.on("SIGTERM", () => handleExit());
-
+  // Start server
   httpServer.listen(PORT, () => {
-    logger.info("server running...");
+    logger.info(`Server running on port ${PORT}...`);
   });
+
+  // Gracefully handle termination signals
+  process.on("SIGINT", () => handleExit(httpServer));
+  process.on("SIGTERM", () => handleExit(httpServer));
 }
 
 main();

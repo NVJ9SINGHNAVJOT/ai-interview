@@ -3,6 +3,12 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { logger } from "@/logger/logger";
 import { envs } from "@/config/envs";
+import { user } from "@/db/postgresql/schema/user";
+import { token, tokenRelations } from "@/db/postgresql/schema/token";
+import { interview } from "./schema/interview";
+import { interviewResult, interviewResultRelations } from "@/db/postgresql/schema/interviewResult";
+import { mcq } from "@/db/postgresql/schema/mcq";
+import { mcqResult, mcqResultRelations } from "@/db/postgresql/schema/mcqResult";
 
 configDotenv();
 
@@ -28,10 +34,24 @@ export async function postgresqlDatabaseConnect() {
 }
 
 export async function postgresqlDatabaseDisconnect() {
-  await pool.end();
-  logger.info("postgresql database disconnected");
+  try {
+    await pool.end();
+    logger.info("postgresql database disconnected");
+  } catch (error) {
+    logger.error("Error during PostgreSQL disconnection", error);
+  }
 }
 
 export const db = drizzle(pool, {
-  schema: {},
+  schema: {
+    user,
+    token,
+    tokenRelations,
+    interview,
+    interviewResult,
+    interviewResultRelations,
+    mcq,
+    mcqResult,
+    mcqResultRelations,
+  },
 });

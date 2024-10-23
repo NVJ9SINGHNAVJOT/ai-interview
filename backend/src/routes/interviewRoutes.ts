@@ -1,7 +1,7 @@
 import { createInterview } from "@/controllers/interview";
-import express, { Router } from "express";
+import { Router } from "express";
 
-const router: Router = express.Router();
+const router = Router();
 
 router.post("/createInterview", createInterview);
 
