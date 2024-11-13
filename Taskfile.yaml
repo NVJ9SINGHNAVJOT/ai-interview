@@ -4,14 +4,19 @@ version: "3"
 interval: 500ms
 
 tasks:
+  default:
+    desc: List all tasks.
+    cmd: task -l
+
   i:
-    desc: install all dependencies for project
+    desc: Install all necessary dependencies for the project across backend and frontend services.
     cmds:
+      - npm install
       - cd backend && npm run install
       - cd frontend && npm run install
 
   build:
-    desc: builds the project
+    desc: Builds the project locally
     cmds:
       - cd backend && npm run build
       - cd frontend && npm run build
