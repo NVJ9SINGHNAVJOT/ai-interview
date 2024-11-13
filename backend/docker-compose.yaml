@@ -3,6 +3,7 @@ version: '3.8'
 
 volumes:
   aiinterview-postgres-db:
+    name: aiinterview-postgres-db
 
 networks:
   aiinterview-proxy:
