@@ -12,11 +12,6 @@ declare namespace NodeJS {
     JWT_SECRET: string;
     TOKEN_NAME: string;
 
-    FOLDER_NAME: string;
-    CLOUD_NAME: string;
-    API_KEY: string;
-    API_SECRET: string;
-
     GEMINI_API_KEY: string;
 
     POSTGRES_HOST: string;

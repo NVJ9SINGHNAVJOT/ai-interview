@@ -3,7 +3,7 @@ import { user } from "@/db/postgresql/schema/user";
 import { interview } from "@/db/postgresql/schema/interview";
 import { relations } from "drizzle-orm";
 
-export const interviewResult = pgTable("interview_results", {
+export const interviewResult = pgTable("interview_result", {
   id: serial("id").primaryKey(),
   interviewId: integer("interview_id")
     .references(() => interview.id)
