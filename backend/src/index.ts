@@ -15,7 +15,7 @@ import http from "http";
 let isShuttingDown = false;
 
 // Graceful shutdown handler
-async function handleExit(server: http.Server) {
+function handleExit(server: http.Server) {
   if (isShuttingDown) return;
   isShuttingDown = true;
 
@@ -27,10 +27,12 @@ async function handleExit(server: http.Server) {
       logger.error("Error while closing the server", err);
       process.exit(1); // Force exit if error occurs
     }
+    logger.info("Server stopped gracefully...");
 
     // Disconnect from PostgreSQL
     await postgresqlDatabaseDisconnect();
 
+    logger.info("Shut down completed...");
     process.exit(0); // Exit cleanly
   });
 
