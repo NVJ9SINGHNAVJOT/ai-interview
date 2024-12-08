@@ -9,7 +9,7 @@ function App() {
 
   return (
     // wrapper
-    <div className="h-screen w-screen min-w-minContent bg-black">
+    <div className="h-screen w-screen min-w-minContent">
       {/* ===== all pages will be rendered below ===== */}
       <main
         ref={pageRenderDivRef}

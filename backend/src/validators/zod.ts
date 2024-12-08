@@ -36,11 +36,6 @@ export const nameSchema = z
   .min(1)
   .max(15)
   .regex(/^[a-zA-Z]{2,}$/);
-export const fancyNameSchema = z
-  .string()
-  .min(3)
-  .max(15)
-  .regex(/^[a-zA-Z][a-zA-Z0-9_-]{2,}$/);
 
 // email
 export const emailSchema = z.string().regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/);
