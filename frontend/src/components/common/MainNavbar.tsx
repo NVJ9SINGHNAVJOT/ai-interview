@@ -8,7 +8,7 @@ const MainNavbar = () => {
 
   return (
     <nav
-      className="ct-navbar-b sticky text-white top-0 flex h-[3.8rem] w-full items-center 
+      className=" bg-neutral-950 sticky text-white top-0 flex h-[3.8rem] w-full items-center 
       justify-between"
     >
       {/* main logo and name */}

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 const Error = () => {
   const navigate = useNavigate();
   return (
-    <div className="w-full flex flex-col md:flex-row bg-grayblack h-[calc(100vh-4rem)] justify-around items-center gap-x-4">
+    <div className="w-full h-[calc(100%-3.8rem)] flex flex-col md:flex-row bg-grayblack justify-around items-center gap-x-4">
       <p className="text-[10rem] lg:text-[12rem] font-bold tracking-wider text-white mx-4">404</p>
 
       <div className=" text-white flex flex-col items-center mx-4">
