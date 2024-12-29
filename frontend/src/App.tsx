@@ -9,11 +9,11 @@ function App() {
 
   return (
     // wrapper
-    <div className="h-screen w-screen min-w-minContent">
+    <div className="h-screen w-screen bg-black">
       {/* ===== all pages will be rendered below ===== */}
       <main
         ref={pageRenderDivRef}
-        className="mx-auto w-full h-full min-w-minContent max-w-maxContent overflow-y-auto overflow-x-hidden"
+        className="relative mx-auto w-full h-full min-w-minContent max-w-maxContent overflow-y-auto overflow-x-hidden"
       >
         {/* ===== main nav bar ===== */}
         <MainNavbar />

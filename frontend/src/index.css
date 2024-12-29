@@ -51,3 +51,40 @@ input[type="number"]::-webkit-outer-spin-button {
 
 /* ===== css configuration for design components ===== */
 /* custom classes naming start with ct eg: ct-logoShine */
+
+/* navbar background */
+.ct-navbar-bg {
+  background: linear-gradient(109.6deg, rgb(36, 45, 57) 11.2%, rgb(16, 37, 60) 51.2%, rgb(0, 0, 0) 98.6%);
+}
+
+/* navbar menu buttons */
+.ct-botton-elegante {
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 30px;
+  transition: all 0.4s ease;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.ct-botton-elegante::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+.ct-botton-elegante:hover::after {
+  transform: scale(4);
+}
+
+.ct-botton-elegante:hover {
+  border-color: #666666;
+  background: #292929;
+}
