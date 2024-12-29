@@ -1,6 +1,11 @@
+import { useLocation, useNavigate } from "react-router-dom";
+
 const menuItems = ["Home", "Interview", "MCQ", "Dashboard", "About"];
 
 const MainNavbar = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   return (
     <nav
       className="ct-navbar-b sticky text-white top-0 flex h-[3.8rem] w-full items-center 
@@ -13,10 +18,23 @@ const MainNavbar = () => {
       </div>
 
       {/* menu items */}
-      <div className=" flex gap-x-8">
+      <div className=" flex gap-x-5">
         {menuItems.map((item, index) => {
           return (
-            <ul key={index} className="ct-botton-elegante cursor-pointer ">
+            <ul
+              key={index}
+              className={`ct-botton-elegante cursor-pointer ${
+                location.pathname.includes(item.toLocaleLowerCase()) === true &&
+                "after:scale-[4] border-[#666666] bg-[#292929]"
+              } hover:after:scale-[4] hover:border-[#666666] hover:bg-[#292929]`}
+              onClick={() => {
+                if (item === "Home") {
+                  navigate("/");
+                } else {
+                  navigate(`/${item.toLocaleLowerCase()}`);
+                }
+              }}
+            >
               {item}
             </ul>
           );

@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 import App from "@/App.tsx";
 import "@/index.css";
 import About from "@/pages/About";
-import Contact from "@/pages/Contact";
 import Home from "@/pages/Home";
 import Error from "@/pages/Error";
 
@@ -23,10 +22,6 @@ const router = createBrowserRouter([
       {
         path: "about",
         element: <About />,
-      },
-      {
-        path: "contact",
-        element: <Contact />,
       },
       /* ===== error route ===== */
       {
