@@ -11,7 +11,7 @@ const PrivateRoute = (props: PrivateRouteProps) => {
   if (authUser === true) {
     return props.children;
   }
-  return <Navigate to="/auth" />;
+  return <Navigate to="/auth/login" />;
 };
 
 export default PrivateRoute;

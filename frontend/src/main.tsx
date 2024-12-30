@@ -42,7 +42,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "auth",
+        path: "auth/:type",
         element: (
           <OpenRoute>
             <Auth />
