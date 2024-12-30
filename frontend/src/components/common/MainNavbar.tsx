@@ -41,7 +41,7 @@ const MainNavbar = () => {
         })}
       </div>
 
-      {/* sign in button */}
+      {/* sign in buttons */}
       <button>Sign In</button>
     </nav>
   );

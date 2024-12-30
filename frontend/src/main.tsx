@@ -9,19 +9,70 @@ import "@/index.css";
 import About from "@/pages/About";
 import Home from "@/pages/Home";
 import Error from "@/pages/Error";
+import Interview from "@/pages/Interview";
+import MCQ from "@/pages/MCQ";
+import Dashboard from "@/pages/Dashboard";
+import OpenRoute from "@/components/auth/OpenRoute";
+import PrivateRoute from "@/components/auth/PrivateRoute";
+import Auth from "@/pages/Auth";
 
 const router = createBrowserRouter([
   {
+    // main app route and sub routes
+    // only MainNavbar is used in outlet in App element
+    // and childrens are used as routes
     path: "/",
     element: <App />,
     children: [
+      /* ===== public route ===== */
       {
         index: true,
-        element: <Home />,
+        element: (
+          <OpenRoute>
+            <Home />
+          </OpenRoute>
+        ),
       },
       {
         path: "about",
-        element: <About />,
+        element: (
+          <OpenRoute>
+            <About />
+          </OpenRoute>
+        ),
+      },
+      {
+        path: "auth",
+        element: (
+          <OpenRoute>
+            <Auth />
+          </OpenRoute>
+        ),
+      },
+      /* ===== private routes ===== */
+      {
+        path: "interview",
+        element: (
+          <PrivateRoute>
+            <Interview />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "mcq",
+        element: (
+          <PrivateRoute>
+            <MCQ />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "dashboard",
+        element: (
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        ),
       },
       /* ===== error route ===== */
       {
