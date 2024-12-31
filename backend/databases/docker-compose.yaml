@@ -1,0 +1,49 @@
+---
+version: '3.8'
+
+volumes:
+  aiinterview-redis-data:
+    name: aiinterview-redis-data
+  aiinterview-postgres-db:
+    name: aiinterview-postgres-db
+
+networks:
+  aiinterview-proxy:
+  proxy:
+    external: true
+
+services:
+  aiinterview-redis:
+    image: redis/redis-stack-server:latest
+    container_name: aiinterview-redis
+    env_file:
+      - .env
+    ports:
+      - "6379:6379" # Redis port
+    volumes:
+      - aiinterview-redis-data:/data # Bind mount a volume for persistent data storage
+    environment:
+      REDIS_ARGS: --requirepass ${REDIS_PASSWORD} # Set password using environment variable
+    restart: unless-stopped # Ensure the container restarts unless manually stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+
+  aiinterview-postgres:
+    container_name: aiinterview-postgres
+    image: postgres:16-alpine
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - aiinterview-postgres-db:/var/lib/postgresql/data
+    env_file: .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: unless-stopped # Ensure the container restarts unless manually stopped
+    networks:
+      - aiinterview-proxy
+    # ports: [5432:5432]

@@ -22,7 +22,7 @@
 # /backend/src/db/postgresql/migrations
 
 # temporary storage
-/backend/uploadStorage
+/backend/server/uploadStorage
 
 # logs
-/backend/logs
+/backend/server/logs

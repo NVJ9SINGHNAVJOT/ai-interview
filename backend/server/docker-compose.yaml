@@ -1,0 +1,23 @@
+---
+version: '3.8'
+
+networks:
+  aiinterview-proxy:
+  proxy:
+    external: true
+
+services:
+  aiinterview-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aiinterview-backend
+    networks:
+      - ai-interview-proxy
+      - proxy
+    ports: [5000:5000] # disable in production
+    env_file: .env
+    depends_on:
+      - postgres
+    entrypoint: ['/app/wait-for.sh', 'aiinterview-postgres:5432', '--', '/app/start.sh']
+    command: [ 'node', 'dist/index.js']
