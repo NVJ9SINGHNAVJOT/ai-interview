@@ -3,7 +3,7 @@ import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
 import { logger } from "@/logger/logger";
 import { pool } from "@/db/postgresql/connection";
 
-const tables = ["user", "token", "mcq", "mcq_result", "interview", "interview_result"];
+const tables = ["user", "mcq", "mcq_result", "interview", "interview_result"];
 
 // Function to set up PostgreSQL triggers globally
 export async function setupPostgreSQLEventTrigger() {

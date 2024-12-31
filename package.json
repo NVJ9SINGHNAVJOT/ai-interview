@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "client": "cd frontend && npm run dev",
-    "server": "cd backend && npm run dev",
+    "server": "cd backend/server && npm run dev",
     "conc": "concurrently -n \"server,client\" -c \"bgBlue,bgYellow\" \"npm run server\" \"npm run client\""
   },
   "keywords": [],

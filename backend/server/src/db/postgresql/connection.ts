@@ -4,7 +4,6 @@ import { Pool } from "pg";
 import { logger } from "@/logger/logger";
 import { envs } from "@/config/envs";
 import { user } from "@/db/postgresql/schema/user";
-import { token, tokenRelations } from "@/db/postgresql/schema/token";
 import { interview } from "./schema/interview";
 import { interviewResult, interviewResultRelations } from "@/db/postgresql/schema/interviewResult";
 import { mcq } from "@/db/postgresql/schema/mcq";
@@ -45,8 +44,6 @@ export async function postgresqlDatabaseDisconnect() {
 export const db = drizzle(pool, {
   schema: {
     user,
-    token,
-    tokenRelations,
     interview,
     interviewResult,
     interviewResultRelations,
