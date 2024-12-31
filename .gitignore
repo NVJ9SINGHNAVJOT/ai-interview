@@ -19,10 +19,7 @@
 **/logs
 
 # database files create by commands
-# /backend/src/db/postgresql/migrations
+# /backend/server/src/db/postgresql/migrations
 
 # temporary storage
 /backend/server/uploadStorage
-
-# logs
-/backend/server/logs
