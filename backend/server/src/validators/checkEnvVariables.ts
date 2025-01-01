@@ -10,6 +10,8 @@ export function checkEnvVariables() {
     "JWT_SECRET",
     "TOKEN_NAME",
     "GEMINI_API_KEY",
+    "REDIS_PASSWORD",
+    "REDIS_URL",
     "POSTGRES_HOST",
     "POSTGRES_USER",
     "POSTGRES_DB",
@@ -18,14 +20,8 @@ export function checkEnvVariables() {
 
   // Check if required environment variables are present
   for (const envVar of requiredEnvVars) {
-    if (!process.env[envVar] || process.env[envVar]?.trim() === "") {
+    if (!process.env[envVar] || process.env[envVar].trim() === "") {
       throw new Error(`Missing or empty environment variable: ${envVar}`);
     }
-  }
-
-  // Validate ALLOWED_ORIGINS
-  const allowedOrigins = process.env["ALLOWED_ORIGINS"]?.split(",").map((origin) => origin.trim());
-  if (!allowedOrigins || allowedOrigins.length === 0 || allowedOrigins.includes("")) {
-    throw new Error("ALLOWED_ORIGINS must contain at least one valid origin");
   }
 }

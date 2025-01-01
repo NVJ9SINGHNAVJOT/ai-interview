@@ -9,6 +9,8 @@ export const envs = {
   JWT_SECRET: process.env["JWT_SECRET"] as string,
   TOKEN_NAME: process.env["TOKEN_NAME"] as string,
   GEMINI_API_KEY: process.env["GEMINI_API_KEY"] as string,
+  REDIS_PASSWORD: process.env["REDIS_PASSWORD"] as string,
+  REDIS_URL: process.env["REDIS_URL"] as string,
   POSTGRES_HOST: process.env["POSTGRES_HOST"] as string,
   POSTGRES_USER: process.env["POSTGRES_USER"] as string,
   POSTGRES_DB: process.env["POSTGRES_DB"] as string,

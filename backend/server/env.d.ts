@@ -14,6 +14,9 @@ declare namespace NodeJS {
 
     GEMINI_API_KEY: string;
 
+    REDIS_PASSWORD: string;
+    REDIS_URL: string;
+
     POSTGRES_HOST: string;
     POSTGRES_USER: string;
     POSTGRES_DB: string;
