@@ -7,10 +7,10 @@ export let redisClient: Redis;
 // Function to connect to Redis
 export async function connectToRedis(): Promise<void> {
   try {
-    redisClient = new Redis(envs.REDIS_URL, { password: envs.REDIS_PASSWORD });
+    redisClient = new Redis(envs.REDIS_URL, { password: envs.REDIS_PASSWORD, lazyConnect: true });
 
     // Test the connection
-    await redisClient.ping();
+    await redisClient.connect();
     logger.info("Ping successful, Redis is ready.");
   } catch (error: any) {
     logger.error("Failed to connect to Redis:", { error: error.message });
