@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { CiMail } from "react-icons/ci";
 import SignInButton from "@/components/buttons/SignInButton";
 import { SignUpForm } from "@/components/core/auth/SignUpForm";
@@ -8,6 +8,9 @@ const Auth = () => {
   const { type } = useParams();
   const navigate = useNavigate();
 
+  if (type !== "login" && type !== "signup") {
+    return <Navigate to="/error" />;
+  }
   return (
     <div className="w-full min-h-[calc(100%-3.8rem)] bg-neutral-800 flex justify-center items-center">
       {/* auth forms */}

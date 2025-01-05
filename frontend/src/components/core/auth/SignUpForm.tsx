@@ -11,22 +11,28 @@ type SignUpData = {
 };
 
 export const SignUpForm = () => {
+  const [loading, setLoading] = useState(false);
+  const [otpFields, setOtpFields] = useState<string[]>(new Array(6).fill(""));
   const [toggleOtp, setToggleOtp] = useState(false);
   const {
     register,
     handleSubmit,
     reset,
     getValues,
+    setValue,
     formState: { errors },
   } = useForm<SignUpData>();
 
   const formHandler = async (data: SignUpData) => {
-    console.log(data);
-  };
+    // send otp for user signup
+    if (toggleOtp === false) {
+      console.log(data);
+      setToggleOtp(true);
+      return;
+    }
 
-  const signUpUser = async (otp: string) => {
-    console.log(otp);
-    console.log(getValues());
+    data.otp = otpFields.join("");
+    console.log(data);
   };
 
   return (
@@ -91,12 +97,13 @@ export const SignUpForm = () => {
           </div>
         </div>
       ) : (
-        <OtpInput submitOtpHandler={(otp) => signUpUser(otp)} />
+        <OtpInput otpFields={otpFields} setOtpFields={setOtpFields} />
       )}
 
       {/* button */}
       <button
-        type={toggleOtp === false ? "button" : "submit"}
+        disabled={loading || (toggleOtp === true && otpFields.includes(""))}
+        type="submit"
         className="ml-[0] mr-[0] my-[20px] bg-[#2d79f3] border-[none] text-[white] text-[15px] font-medium rounded-[10px] h-[50px] w-full cursor-pointer"
       >
         Submit
