@@ -10,6 +10,8 @@ export default defineConfig(({ command, mode }) => {
     plugins: [react(), tsconfigPaths()],
     define: {
       "process.env.REACT_APP_ENVIRONMENT": JSON.stringify(env.REACT_APP_ENVIRONMENT),
+      "process.env.SERVER_KEY": JSON.stringify(env.SERVER_KEY),
+      "process.env.REACT_APP_BASE_URL_SERVER": JSON.stringify(env.REACT_APP_BASE_URL_SERVER),
     },
   };
 });

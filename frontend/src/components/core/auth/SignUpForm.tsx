@@ -2,6 +2,8 @@ import { CiMail } from "react-icons/ci";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import OtpInput from "@/components/core/auth/OtpInput";
+import { sendOtpApi } from "@/services/operations/authApi";
+import { toast } from "react-toastify";
 
 type SignUpData = {
   firstName: string;
@@ -24,10 +26,18 @@ export const SignUpForm = () => {
   } = useForm<SignUpData>();
 
   const formHandler = async (data: SignUpData) => {
+    setLoading(true);
     // send otp for user signup
     if (toggleOtp === false) {
-      console.log(data);
+      const { error, response } = await sendOtpApi(data.email, "yes");
+      if (error) {
+        toast.error(error.message);
+        return;
+      } else {
+        toast.success("Check your mail for otp");
+      }
       setToggleOtp(true);
+      setLoading(true);
       return;
     }
 
