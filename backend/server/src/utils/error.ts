@@ -9,7 +9,7 @@ export function errRes(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error?: any
 ): Response<unknown, Record<string, unknown>> {
-  // log internal server error
+  // log error
   if (error) {
     logger.error(message, { status: status, error: error });
   } else {
@@ -17,7 +17,21 @@ export function errRes(
   }
 
   return res.status(status).json({
-    success: false,
     message: message,
+  });
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function internalErrRes(
+  res: Response,
+  api: string,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  error: any
+): Response<unknown, Record<string, unknown>> {
+  // log internal server error
+  logger.error(`internal server error: ${api}`, { status: 500, error: error });
+
+  return res.status(500).json({
+    message: "internal server error",
   });
 }

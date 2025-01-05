@@ -7,9 +7,6 @@ export const nameSchema = z
   .max(30)
   .regex(/^[a-zA-Z]{1,}$/);
 
-// email
-export const emailSchema = z.string().email();
-
 // otp
 export const optSchema = z
   .string()

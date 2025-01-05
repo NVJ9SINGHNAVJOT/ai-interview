@@ -1,18 +1,34 @@
-export const envs = {
-  ENVIRONMENT: process.env["ENVIRONMENT"] as string,
-  ALLOWED_ORIGINS: process.env["ALLOWED_ORIGINS"] as string,
-  SERVER_KEY: process.env["SERVER_KEY"] as string,
-  PORT: process.env["PORT"] as string,
-  MAIL_HOST: process.env["MAIL_HOST"] as string,
-  MAIL_USER: process.env["MAIL_USER"] as string,
-  MAIL_PASS: process.env["MAIL_PASS"] as string,
-  JWT_SECRET: process.env["JWT_SECRET"] as string,
-  TOKEN_NAME: process.env["TOKEN_NAME"] as string,
-  GEMINI_API_KEY: process.env["GEMINI_API_KEY"] as string,
-  REDIS_PASSWORD: process.env["REDIS_PASSWORD"] as string,
-  REDIS_URL: process.env["REDIS_URL"] as string,
-  POSTGRES_HOST: process.env["POSTGRES_HOST"] as string,
-  POSTGRES_USER: process.env["POSTGRES_USER"] as string,
-  POSTGRES_DB: process.env["POSTGRES_DB"] as string,
-  POSTGRES_PASSWORD: process.env["POSTGRES_PASSWORD"] as string,
-};
+const requiredEnvVars = [
+  "ENVIRONMENT",
+  "ALLOWED_ORIGINS",
+  "SERVER_KEY",
+  "PORT",
+  "MAIL_HOST",
+  "MAIL_USER",
+  "MAIL_PASS",
+  "JWT_SECRET",
+  "TOKEN_NAME",
+  "ARCJET_ENV",
+  "ARCJET_KEY",
+  "GEMINI_API_KEY",
+  "REDIS_PASSWORD",
+  "REDIS_URL",
+  "POSTGRES_HOST",
+  "POSTGRES_USER",
+  "POSTGRES_DB",
+  "POSTGRES_PASSWORD",
+] as const;
+
+type EnvVariables = Record<(typeof requiredEnvVars)[number], string>;
+
+export function checkEnvVariables(): void {
+  requiredEnvVars.forEach((envVar) => {
+    if (!process.env[envVar]) {
+      throw new Error(`Missing or empty environment variable: ${envVar}`);
+    }
+  });
+}
+
+export const envs: EnvVariables = Object.fromEntries(
+  requiredEnvVars.map((key) => [key, process.env[key] as string])
+) as EnvVariables;

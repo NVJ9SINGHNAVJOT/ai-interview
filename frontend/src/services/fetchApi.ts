@@ -1,5 +1,8 @@
 type ApiError = { status: number; message: string };
-export type ApiResponse<T> = { error: null; response: T } | { error: ApiError; response: null };
+
+export type ApiResponse<T> =
+  | { error: null; response: { message: string; data: T } }
+  | { error: ApiError; response: null };
 
 export async function fetchApi<T>(
   method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | "HEAD",
@@ -59,7 +62,7 @@ export async function fetchApi<T>(
       };
     }
 
-    return { error: null, response: responseData as T };
+    return { error: null, response: responseData as { message: string; data: T } };
   } catch (error) {
     return { error: { status: 0, message: "api call error" }, response: null };
   }

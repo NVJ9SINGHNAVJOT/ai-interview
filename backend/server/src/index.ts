@@ -3,12 +3,11 @@ configDotenv();
 
 // setup server config
 import { logger, loggerConfig } from "@/logger/logger";
+import { checkEnvVariables, envs } from "@/config/envs";
 import app from "@/app/app";
 import { postgresqlDatabaseConnect, postgresqlDatabaseDisconnect } from "@/db/postgresql/connection";
-import { checkEnvVariables } from "@/validators/checkEnvVariables";
 import { migratePostgreSQL } from "@/db/postgresql/migrate";
 import { setupPostgreSQLEventTrigger } from "@/db/postgresql/triggers";
-import { envs } from "@/config/envs";
 import http from "http";
 
 // Flag to track server status

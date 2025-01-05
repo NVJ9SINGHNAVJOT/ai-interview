@@ -12,6 +12,9 @@ declare namespace NodeJS {
     JWT_SECRET: string;
     TOKEN_NAME: string;
 
+    ARCJET_ENV: string;
+    ARCJET_KEY: string;
+
     GEMINI_API_KEY: string;
 
     REDIS_PASSWORD: string;

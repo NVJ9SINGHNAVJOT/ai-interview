@@ -2,10 +2,12 @@ import { CiMail } from "react-icons/ci";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import OtpInput from "@/components/core/auth/OtpInput";
-import { sendOtpApi } from "@/services/operations/authApi";
+import { sendOtpApi, signUpApi } from "@/services/operations/authApi";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/redux/slices/authSlice";
 
-type SignUpData = {
+export type SignUpData = {
   firstName: string;
   lastName: string;
   email: string;
@@ -13,15 +15,13 @@ type SignUpData = {
 };
 
 export const SignUpForm = () => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [otpFields, setOtpFields] = useState<string[]>(new Array(6).fill(""));
   const [toggleOtp, setToggleOtp] = useState(false);
   const {
     register,
     handleSubmit,
-    reset,
-    getValues,
-    setValue,
     formState: { errors },
   } = useForm<SignUpData>();
 
@@ -29,20 +29,26 @@ export const SignUpForm = () => {
     setLoading(true);
     // send otp for user signup
     if (toggleOtp === false) {
-      const { error, response } = await sendOtpApi(data.email, "yes");
+      const { error, response } = await sendOtpApi(data.email, "signup");
       if (error) {
         toast.error(error.message);
-        return;
       } else {
         toast.success("Check your mail for otp");
+        setToggleOtp(true);
       }
-      setToggleOtp(true);
-      setLoading(true);
+      setLoading(false);
       return;
     }
 
     data.otp = otpFields.join("");
-    console.log(data);
+    const { error, response } = await signUpApi(data);
+    if (error) {
+      toast.error(error.message);
+      setLoading(false);
+    } else {
+      toast.success("Sign Up completed!");
+      dispatch(setUser(response.data));
+    }
   };
 
   return (
