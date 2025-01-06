@@ -12,7 +12,7 @@ export const arcjetInitialization = async () => {
     const validateEmail = arcjetModule.validateEmail;
 
     arcjetInstance = arcjet({
-      key: process.env["ARCJET_KEY"],
+      key: `${process.env["ARCJET_KEY"]}`,
       rules: [
         validateEmail({
           mode: "LIVE", // will block requests. Use "DRY_RUN" to log only

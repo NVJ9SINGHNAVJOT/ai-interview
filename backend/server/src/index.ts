@@ -53,7 +53,7 @@ async function main() {
   checkEnvVariables();
 
   // Setup logger
-  loggerConfig(process.env["ENVIRONMENT"]);
+  loggerConfig(`${process.env["ENVIRONMENT"]}`);
 
   // Connect database
   await postgresqlDatabaseConnect();
@@ -70,7 +70,7 @@ async function main() {
   await arcjetInitialization();
 
   // Get port number
-  const PORT = parseInt(process.env["PORT"]);
+  const PORT = parseInt(`${process.env["PORT"]}`);
 
   // Setup server
   const httpServer = http.createServer(app);

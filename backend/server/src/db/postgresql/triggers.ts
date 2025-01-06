@@ -42,6 +42,6 @@ export async function setupPostgreSQLEventTrigger() {
   } catch (error: any) {
     logger.error("Event trigger setup failed for PostgreSQL", { error: error?.message || "Unknown error" });
     await pool.end();
-    process.exit();
+    process.exit(1);
   }
 }

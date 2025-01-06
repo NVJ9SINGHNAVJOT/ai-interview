@@ -6,7 +6,10 @@ export let redisClient: Redis;
 // Function to connect to Redis
 export async function connectToRedis(): Promise<void> {
   try {
-    redisClient = new Redis(process.env["REDIS_URL"], { password: process.env["REDIS_PASSWORD"], lazyConnect: true });
+    redisClient = new Redis(`${process.env["REDIS_URL"]}`, {
+      password: `${process.env["REDIS_PASSWORD"]}`,
+      lazyConnect: true,
+    });
 
     // Test the connection
     await redisClient.connect();
@@ -14,6 +17,7 @@ export async function connectToRedis(): Promise<void> {
   } catch (error: any) {
     logger.error("Failed to connect to Redis", { error: error?.message || "Unknown error" });
     redisClient.disconnect();
+    process.exit(1);
   }
 }
 

@@ -15,6 +15,6 @@ export async function migratePostgreSQL() {
   } catch (error: any) {
     logger.error("Error while PostgreSQL migration", { error: error?.message || "Unknown error" });
     await pool.end();
-    process.exit();
+    process.exit(1);
   }
 }
