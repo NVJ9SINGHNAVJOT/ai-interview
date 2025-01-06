@@ -1,9 +1,12 @@
+import { db } from "@/db/postgresql/connection";
+import { user } from "@/db/postgresql/schema/user";
 import { redisClient } from "@/db/redis/connection";
 import { logger } from "@/logger/logger";
 import { SendOtpReqSchema } from "@/types/controllers/authReq";
 import { errRes, internalErrRes } from "@/utils/error";
 import { generateOTP } from "@/utils/otp";
 import { verifyEmail } from "@/utils/verifyEmail";
+import { eq } from "drizzle-orm";
 import { Request, Response } from "express";
 
 export const sendOtp = async (req: Request, res: Response): Promise<Response> => {
@@ -15,12 +18,22 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
 
     // send otp for user sign up
     if (data.type === "signup") {
-      // verify email by arcjet
-      const result = await verifyEmail(req, data.email);
-      if (result.error) {
-        return errRes(res, 503, "Email validation failed");
+      // check if use already present
+      const checkUserAlreadyExist = await db
+        .select({ id: user.id })
+        .from(user)
+        .where(eq(user.mailId, data.email))
+        .limit(1)
+        .execute();
+
+      if (checkUserAlreadyExist.length !== 0) {
+        return errRes(res, 400, "Invalid credentials");
       }
-      if (!result.accepted) {
+
+      // For now only gmail id is accepted as valid mail id
+      const result = verifyEmail(data.email);
+
+      if (!result) {
         return errRes(res, 400, "Invalid email id");
       }
 

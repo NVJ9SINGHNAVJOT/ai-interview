@@ -18,11 +18,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@arcjet/node": "^1.0.0-alpha.34",
     "@google/generative-ai": "^0.19.0",
-    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.3",
-    "cloudinary": "^2.5.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -39,7 +36,6 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
     "@types/body-parser": "^1.19.5",
     "@types/cookie-parser": "^1.4.7",
     "@types/cors": "^2.8.17",

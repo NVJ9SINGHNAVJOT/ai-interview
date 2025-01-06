@@ -8,8 +8,6 @@ const environmentVariables = [
   "MAIL_PASS",
   "JWT_SECRET",
   "TOKEN_NAME",
-  "ARCJET_ENV",
-  "ARCJET_KEY",
   "GEMINI_API_KEY",
   "REDIS_PASSWORD",
   "REDIS_URL",
