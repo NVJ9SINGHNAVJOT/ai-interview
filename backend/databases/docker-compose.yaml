@@ -9,7 +9,6 @@ volumes:
 
 networks:
   aiinterview-proxy:
-  proxy:
     external: true
 
 services:
@@ -18,13 +17,12 @@ services:
     container_name: aiinterview-redis
     env_file:
       - .env
-    ports:
-      - "6379:6379" # Redis port
     volumes:
-      - aiinterview-redis-data:/data # Bind mount a volume for persistent data storage
+      - aiinterview-redis-data:/data
     environment:
-      REDIS_ARGS: --requirepass ${REDIS_PASSWORD} # Set password using environment variable
-    restart: unless-stopped # Ensure the container restarts unless manually stopped
+      REDIS_ARGS: --requirepass ${REDIS_PASSWORD}
+    restart: unless-stopped
+    # ports: ["6379:6379"]
     deploy:
       resources:
         limits:
