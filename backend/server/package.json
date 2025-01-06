@@ -9,9 +9,9 @@
     "format": "eslint src/**/*.ts --fix",
     "prettier-write": "npx prettier . --write --ignore-unknown",
     "prettier-check": "npx prettier . --check",
-    "start": "node ./dist/index.js",
+    "start": "node --enable-source-maps ./dist/index.js",
     "test-build": "npx tsc",
-    "build": "esbuild ./src/index.ts --bundle --outdir=./dist --minify --platform=node --packages=external",
+    "build": "esbuild ./src/index.ts --bundle --outdir=./dist --minify --platform=node --packages=external --sourcemap",
     "dev": "nodemon"
   },
   "keywords": [],
