@@ -3,7 +3,6 @@ import { integer, pgTable, serial, text, timestamp, varchar } from "drizzle-orm/
 export const interview = pgTable("interview", {
   id: serial("id").primaryKey(),
   jobPositon: varchar("job_position", { length: 255 }).notNull(),
-  // tags: varchar("tags", { length: 255 }).array().notNull(),
   yearOfExp: integer("year_of_exp").notNull(),
   question1: text("question1").notNull(),
   question2: text("question2").notNull(),

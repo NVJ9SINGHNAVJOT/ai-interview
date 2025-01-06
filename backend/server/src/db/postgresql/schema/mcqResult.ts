@@ -1,4 +1,4 @@
-import { pgTable, serial, integer, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, serial, integer, timestamp, jsonb, boolean } from "drizzle-orm/pg-core";
 import { user } from "@/db/postgresql/schema/user";
 import { relations } from "drizzle-orm";
 
@@ -14,7 +14,8 @@ export const mcqResult = pgTable("mcq_result", {
   userId: integer("user_id")
     .notNull()
     .references(() => user.id),
-  answers: jsonb("answers").$type<AnswersArray>().notNull(),
+  checked: boolean("checked").notNull().default(false),
+  answers: jsonb("answers").$type<AnswersArray>(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });

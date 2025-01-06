@@ -34,7 +34,7 @@ app.use("/api/v1/mcqs", mcqRoutes);
 app.get("/", (_req: Request, res: Response) => {
   res.json({
     success: true,
-    message: "server is up and running.",
+    message: "Server is up and running.",
   });
 });
 

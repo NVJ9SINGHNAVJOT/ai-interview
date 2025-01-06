@@ -2,7 +2,7 @@ import { envs } from "@/config/envs";
 import { logger } from "@/logger/logger";
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 
-const apiKey = envs.GEMINI_API_KEY
+const apiKey = envs.GEMINI_API_KEY;
 const genAI = new GoogleGenerativeAI(apiKey);
 
 const model = genAI.getGenerativeModel({
@@ -50,7 +50,7 @@ async function getGeminiResponse(prompt: string) {
     const resData = JSON.parse(result.response.text().replace("```json", "").replace("```", ""));
     logger.log("Gemini-Api", resData);
   } catch (error: any) {
-    logger.error("Gemini-Api error", { error: error.message });
+    logger.error("Gemini-Api error", { error: error?.message || "Unknown error" });
   }
 }
 

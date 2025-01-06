@@ -1,5 +1,5 @@
 import { envs } from "@/config/envs";
-import { errRes } from "@/utils/error";
+import { errRes, internalErrRes } from "@/utils/error";
 import { NextFunction, Request, Response } from "express";
 
 function serverKey(req: Request, res: Response, next: NextFunction) {
@@ -12,7 +12,7 @@ function serverKey(req: Request, res: Response, next: NextFunction) {
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    return errRes(res, 500, "errror while checking authorization of serverKey", error.message);
+    return internalErrRes(res, "serverKey", error?.message || "Unknown error");
   }
 }
 

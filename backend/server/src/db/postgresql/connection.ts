@@ -23,10 +23,9 @@ export const pool = new Pool({
 export async function postgresqlDatabaseConnect() {
   try {
     await pool.connect();
-    logger.info("postgresql database connected");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    logger.info("PostgreSQL database connected");
   } catch (error: any) {
-    logger.error("error while connecting postgresql database", { error: error.message });
+    logger.error("Error while connecting PostgreSQL database", { error: error?.message || "Unknown error" });
     await pool.end();
     process.exit();
   }
@@ -35,9 +34,9 @@ export async function postgresqlDatabaseConnect() {
 export async function postgresqlDatabaseDisconnect() {
   try {
     await pool.end();
-    logger.info("postgresql database disconnected");
-  } catch (error) {
-    logger.error("Error during PostgreSQL disconnection", error);
+    logger.info("PostgreSQL database disconnected");
+  } catch (error: any) {
+    logger.error("Error during PostgreSQL disconnection", { error: error?.message || "Unknown error" });
   }
 }
 

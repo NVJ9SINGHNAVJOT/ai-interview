@@ -12,7 +12,7 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
   try {
     const { data, success, error } = SendOtpReqSchema.safeParse(req.body);
     if (!success) {
-      return errRes(res, 400, "invalid data", error.toString());
+      return errRes(res, 400, "Invalid data", error.toString());
     }
 
     // send otp for user sign up
@@ -20,26 +20,26 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
       // verify email by arcjet
       const result = await verifyEmail(req, data.email);
       if (result.error) {
-        return errRes(res, 503, "email validation failed");
+        return errRes(res, 503, "Email validation failed");
       }
       if (!result.accepted) {
-        return errRes(res, 400, "invalid email id");
+        return errRes(res, 400, "Invalid email id");
       }
 
       // create otp and save with email id in redis
       await redisClient.setex(`otp:signup:${data.email}`, 300, generateOTP());
       return res.status(200).json({
-        message: "verification otp sent",
+        message: "Verification otp sent",
       });
     }
 
     // send otp for user log in
     await redisClient.setex(`otp:login:${data.email}`, 300, generateOTP());
     return res.status(200).json({
-      message: "login otp sent",
+      message: "Login otp sent",
     });
   } catch (error: any) {
-    return internalErrRes(res, "sendOtp", "message" in error ? error.message : "unknow error");
+    return internalErrRes(res, "sendOtp", error?.message || "Unknown error");
   }
 };
 

@@ -13,7 +13,7 @@ export async function connectToRedis(): Promise<void> {
     await redisClient.connect();
     logger.info("Ping successful, Redis is ready.");
   } catch (error: any) {
-    logger.error("Failed to connect to Redis:", { error: error.message });
+    logger.error("Failed to connect to Redis", { error: error?.message || "Unknown error" });
     redisClient.disconnect();
   }
 }
@@ -24,6 +24,6 @@ export async function disconnectRedis(redisClient: Redis): Promise<void> {
     await redisClient.quit();
     logger.info("Redis connection closed.");
   } catch (error: any) {
-    logger.error("Failed to disconnect from Redis:", { error: error.message });
+    logger.error("Failed to disconnect from Redis", { error: error?.message || "Unknown error" });
   }
 }

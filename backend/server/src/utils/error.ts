@@ -29,9 +29,9 @@ export function internalErrRes(
   error: any
 ): Response<unknown, Record<string, unknown>> {
   // log internal server error
-  logger.error(`internal server error: ${api}`, { status: 500, error: error });
+  logger.error(`Internal server error: ${api}`, { status: 500, error: error });
 
   return res.status(500).json({
-    message: "internal server error",
+    message: "Internal server error",
   });
 }

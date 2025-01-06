@@ -4,8 +4,6 @@ import arcjet, { validateEmail } from "@arcjet/node";
 import { Request } from "express";
 
 const aj = arcjet({
-  // Get your site key from https://app.arcjet.com and set it as an environment
-  // variable rather than hard coding.
   key: envs.ARCJET_KEY,
   rules: [
     validateEmail({
@@ -28,7 +26,7 @@ const verifyEmail = async (req: Request, email: string): Promise<{ accepted: boo
     }
     return { accepted: true, error: false };
   } catch (error: any) {
-    logger.error("arcjet validation failed", { email: email, error: "message" in error ? error.message : "unknown" });
+    logger.error("Arcjet validation failed", { email: email, error: error?.message || "Unknown error" });
     return { accepted: false, error: true };
   }
 };

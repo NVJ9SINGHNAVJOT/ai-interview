@@ -13,7 +13,7 @@ export async function migratePostgreSQL() {
     logger.info("All migrations have been done, exiting...");
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    logger.error("error while postgresql migration", { error: error.message });
+    logger.error("Error while PostgreSQL migration", { error: error?.message || "Unknown error" });
     await pool.end();
     process.exit();
   }
