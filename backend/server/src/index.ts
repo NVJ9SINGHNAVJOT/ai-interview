@@ -3,12 +3,14 @@ configDotenv();
 
 // setup server config
 import { logger, loggerConfig } from "@/logger/logger";
-import { checkEnvVariables, envs } from "@/config/envs";
-import app from "@/app/app";
+import { checkEnvVariables } from "@/config/envs";
 import { postgresqlDatabaseConnect, postgresqlDatabaseDisconnect } from "@/db/postgresql/connection";
 import { migratePostgreSQL } from "@/db/postgresql/migrate";
 import { setupPostgreSQLEventTrigger } from "@/db/postgresql/triggers";
+import { arcjetInitialization } from "@/utils/verifyEmail";
+import app from "@/app/app";
 import http from "http";
+import { connectToRedis, disconnectRedis } from "@/db/redis/connection";
 
 // Flag to track server status
 let isShuttingDown = false;
@@ -27,6 +29,9 @@ function handleExit(server: http.Server) {
       process.exit(1); // Force exit if error occurs
     }
     logger.info("Server stopped gracefully...");
+
+    // Disconnect from redis
+    disconnectRedis();
 
     // Disconnect from PostgreSQL
     // FIXME: postgres disconnection is not working
@@ -48,7 +53,7 @@ async function main() {
   checkEnvVariables();
 
   // Setup logger
-  loggerConfig(envs.ENVIRONMENT);
+  loggerConfig(process.env["ENVIRONMENT"]);
 
   // Connect database
   await postgresqlDatabaseConnect();
@@ -58,8 +63,14 @@ async function main() {
   await migratePostgreSQL();
   await setupPostgreSQLEventTrigger();
 
+  // Connect to redis
+  connectToRedis();
+
+  // Initialize Arcjet module
+  await arcjetInitialization();
+
   // Get port number
-  const PORT = parseInt(envs.PORT);
+  const PORT = parseInt(process.env["PORT"]);
 
   // Setup server
   const httpServer = http.createServer(app);

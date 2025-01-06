@@ -6,12 +6,11 @@ import logging from "@/middlewares/logging";
 import authRoutes from "@/routes/authRoutes";
 import interviewRoutes from "@/routes/interviewRoutes";
 import mcqRoutes from "@/routes/mcqRoutes";
-import { envs } from "@/config/envs";
 const app = express();
 
 app.use(
   cors({
-    origin: envs.ALLOWED_ORIGINS,
+    origin: process.env["ALLOWED_ORIGINS"].split(",").map((origin) => origin.trim()),
     credentials: true,
     methods: ["PUT", "PATCH", "POST", "GET", "DELETE"],
   })

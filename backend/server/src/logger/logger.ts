@@ -9,5 +9,7 @@ export const loggerConfig = (environment: string) => {
     logger = developmentLogger();
   } else if (environment === "production") {
     logger = productionLogger();
+  } else {
+    throw new Error(`Wrong Environment variable: ${environment}`);
   }
 };

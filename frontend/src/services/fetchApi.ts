@@ -51,19 +51,19 @@ export async function fetchApi<T>(
     const response = await fetch(url, requestOptions);
 
     if (!response.ok) {
-      return { error: { status: 500, message: "response not ok" }, response: null };
+      return { error: { status: 500, message: "Response not ok" }, response: null };
     }
 
     const responseData = await response.json();
     if (response.status < 200 || response.status > 299) {
       return {
-        error: { status: response.status, message: "message" in responseData ? responseData.message : "unknown error" },
+        error: { status: response.status, message: "message" in responseData ? responseData.message : "Unknown error" },
         response: null,
       };
     }
 
     return { error: null, response: responseData as { message: string; data: T } };
   } catch (error) {
-    return { error: { status: 0, message: "api call error" }, response: null };
+    return { error: { status: 0, message: "Api call error" }, response: null };
   }
 }

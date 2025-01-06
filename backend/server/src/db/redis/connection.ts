@@ -1,4 +1,3 @@
-import { envs } from "@/config/envs";
 import { logger } from "@/logger/logger";
 import Redis from "ioredis";
 
@@ -7,7 +6,7 @@ export let redisClient: Redis;
 // Function to connect to Redis
 export async function connectToRedis(): Promise<void> {
   try {
-    redisClient = new Redis(envs.REDIS_URL, { password: envs.REDIS_PASSWORD, lazyConnect: true });
+    redisClient = new Redis(process.env["REDIS_URL"], { password: process.env["REDIS_PASSWORD"], lazyConnect: true });
 
     // Test the connection
     await redisClient.connect();
@@ -19,7 +18,7 @@ export async function connectToRedis(): Promise<void> {
 }
 
 // Function to disconnect from Redis
-export async function disconnectRedis(redisClient: Redis): Promise<void> {
+export async function disconnectRedis(): Promise<void> {
   try {
     await redisClient.quit();
     logger.info("Redis connection closed.");

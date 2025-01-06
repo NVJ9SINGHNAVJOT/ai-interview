@@ -1,24 +1,16 @@
 import { logger } from "@/logger/logger";
-import { errRes, internalErrRes } from "@/utils/error";
+import { internalErrRes } from "@/utils/error";
 import { NextFunction, Request, Response } from "express";
 
 function logging(req: Request, res: Response, next: NextFunction) {
   try {
-    const toBeLogged = req.url.split("/").pop();
-
-    logger.http("req details", {
+    // NOTE: This data logging can be shifted to kafka from server terminal
+    logger.http("Request details", {
       method: req.method,
       url: req.url,
       clientIP: req.ip,
       query: req.query,
-      requestBody:
-        toBeLogged === "login"
-          ? { email: req.body.email }
-          : toBeLogged === "changePassword"
-            ? {}
-            : toBeLogged === "resetPassword"
-              ? { email: req.body.email, otp: req.body.otp }
-              : req.body,
+      requestBody: req.body,
       requestHeaders: {
         "sec-ch-ua-platform": req.headers["sec-ch-ua-platform"],
         origin: req.headers["origin"],

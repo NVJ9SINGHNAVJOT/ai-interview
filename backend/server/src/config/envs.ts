@@ -1,4 +1,4 @@
-const requiredEnvVars = [
+const environmentVariables = [
   "ENVIRONMENT",
   "ALLOWED_ORIGINS",
   "SERVER_KEY",
@@ -17,18 +17,12 @@ const requiredEnvVars = [
   "POSTGRES_USER",
   "POSTGRES_DB",
   "POSTGRES_PASSWORD",
-] as const;
-
-type EnvVariables = Record<(typeof requiredEnvVars)[number], string>;
+];
 
 export function checkEnvVariables(): void {
-  requiredEnvVars.forEach((envVar) => {
-    if (!process.env[envVar]) {
+  environmentVariables.forEach((envVar) => {
+    if (!process.env[envVar] || process.env[envVar].trim() === "") {
       throw new Error(`Missing or empty environment variable: ${envVar}`);
     }
   });
 }
-
-export const envs: EnvVariables = Object.fromEntries(
-  requiredEnvVars.map((key) => [key, process.env[key] as string])
-) as EnvVariables;

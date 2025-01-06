@@ -1,11 +1,9 @@
-import { db } from "@/db/postgresql/connection";
-import { user } from "@/db/postgresql/schema/user";
 import { redisClient } from "@/db/redis/connection";
 import { logger } from "@/logger/logger";
 import { SendOtpReqSchema } from "@/types/controllers/authReq";
 import { errRes, internalErrRes } from "@/utils/error";
 import { generateOTP } from "@/utils/otp";
-import verifyEmail from "@/utils/verifyEmail";
+import { verifyEmail } from "@/utils/verifyEmail";
 import { Request, Response } from "express";
 
 export const sendOtp = async (req: Request, res: Response): Promise<Response> => {
