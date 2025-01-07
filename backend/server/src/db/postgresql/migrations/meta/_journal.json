@@ -15,6 +15,13 @@
       "when": 1736182990692,
       "tag": "0001_dizzy_warlock",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1736262837244,
+      "tag": "0002_true_squirrel_girl",
+      "breakpoints": true
     }
   ]
 }
