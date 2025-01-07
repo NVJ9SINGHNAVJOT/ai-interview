@@ -5,7 +5,7 @@ import { logger } from "@/logger/logger";
 import { SendOtpReqSchema, signUpReqSchema } from "@/types/controllers/authReq";
 import { errRes, internalErrRes } from "@/utils/error";
 import { generateOTP } from "@/utils/otp";
-import { verifyEmail } from "@/utils/verifyEmail";
+import { sendValidationMail, sendVerficationMail, verifyEmail } from "@/utils/email";
 import { eq } from "drizzle-orm";
 import { Request, Response } from "express";
 
@@ -37,14 +37,24 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
       }
 
       // create otp and save with email id in redis
-      await redisClient.setex(`otp:signup:${data.email}`, 300, generateOTP());
+      const newOtp = generateOTP();
+      await redisClient.setex(`otp:signup:${data.email}`, 300, newOtp);
+      const mailSent = await sendVerficationMail(data.email, newOtp);
+      if (!mailSent) {
+        return internalErrRes(res, "sentOtp", "failed to send verification otp mail");
+      }
       return res.status(200).json({
         message: "Verification otp sent",
       });
     }
 
     // type is login then send otp for user log in
-    await redisClient.setex(`otp:login:${data.email}`, 300, generateOTP());
+    const newOtp = generateOTP();
+    await redisClient.setex(`otp:login:${data.email}`, 300, newOtp);
+    const mailSent = await sendValidationMail(data.email, newOtp);
+    if (!mailSent) {
+      return internalErrRes(res, "sentOtp", "failed to send validation otp mail");
+    }
     return res.status(200).json({
       message: "Login otp sent",
     });

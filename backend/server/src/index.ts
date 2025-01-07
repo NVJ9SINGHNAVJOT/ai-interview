@@ -7,7 +7,7 @@ import { checkEnvVariables } from "@/config/envs";
 import { postgresqlDatabaseConnect, postgresqlDatabaseDisconnect } from "@/db/postgresql/connection";
 import { migratePostgreSQL } from "@/db/postgresql/migrate";
 import { setupPostgreSQLEventTrigger } from "@/db/postgresql/triggers";
-import { arcjetInitialization } from "@/utils/verifyEmail";
+import { arcjetInitialization } from "@/utils/email";
 import app from "@/app/app";
 import http from "http";
 import { connectToRedis, disconnectRedis } from "@/db/redis/connection";
