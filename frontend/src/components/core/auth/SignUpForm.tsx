@@ -33,7 +33,7 @@ export const SignUpForm = () => {
       if (error) {
         toast.error(error.message);
       } else {
-        toast.success("Check your mail for otp");
+        toast.success(response.message);
         setToggleOtp(true);
       }
       setLoading(false);
@@ -46,7 +46,7 @@ export const SignUpForm = () => {
       toast.error(error.message);
       setLoading(false);
     } else {
-      toast.success("Sign Up completed!");
+      toast.success(response.message);
       dispatch(setUser(response.data));
     }
   };

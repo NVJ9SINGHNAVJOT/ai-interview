@@ -21,17 +21,16 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
     if (!result) {
       return errRes(res, 400, "Invalid email id");
     }
+    // check if use already present
+    const checkUserAlreadyExist = await db
+      .select({ id: user.id })
+      .from(user)
+      .where(eq(user.emailId, data.email))
+      .limit(1)
+      .execute();
 
     // if type is signup then send otp for user sign up
     if (data.type === "signup") {
-      // check if use already present
-      const checkUserAlreadyExist = await db
-        .select({ id: user.id })
-        .from(user)
-        .where(eq(user.emailId, data.email))
-        .limit(1)
-        .execute();
-
       if (checkUserAlreadyExist.length !== 0) {
         return errRes(res, 400, "Invalid credentials");
       }
@@ -44,11 +43,14 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
         return internalErrRes(res, "sentOtp", "failed to send verification otp mail");
       }
       return res.status(200).json({
-        message: "Verification otp sent",
+        message: "Check your mail for verification otp",
       });
     }
 
     // type is login then send otp for user log in
+    if (checkUserAlreadyExist.length !== 1) {
+      return errRes(res, 400, "Invalid credentials");
+    }
     const newOtp = generateOTP();
     await redisClient.setex(`otp:login:${data.email}`, 300, newOtp);
     const mailSent = await sendValidationMail(data.email, newOtp);
@@ -56,7 +58,7 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
       return internalErrRes(res, "sentOtp", "failed to send validation otp mail");
     }
     return res.status(200).json({
-      message: "Login otp sent",
+      message: "Check your mail for validation otp",
     });
   } catch (error: any) {
     return internalErrRes(res, "sendOtp", error?.message || "Unknown error");
@@ -93,7 +95,7 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
     }
 
     return res.status(201).json({
-      message: "User sign up completed",
+      message: "Sign up completed",
       data: newUser[0],
     });
   } catch (error: any) {

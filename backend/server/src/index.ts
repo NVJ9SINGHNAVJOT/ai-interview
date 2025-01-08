@@ -7,7 +7,6 @@ import { checkEnvVariables } from "@/config/envs";
 import { postgresqlDatabaseConnect, postgresqlDatabaseDisconnect } from "@/db/postgresql/connection";
 import { migratePostgreSQL } from "@/db/postgresql/migrate";
 import { setupPostgreSQLEventTrigger } from "@/db/postgresql/triggers";
-import { arcjetInitialization } from "@/utils/email";
 import app from "@/app/app";
 import http from "http";
 import { connectToRedis, disconnectRedis } from "@/db/redis/connection";
@@ -64,10 +63,7 @@ async function main() {
   await setupPostgreSQLEventTrigger();
 
   // Connect to redis
-  connectToRedis();
-
-  // Initialize Arcjet module
-  await arcjetInitialization();
+  await connectToRedis();
 
   // Get port number
   const PORT = parseInt(`${process.env["PORT"]}`);

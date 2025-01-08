@@ -1,18 +1,14 @@
 type ApiError = { status: number; message: string };
 
-type ApiResponseBase<T> = { error: null; response: T } | { error: ApiError; response: null };
+type ApiResponse<T> = { error: null; response: T } | { error: ApiError; response: null };
 
-type ApiResponse = ApiResponseBase<{ message: string }>;
-
-type ApiResponseData<T> = ApiResponseBase<{ message: string; data: T }>;
-
-async function makeRequest<T>(
+export async function fetchApi<T>(
   method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | "HEAD",
   url: string,
   data?: object | FormData | null,
   headers?: Record<string, string> | null,
   params?: Record<string, string>
-): Promise<ApiResponseBase<T>> {
+): Promise<ApiResponse<T>> {
   try {
     const requestHeaders = new Headers();
 
@@ -52,28 +48,8 @@ async function makeRequest<T>(
       };
     }
 
-    return { error: null, response: responseData };
+    return { error: null, response: responseData as T };
   } catch {
     return { error: { status: 0, message: "API call error" }, response: null };
   }
-}
-
-export async function fetchApi(
-  method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | "HEAD",
-  url: string,
-  data?: object | FormData | null,
-  headers?: Record<string, string> | null,
-  params?: Record<string, string>
-): Promise<ApiResponse> {
-  return makeRequest<{ message: string }>(method, url, data, headers, params);
-}
-
-export async function fetchApiData<T>(
-  method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | "HEAD",
-  url: string,
-  data?: object | FormData | null,
-  headers?: Record<string, string> | null,
-  params?: Record<string, string>
-): Promise<ApiResponseData<T>> {
-  return makeRequest<{ message: string; data: T }>(method, url, data, headers, params);
 }
