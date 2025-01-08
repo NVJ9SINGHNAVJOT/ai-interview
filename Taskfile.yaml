@@ -36,9 +36,29 @@ tasks:
     cmds:
       - cd frontend && npm run dev
 
+  scripts:
+    desc: Clone utility scripts from the specified GitHub repository to support development tasks.
+    cmd:
+      # Windows (Git Bash)
+      bash clone_files.sh
+
+  proxy:
+    desc: Create a Docker network proxy to enable communication between containers.
+    cmd:
+      # Windows (Git Bash)
+      cd task_scripts && bash docker_proxy_network.sh
+
+  create-networks:
+    desc: Create necessary Docker networks, both external (proxy) and internal (backend).
+    cmds:
+      - task: proxy
+      # Windows (Git Bash)
+      - cd task_scripts && bash this_create_docker_networks.sh
+
   compose-up-backend:
     desc: start backend services using Docker Compose
     cmds:
+      - task: create-networks
       - docker-compose -f ./backend/databases/docker-compose.yml up -d
       - docker-compose -f ./backend/server/docker-compose.yml up -d
 

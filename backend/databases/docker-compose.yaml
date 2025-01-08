@@ -8,7 +8,7 @@ volumes:
     name: aiinterview-postgres-db
 
 networks:
-  aiinterview-proxy:
+  aiinterview-backend-proxy:
     external: true
 
 services:
@@ -43,5 +43,5 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     restart: unless-stopped # Ensure the container restarts unless manually stopped
     networks:
-      - aiinterview-proxy
+      - aiinterview-backend-proxy
     # ports: [5432:5432]

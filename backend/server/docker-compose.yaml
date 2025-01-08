@@ -2,7 +2,7 @@
 version: '3.8'
 
 networks:
-  aiinterview-proxy:
+  aiinterview-backend-proxy:
     external: true
   proxy:
     external: true
@@ -14,7 +14,7 @@ services:
       dockerfile: Dockerfile
     container_name: aiinterview-server
     networks:
-      - aiinterview-proxy
+      - aiinterview-backend-proxy
       - proxy
     ports: [5000:5000] # disable in production
     env_file: .env
