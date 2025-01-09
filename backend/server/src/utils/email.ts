@@ -34,7 +34,7 @@ export const sendVerficationMail = async (email: string, otp: string) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return true;
   } catch (error: any) {
-    logger.error("error while sending verification mail", {
+    logger.error("Error while sending verification email", {
       error: error?.message || "Unknown",
       email: email,
       otp: otp,
@@ -49,7 +49,7 @@ export const sendValidationMail = async (email: string, otp: string) => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return true;
   } catch (error: any) {
-    logger.error("error while sending validation mail", {
+    logger.error("Error while sending validation email", {
       error: error?.message || "Unknown",
       email: email,
       otp: otp,

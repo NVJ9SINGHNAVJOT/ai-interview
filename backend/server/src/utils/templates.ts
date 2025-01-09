@@ -17,7 +17,6 @@ export const verificationTemplate = (otp: string) => {
             }
     
             .container {
-    
                 max-width: 500px;
                 margin: 0 auto;
                 padding: 20px;
@@ -98,7 +97,7 @@ export const verificationTemplate = (otp: string) => {
             </div>
             <div class="support">
                 If you have any questions or need assistance, please feel free to reach out to us at
-                <a href="mailto:info@aiinterview.com">info@aiinterview.com</a>. We are here to help!
+                <a href="emailto:info@aiinterview.com">info@aiinterview.com</a>. We are here to help!
             </div>
         </div>
     </body>
@@ -206,7 +205,7 @@ export const validationTemplate = (otp: string) => {
             </div>
             <div class="support">
                 If you have any questions or need assistance, please feel free to reach out to us at
-                <a href="mailto:info@aiinterview.com">info@aiinterview.com</a>. We are here to help!
+                <a href="emailto:info@aiinterview.com">info@aiinterview.com</a>. We are here to help!
             </div>
         </div>
     </body>

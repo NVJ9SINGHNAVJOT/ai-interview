@@ -40,10 +40,10 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
       await redisClient.setex(`otp:signup:${data.email}`, 300, newOtp);
       const mailSent = await sendVerficationMail(data.email, newOtp);
       if (!mailSent) {
-        return internalErrRes(res, "sentOtp", "failed to send verification otp mail");
+        return internalErrRes(res, "sentOtp", "Failed to send verification otp email");
       }
       return res.status(200).json({
-        message: "Check your mail for verification otp",
+        message: "Check your email for verification otp",
       });
     }
 
@@ -55,10 +55,10 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
     await redisClient.setex(`otp:login:${data.email}`, 300, newOtp);
     const mailSent = await sendValidationMail(data.email, newOtp);
     if (!mailSent) {
-      return internalErrRes(res, "sentOtp", "failed to send validation otp mail");
+      return internalErrRes(res, "sentOtp", "Failed to send validation otp email");
     }
     return res.status(200).json({
-      message: "Check your mail for validation otp",
+      message: "Check your email for validation otp",
     });
   } catch (error: any) {
     return internalErrRes(res, "sendOtp", error?.message || "Unknown error");
@@ -91,7 +91,7 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
       .execute();
 
     if (newUser.length === 0) {
-      return errRes(res, 400, "User already exist");
+      return errRes(res, 400, "Invalid credentials");
     }
 
     return res.status(201).json({
