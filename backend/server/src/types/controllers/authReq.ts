@@ -1,4 +1,4 @@
-import { nameSchema, optSchema } from "@/validators/zod";
+import { nameSchema, otpSchema } from "@/validators/zod";
 import { z } from "zod";
 
 export const SendOtpReqSchema = z.object({
@@ -10,5 +10,5 @@ export const signUpReqSchema = z.object({
   email: z.string().email(),
   firstName: nameSchema,
   lastName: nameSchema,
-  otp: optSchema,
+  otp: otpSchema,
 });

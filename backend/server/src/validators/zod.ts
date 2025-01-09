@@ -8,7 +8,7 @@ export const nameSchema = z
   .regex(/^[a-zA-Z]{1,}$/);
 
 // otp
-export const optSchema = z
+export const otpSchema = z
   .string()
   .length(6)
   .regex(/^[1-9][0-9]{5}$/);
