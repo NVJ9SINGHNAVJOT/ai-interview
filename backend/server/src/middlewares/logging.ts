@@ -1,11 +1,15 @@
 import { logger } from "@/logger/logger";
 import { internalErrRes } from "@/utils/error";
 import { NextFunction, Request, Response } from "express";
+import { v4 as uuidv4 } from "uuid";
 
 function logging(req: Request, res: Response, next: NextFunction) {
   try {
+    req.requestId = uuidv4(); // Attach a request id to the request object
+
     // NOTE: This data logging can be shifted to kafka from server terminal
     logger.http("Request details", {
+      reqId: req.requestId,
       method: req.method,
       url: req.url,
       clientIP: req.ip,
@@ -21,7 +25,7 @@ function logging(req: Request, res: Response, next: NextFunction) {
     next();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    return internalErrRes(res, "logging", error?.message || "Unknown error");
+    return internalErrRes(req.requestId || "Unknown id", res, "logging", error?.message || "Unknown error");
   }
 }
 

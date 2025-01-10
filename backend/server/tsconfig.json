@@ -92,7 +92,7 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "include": ["src/**/*", "env.d.ts"],
+  "include": ["src/**/*", "env.d.ts", "types.d.ts"],
   "exclude": ["node_modules", "dist", "temp", "tmp", "logs"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
