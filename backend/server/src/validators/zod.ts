@@ -5,7 +5,14 @@ export const nameSchema = z
   .string()
   .min(1)
   .max(30)
-  .regex(/^[a-zA-Z]{1,}$/);
+  .regex(/^[a-zA-Z]{1,}$/)
+  .refine((value) => value === value.trim(), { message: "String contains leading or trailing whitespaces" });
+
+// email
+export const emailSchema = z
+  .string()
+  .email()
+  .refine((value) => value === value.trim(), { message: "String contains leading or trailing whitespaces" });
 
 // otp
 export const otpSchema = z

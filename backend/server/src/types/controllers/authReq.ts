@@ -1,13 +1,13 @@
-import { nameSchema, otpSchema } from "@/validators/zod";
+import { emailSchema, nameSchema, otpSchema } from "@/validators/zod";
 import { z } from "zod";
 
 export const SendOtpReqSchema = z.object({
-  email: z.string().email(),
+  email: emailSchema,
   type: z.enum(["signup", "login"]),
 });
 
 export const signUpReqSchema = z.object({
-  email: z.string().email(),
+  email: emailSchema,
   firstName: nameSchema,
   lastName: nameSchema,
   otp: otpSchema,
