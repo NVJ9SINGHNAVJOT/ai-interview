@@ -57,10 +57,12 @@ async function main() {
   // Connect database
   await postgresqlDatabaseConnect();
 
+  // NOTE: For migrations and triggers set ENVIRONMENT as "production" in env
   // PostgreSQL migrations and triggers
-  /* NOTE: Commented only for development purposes, remove comment in production */
-  await migratePostgreSQL();
-  await setupPostgreSQLEventTrigger();
+  if (process.env["ENVIRONMENT"] === "production") {
+    await migratePostgreSQL();
+    await setupPostgreSQLEventTrigger();
+  }
 
   // Connect to redis
   await connectToRedis();
@@ -76,9 +78,13 @@ async function main() {
     logger.info(`Server running on port ${PORT}...`);
   });
 
+  // NOTE: Only handle signals in production
   // Gracefully handle termination signals
-  process.on("SIGINT", () => handleExit(httpServer));
-  process.on("SIGTERM", () => handleExit(httpServer));
+  if (process.env["ENVIRONMENT"] === "production") {
+    logger.info("Signals to be listened");
+    process.on("SIGINT", () => handleExit(httpServer));
+    process.on("SIGTERM", () => handleExit(httpServer));
+  }
 }
 
 main();
