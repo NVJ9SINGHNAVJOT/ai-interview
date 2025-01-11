@@ -1,9 +1,10 @@
 import { logger } from "@/logger/logger";
-import { Response } from "express";
+import { CustomRequest } from "@/types/custom";
+import { Request, Response } from "express";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function errRes(
-  requestId: string,
+  req: Request,
   res: Response,
   status: number,
   message: string,
@@ -12,9 +13,9 @@ export function errRes(
 ): Response<unknown, Record<string, unknown>> {
   // log error
   if (error) {
-    logger.error(message, { requestId: requestId, status: status, error: error });
+    logger.error(message, { requestId: (req as CustomRequest).requestId || "Unknown", status: status, error: error });
   } else {
-    logger.error(message, { requestId: requestId, status: status });
+    logger.error(message, { requestId: (req as CustomRequest).requestId || "Unknown", status: status });
   }
 
   return res.status(status).json({
@@ -24,14 +25,18 @@ export function errRes(
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function internalErrRes(
-  requestId: string,
+  req: Request,
   res: Response,
   api: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   error: any
 ): Response<unknown, Record<string, unknown>> {
   // log internal server error
-  logger.error(`Internal server error: ${api}`, { requestId: requestId, status: 500, error: error });
+  logger.error(`Internal server error: ${api}`, {
+    requestId: (req as CustomRequest).requestId || "Unknown",
+    status: 500,
+    error: error,
+  });
 
   return res.status(500).json({
     message: "Internal server error",

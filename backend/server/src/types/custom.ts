@@ -6,6 +6,6 @@ export interface CustomPayload extends JwtPayload {
 }
 
 export interface CustomRequest extends Request {
-  userId: string;
+  requestId: string;
+  userId: number;
 }
-

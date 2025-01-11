@@ -13,13 +13,13 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
   try {
     const { data, success, error } = SendOtpReqSchema.safeParse(req.body);
     if (!success) {
-      return errRes(req.requestId, res, 400, "Invalid data", error.toString());
+      return errRes(req, res, 400, "Invalid data", error.toString());
     }
 
     // For now only gmail id is accepted as valid mail id
     const result = verifyEmail(data.email);
     if (!result) {
-      return errRes(req.requestId, res, 400, "Invalid email id");
+      return errRes(req, res, 400, "Invalid email id");
     }
     // check if use already present
     const checkUserAlreadyExist = await db
@@ -32,7 +32,7 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
     // if type is signup then send otp for user sign up
     if (data.type === "signup") {
       if (checkUserAlreadyExist.length !== 0) {
-        return errRes(req.requestId, res, 400, "Invalid credentials");
+        return errRes(req, res, 400, "Invalid credentials");
       }
 
       // create otp and save with email id in redis
@@ -40,7 +40,7 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
       await redisClient.setex(`otp:signup:${data.email}`, 300, newOtp);
       const mailSent = await sendVerficationMail(data.email, newOtp);
       if (!mailSent) {
-        return internalErrRes(req.requestId, res, "sentOtp", "Failed to send verification otp email");
+        return internalErrRes(req, res, "sentOtp", "Failed to send verification otp email");
       }
       return res.status(200).json({
         message: "Check your email for verification otp",
@@ -49,19 +49,19 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
 
     // type is login then send otp for user log in
     if (checkUserAlreadyExist.length !== 1) {
-      return errRes(req.requestId, res, 400, "Invalid credentials");
+      return errRes(req, res, 400, "Invalid credentials");
     }
     const newOtp = generateOTP();
     await redisClient.setex(`otp:login:${data.email}`, 300, newOtp);
     const mailSent = await sendValidationMail(data.email, newOtp);
     if (!mailSent) {
-      return internalErrRes(req.requestId, res, "sentOtp", "Failed to send validation otp email");
+      return internalErrRes(req, res, "sentOtp", "Failed to send validation otp email");
     }
     return res.status(200).json({
       message: "Check your email for validation otp",
     });
   } catch (error: any) {
-    return internalErrRes(req.requestId, res, "sendOtp", error?.message || "Unknown error");
+    return internalErrRes(req, res, "sendOtp", error?.message || "Unknown error");
   }
 };
 
@@ -70,16 +70,16 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
     const { data, success, error } = signUpReqSchema.safeParse(req.body);
 
     if (!success) {
-      return errRes(req.requestId, res, 400, "Invalid data", error.toString());
+      return errRes(req, res, 400, "Invalid data", error.toString());
     }
 
     const signUpOtp = await redisClient.get(`otp:signup:${data.email}`);
 
     if (!signUpOtp) {
-      return errRes(req.requestId, res, 400, "Otp expired");
+      return errRes(req, res, 400, "Otp expired");
     }
     if (signUpOtp !== data.otp) {
-      return errRes(req.requestId, res, 400, "Invalid otp");
+      return errRes(req, res, 400, "Invalid otp");
     }
 
     // otp verification is done and now create user
@@ -91,7 +91,7 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
       .execute();
 
     if (newUser.length === 0) {
-      return errRes(req.requestId, res, 400, "Invalid credentials");
+      return errRes(req, res, 400, "Invalid credentials");
     }
 
     return res.status(201).json({
@@ -99,7 +99,7 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
       data: newUser[0],
     });
   } catch (error: any) {
-    return internalErrRes(req.requestId, res, "signUp", error?.message || "Unknown error");
+    return internalErrRes(req, res, "signUp", error?.message || "Unknown error");
   }
 };
 
