@@ -1,6 +1,7 @@
 import { logger } from "@/logger/logger";
 import nodemailer from "nodemailer";
 import { validationTemplate, verificationTemplate } from "@/utils/templates";
+import { getErrorDetails } from "@/logger/error";
 
 // Function to verify email using the initialized Arcjet instance
 export const verifyEmail = (email: string) => {
@@ -31,11 +32,11 @@ const sendMail = async (email: string, title: string, body: string): Promise<voi
 export const sendVerficationMail = async (email: string, otp: string) => {
   try {
     await sendMail(email, "Verification Email", verificationTemplate(otp));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     return true;
-  } catch (error: any) {
+  } catch (error) {
     logger.error("Error while sending verification email", {
-      error: error?.message || "Unknown",
+      error: getErrorDetails(error),
       email: email,
       otp: otp,
     });
@@ -46,11 +47,11 @@ export const sendVerficationMail = async (email: string, otp: string) => {
 export const sendValidationMail = async (email: string, otp: string) => {
   try {
     await sendMail(email, "Validation Email", validationTemplate(otp));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     return true;
-  } catch (error: any) {
+  } catch (error) {
     logger.error("Error while sending validation email", {
-      error: error?.message || "Unknown",
+      error: getErrorDetails(error),
       email: email,
       otp: otp,
     });

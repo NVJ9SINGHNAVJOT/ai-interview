@@ -1,3 +1,4 @@
+import { logError } from "@/logger/error";
 import { logger } from "@/logger/logger";
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 
@@ -48,8 +49,8 @@ async function getGeminiResponse(prompt: string) {
     const result = await chatSession.sendMessage(prompt);
     const resData = JSON.parse(result.response.text().replace("```json", "").replace("```", ""));
     logger.log("Gemini-Api", resData);
-  } catch (error: any) {
-    logger.error("Gemini-Api error", { error: error?.message || "Unknown error" });
+  } catch (error) {
+    logError("Gemini-Api error", error);
   }
 }
 

@@ -12,9 +12,8 @@ function serverKey(req: Request, res: Response, next: NextFunction) {
         serverKey: serverKey,
       });
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    return internalErrRes(req, res, "serverKey", error?.message || "Unknown error");
+  } catch (error) {
+    return internalErrRes(req, res, "serverKey", error);
   }
 }
 

@@ -60,8 +60,8 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
     return res.status(200).json({
       message: "Check your email for validation otp",
     });
-  } catch (error: any) {
-    return internalErrRes(req, res, "sendOtp", error?.message || "Unknown error");
+  } catch (error) {
+    return internalErrRes(req, res, "sendOtp", error);
   }
 };
 
@@ -98,8 +98,8 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
       message: "Sign up completed",
       data: newUser[0],
     });
-  } catch (error: any) {
-    return internalErrRes(req, res, "signUp", error?.message || "Unknown error");
+  } catch (error) {
+    return internalErrRes(req, res, "signUp", error);
   }
 };
 

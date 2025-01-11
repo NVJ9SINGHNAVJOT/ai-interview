@@ -7,6 +7,7 @@ import { interview } from "@/db/postgresql/schema/interview";
 import { interviewResult, interviewResultRelations } from "@/db/postgresql/schema/interviewResult";
 import { mcq } from "@/db/postgresql/schema/mcq";
 import { mcqResult, mcqResultRelations } from "@/db/postgresql/schema/mcqResult";
+import { logError } from "@/logger/error";
 
 configDotenv();
 
@@ -23,8 +24,8 @@ export async function postgresqlDatabaseConnect() {
   try {
     await pool.connect();
     logger.info("PostgreSQL database connected");
-  } catch (error: any) {
-    logger.error("Error while connecting PostgreSQL database", { error: error?.message || "Unknown error" });
+  } catch (error) {
+    logError("Error while connecting PostgreSQL database", error);
     process.exit(1);
   }
 }
@@ -33,8 +34,8 @@ export async function postgresqlDatabaseDisconnect() {
   try {
     await pool.end();
     logger.info("PostgreSQL database disconnected");
-  } catch (error: any) {
-    logger.error("Error during PostgreSQL disconnection", { error: error?.message || "Unknown error" });
+  } catch (error) {
+    logError("Error during PostgreSQL disconnection", error);
   }
 }
 

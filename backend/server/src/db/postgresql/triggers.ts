@@ -2,6 +2,7 @@ import { sql } from "drizzle-orm";
 import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
 import { logger } from "@/logger/logger";
 import { pool } from "@/db/postgresql/connection";
+import { logError } from "@/logger/error";
 
 const tables = ["user", "mcq", "mcq_result", "interview", "interview_result"];
 
@@ -38,9 +39,8 @@ export async function setupPostgreSQLEventTrigger() {
     }
 
     logger.info("Event trigger setup complete, exiting...");
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    logger.error("Event trigger setup failed for PostgreSQL", { error: error?.message || "Unknown error" });
+  } catch (error) {
+    logError("Event trigger setup failed for PostgreSQL", error);
     process.exit(1);
   }
 }

@@ -1,3 +1,4 @@
+import { logError } from "@/logger/error";
 import { logger } from "@/logger/logger";
 import Redis from "ioredis";
 
@@ -17,8 +18,8 @@ export async function connectToRedis(): Promise<void> {
     await redisClient.connect();
     await redisClient.ping();
     logger.info("Ping successful, Redis is ready.");
-  } catch (error: any) {
-    logger.error("Failed to connect to Redis", { error: error?.message || "Unknown error" });
+  } catch (error) {
+    logError("Failed to connect to Redis", error);
     redisClient.disconnect();
     process.exit(1);
   }
@@ -29,7 +30,7 @@ export async function disconnectRedis(): Promise<void> {
   try {
     await redisClient.quit();
     logger.info("Redis connection closed.");
-  } catch (error: any) {
-    logger.error("Failed to disconnect from Redis", { error: error?.message || "Unknown error" });
+  } catch (error) {
+    logError("Failed to disconnect from Redis", error);
   }
 }
