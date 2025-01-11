@@ -25,7 +25,6 @@ export async function postgresqlDatabaseConnect() {
     logger.info("PostgreSQL database connected");
   } catch (error: any) {
     logger.error("Error while connecting PostgreSQL database", { error: error?.message || "Unknown error" });
-    await pool.end();
     process.exit(1);
   }
 }

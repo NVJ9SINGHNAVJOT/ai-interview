@@ -34,7 +34,7 @@ function handleExit(server: http.Server) {
 
     // Disconnect from PostgreSQL
     // FIXME: postgres disconnection is not working
-    await postgresqlDatabaseDisconnect();
+    // await postgresqlDatabaseDisconnect();
 
     logger.info("Shut down completed...");
     process.exit(0); // Exit cleanly

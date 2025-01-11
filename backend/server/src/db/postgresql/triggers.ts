@@ -41,7 +41,6 @@ export async function setupPostgreSQLEventTrigger() {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     logger.error("Event trigger setup failed for PostgreSQL", { error: error?.message || "Unknown error" });
-    await pool.end();
     process.exit(1);
   }
 }
