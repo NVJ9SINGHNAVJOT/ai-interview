@@ -12,26 +12,26 @@ const MainNavbar = () => {
 
   return (
     <nav
-      className={`bg-neutral-950 sticky text-white top-0 px-7 flex h-[3.8rem] w-full items-center 
-        justify-between shadow-[inset_0px_-10px_20px_rgba(41,41,41,0.5)]
+      className={`bg-neutral-950 sticky z-[100] text-white top-0 px-2 lm:px-7 flex h-[3.8rem] w-full items-center 
+        justify-between shadow-[inset_0px_-15px_20px_rgba(41,41,41,0.5)]
         ${siteLoading === true && "*:hidden animate-pulse"} `}
     >
       {/* main logo and name */}
       <div
         onClick={() => navigate("/")}
-        className="flex flex-col justify-center items-center rounded-md cursor-pointer"
+        className=" h-[94%] flex flex-col justify-evenly lm:justify-end items-center rounded-md cursor-pointer"
       >
-        <img src="images/mainLogo.jpg" alt="logo" className=" w-16 rounded-md" />
-        <p className="text-xs font-be-veitnam-pro ">AI Interview</p>
+        <img src="images/mainLogo.jpg" alt="logo" className=" w-10 lm:w-[3.9rem] rounded-md" />
+        <p className="text-[0.48rem]  lm:text-xs font-be-veitnam-pro ">AI Interview</p>
       </div>
 
       {/* menu items */}
-      <div className=" flex gap-x-5">
+      <div className=" flex gap-x-2 lm:gap-x-5">
         {menuItems.map((item, index) => {
           return (
             <ul
               key={index}
-              className={`ct-botton-elegante cursor-pointer ${
+              className={`ct-botton-elegante px-[10px] lm:px-[15px] py-[3px] lm:py-[5px] text-[0.85rem] lm:text-base ${
                 ((location.pathname === "/" && item === "Home") ||
                   location.pathname.includes(item.toLocaleLowerCase()) === true) &&
                 "after:scale-[4] border-[#666666] bg-[#292929]"

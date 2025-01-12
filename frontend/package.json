@@ -18,7 +18,7 @@
     "@react-three/fiber": "^8.17.6",
     "@reduxjs/toolkit": "^2.2.7",
     "clsx": "^2.1.1",
-    "framer-motion": "^11.5.4",
+    "framer-motion": "^11.17.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.54.2",
@@ -27,7 +27,7 @@
     "react-router-dom": "^6.26.1",
     "react-toastify": "^10.0.5",
     "swiper": "^11.1.12",
-    "tailwind-merge": "^2.5.2",
+    "tailwind-merge": "^2.6.0",
     "three": "^0.168.0"
   },
   "devDependencies": {
