@@ -18,6 +18,8 @@ declare namespace NodeJS {
     REDIS_PORT: string;
     REDIS_PASSWORD: string;
 
+    POSTGRES_MIGRATE: string;
+    POSTGRES_TRIGGER: string;
     POSTGRES_HOST: string;
     POSTGRES_USER: string;
     POSTGRES_DB: string;

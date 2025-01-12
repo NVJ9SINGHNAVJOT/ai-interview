@@ -12,6 +12,8 @@ const environmentVariables = [
   "REDIS_HOST",
   "REDIS_PORT",
   "REDIS_PASSWORD",
+  "POSTGRES_MIGRATE",
+  "POSTGRES_TRIGGER",
   "POSTGRES_HOST",
   "POSTGRES_USER",
   "POSTGRES_DB",

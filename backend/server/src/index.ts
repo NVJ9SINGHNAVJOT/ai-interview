@@ -57,10 +57,15 @@ async function main() {
   // Connect database
   await postgresqlDatabaseConnect();
 
-  // NOTE: For migrations and triggers set ENVIRONMENT as "production" in env
-  // PostgreSQL migrations and triggers
-  if (process.env["ENVIRONMENT"] === "production") {
+  // NOTE: When starting the server for the first time or after making schema changes,
+  // set the environment variable "POSTGRES_MIGRATE" to "yes".
+  if (process.env.POSTGRES_MIGRATE === "yes") {
     await migratePostgreSQL();
+  }
+
+  // NOTE: If tables are renamed, added, or deleted,
+  // set the environment variable "POSTGRES_TRIGGER" to "yes".
+  if (process.env.POSTGRES_TRIGGER === "yes") {
     await setupPostgreSQLEventTrigger();
   }
 
