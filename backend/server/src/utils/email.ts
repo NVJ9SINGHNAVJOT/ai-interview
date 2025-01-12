@@ -31,6 +31,10 @@ const sendMail = async (email: string, title: string, body: string): Promise<voi
 
 export const sendVerficationMail = async (email: string, otp: string) => {
   try {
+    if (process.env["ENVIRONMENT"] === "development") {
+      logger.debug("otp", { email: email, otp: otp });
+      return true;
+    }
     await sendMail(email, "Verification Email", verificationTemplate(otp));
 
     return true;
@@ -46,6 +50,10 @@ export const sendVerficationMail = async (email: string, otp: string) => {
 
 export const sendValidationMail = async (email: string, otp: string) => {
   try {
+    if (process.env["ENVIRONMENT"] === "development") {
+      logger.debug("otp", { email: email, otp: otp });
+      return true;
+    }
     await sendMail(email, "Validation Email", validationTemplate(otp));
 
     return true;

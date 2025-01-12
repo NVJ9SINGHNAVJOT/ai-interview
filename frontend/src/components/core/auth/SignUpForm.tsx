@@ -5,18 +5,19 @@ import OtpInput from "@/components/core/auth/OtpInput";
 import { sendOtpApi, signUpApi } from "@/services/operations/authApi";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
-import { setUser } from "@/redux/slices/authSlice";
+import { useAppSelector } from "@/redux/store";
+import { setAuthLoading, setAuthUser } from "@/redux/slices/authSlice";
 
 export type SignUpData = {
   firstName: string;
   lastName: string;
-  email: string;
+  emailId: string;
   otp: string;
 };
 
 export const SignUpForm = () => {
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const authLoading = useAppSelector((state) => state.auth.authLoading);
   const [otpFields, setOtpFields] = useState<string[]>(new Array(6).fill(""));
   const [toggleOtp, setToggleOtp] = useState(false);
   const {
@@ -26,29 +27,33 @@ export const SignUpForm = () => {
   } = useForm<SignUpData>();
 
   const formHandler = async (data: SignUpData) => {
-    setLoading(true);
+    dispatch(setAuthLoading(true));
     // send otp for user signup
     if (toggleOtp === false) {
-      const { error, response } = await sendOtpApi(data.email, "signup");
+      const { error, response } = await sendOtpApi(data.emailId, "signup");
+      dispatch(setAuthLoading(false));
       if (error) {
-        toast.error(error.message);
-      } else {
-        toast.success(response.message);
-        setToggleOtp(true);
+        // INFO: For now message is only show for 400 status
+        toast.error(error.status === 400 ? error.message : "Error Occurred!");
+        return;
       }
-      setLoading(false);
+      toast.success(response.message);
+      setToggleOtp(true);
       return;
     }
 
     data.otp = otpFields.join("");
     const { error, response } = await signUpApi(data);
+    dispatch(setAuthLoading(false));
     if (error) {
-      toast.error(error.message);
-      setLoading(false);
-    } else {
-      toast.success(response.message);
-      dispatch(setUser(response.data));
+      // INFO: For now message is only show for 400 status
+      toast.error(error.status === 400 ? error.message : "Error Occurred!");
+      return;
     }
+    toast.success(response.message);
+    dispatch(
+      setAuthUser({ id: response.data.id, firstName: data.firstName, lastName: data.lastName, emailId: data.emailId })
+    );
   };
 
   return (
@@ -70,8 +75,8 @@ export const SignUpForm = () => {
                 required
                 {...register("firstName", {
                   required: true,
-                  minLength: 1,
-                  maxLength: 30,
+                  minLength: 2,
+                  maxLength: 40,
                   pattern: /^[a-zA-Z]{2,}$/,
                 })}
               />
@@ -88,8 +93,8 @@ export const SignUpForm = () => {
                 required
                 {...register("lastName", {
                   required: true,
-                  minLength: 1,
-                  maxLength: 30,
+                  minLength: 2,
+                  maxLength: 40,
                   pattern: /^[a-zA-Z]{2,}$/,
                 })}
               />
@@ -105,7 +110,7 @@ export const SignUpForm = () => {
                 className=" focus:outline-none ml-[10px] rounded-[10px] border-[none] w-full h-full bg-[#2b2b2b] text-[#f1f1f1]"
                 placeholder="Enter your Email"
                 required
-                {...register("email", {
+                {...register("emailId", {
                   required: true,
                 })}
               />
@@ -118,11 +123,11 @@ export const SignUpForm = () => {
 
       {/* button */}
       <button
-        disabled={loading || (toggleOtp === true && otpFields.includes(""))}
+        disabled={authLoading || (toggleOtp === true && otpFields.includes(""))}
         type="submit"
         className="ml-[0] mr-[0] my-[20px] bg-[#2d79f3] border-[none] text-[white] text-[15px] font-medium rounded-[10px] h-[50px] w-full cursor-pointer"
       >
-        Submit
+        {authLoading === false ? "Submit" : "Submiting..."}
       </button>
     </form>
   );

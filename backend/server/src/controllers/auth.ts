@@ -1,13 +1,25 @@
 import { db } from "@/db/postgresql/connection";
 import { user } from "@/db/postgresql/schema/user";
 import { redisClient } from "@/db/redis/connection";
-import { logger } from "@/logger/logger";
-import { SendOtpReqSchema, signUpReqSchema } from "@/types/controllers/authReq";
+import { logInReqSchema, SendOtpReqSchema, signUpReqSchema } from "@/types/controllers/authReq";
 import { errRes, internalErrRes } from "@/utils/error";
 import { generateOTP } from "@/utils/otp";
 import { sendValidationMail, sendVerficationMail, verifyEmail } from "@/utils/email";
 import { eq } from "drizzle-orm";
-import { Request, Response } from "express";
+import { CookieOptions, Request, Response } from "express";
+import jwt from "jsonwebtoken";
+import { jwtVerify } from "@/utils/token";
+
+const fiveDaysInSeconds = 5 * 24 * 60 * 60; // 5 days in seconds
+const fiveDaysInMilliseconds = 5 * 24 * 60 * 60 * 1000; // 5 days in ms
+
+// set token in cookie and select httponly: true
+const cookieOptions: CookieOptions = {
+  expires: new Date(Date.now() + fiveDaysInMilliseconds),
+  httpOnly: true,
+  secure: true,
+  sameSite: true,
+};
 
 export const sendOtp = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -17,28 +29,28 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
     }
 
     // For now only gmail id is accepted as valid mail id
-    const result = verifyEmail(data.email);
+    const result = verifyEmail(data.emailId);
     if (!result) {
       return errRes(req, res, 400, "Invalid email id");
     }
-    // check if use already present
+    // Check if use already present
     const checkUserAlreadyExist = await db
       .select({ id: user.id })
       .from(user)
-      .where(eq(user.emailId, data.email))
+      .where(eq(user.emailId, data.emailId))
       .limit(1)
       .execute();
 
-    // if type is signup then send otp for user sign up
+    // If type is signup then send otp for user sign up
     if (data.type === "signup") {
       if (checkUserAlreadyExist.length !== 0) {
         return errRes(req, res, 400, "Invalid credentials");
       }
 
-      // create otp and save with email id in redis
+      // Create otp and save with email id in redis
       const newOtp = generateOTP();
-      await redisClient.setex(`otp:signup:${data.email}`, 300, newOtp);
-      const mailSent = await sendVerficationMail(data.email, newOtp);
+      await redisClient.setex(`otp:signup:${data.emailId}`, 300, newOtp);
+      const mailSent = await sendVerficationMail(data.emailId, newOtp);
       if (!mailSent) {
         return internalErrRes(req, res, "sentOtp", "Failed to send verification otp email");
       }
@@ -52,8 +64,8 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
       return errRes(req, res, 400, "Invalid credentials");
     }
     const newOtp = generateOTP();
-    await redisClient.setex(`otp:login:${data.email}`, 300, newOtp);
-    const mailSent = await sendValidationMail(data.email, newOtp);
+    await redisClient.setex(`otp:login:${data.emailId}`, 300, newOtp);
+    const mailSent = await sendValidationMail(data.emailId, newOtp);
     if (!mailSent) {
       return internalErrRes(req, res, "sentOtp", "Failed to send validation otp email");
     }
@@ -73,7 +85,8 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
       return errRes(req, res, 400, "Invalid data", error.toString());
     }
 
-    const signUpOtp = await redisClient.get(`otp:signup:${data.email}`);
+    // Check otp in redis
+    const signUpOtp = await redisClient.get(`otp:signup:${data.emailId}`);
 
     if (!signUpOtp) {
       return errRes(req, res, 400, "Otp expired");
@@ -82,19 +95,25 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
       return errRes(req, res, 400, "Invalid otp");
     }
 
-    // otp verification is done and now create user
+    // Otp verification is done and now create user
     const newUser = await db
       .insert(user)
-      .values({ firstName: data.firstName, lastName: data.lastName, emailId: data.email })
+      .values({ firstName: data.firstName, lastName: data.lastName, emailId: data.emailId })
       .onConflictDoNothing({ target: user.emailId })
-      .returning({ id: user.id, firstName: user.firstName, lastName: user.lastName, emailId: user.emailId })
+      .returning({ id: user.id })
       .execute();
 
     if (newUser.length === 0) {
       return errRes(req, res, 400, "Invalid credentials");
     }
 
-    return res.status(201).json({
+    // Create token
+    const newToken = jwt.sign({ id: newUser[0].id }, `${process.env["JWT_SECRET"]}`);
+
+    // Save token in redis
+    await redisClient.setex(`token:${newUser[0].id}:${newToken}`, fiveDaysInSeconds, "valid");
+
+    return res.cookie(`${process.env["TOKEN_NAME"]}`, newToken, cookieOptions).status(201).json({
       message: "Sign up completed",
       data: newUser[0],
     });
@@ -104,6 +123,94 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
 };
 
 export const logIn = async (req: Request, res: Response): Promise<Response> => {
-  logger.debug("TODO: in progress", { req: req.body });
-  return res.status(500).json({ todo: "todo" });
+  try {
+    const { data, error, success } = logInReqSchema.safeParse(req.body);
+
+    if (!success) {
+      return errRes(req, res, 400, "Invalid data", error.toString());
+    }
+
+    // Check otp in redis
+    const logInOtp = await redisClient.get(`otp:login:${data.emailId}`);
+    if (!logInOtp) {
+      return errRes(req, res, 400, "Otp expired");
+    }
+    if (data.otp !== logInOtp) {
+      return errRes(req, res, 400, "Invalid otp");
+    }
+
+    // Otp verification is done and now check user email id,
+    // send user data in response
+    const userData = await db
+      .select({ id: user.id, firstName: user.firstName, lastName: user.lastName })
+      .from(user)
+      .where(eq(user.emailId, data.emailId))
+      .limit(1)
+      .execute();
+
+    if (userData.length !== 1) {
+      return errRes(req, res, 400, "Invalid credentials");
+    }
+
+    // Create token
+    const newToken = jwt.sign({ id: userData[0].id }, `${process.env["JWT_SECRET"]}`);
+
+    // Save token in redis
+    await redisClient.setex(`token:${userData[0].id}:${newToken}`, fiveDaysInSeconds, "valid");
+
+    return res.cookie(`${process.env["TOKEN_NAME"]}`, newToken, cookieOptions).status(200).json({
+      message: "Login completed!",
+      data: userData[0],
+    });
+  } catch (error) {
+    return internalErrRes(req, res, "logIn", error);
+  }
+};
+
+export const checkUser = async (req: Request, res: Response): Promise<Response> => {
+  try {
+    // Extracting JWT from request cookies
+    const token = req.cookies[`${process.env["TOKEN_NAME"]}`];
+
+    if (!token) {
+      return res.status(200).json({
+        message: "Token not present",
+      });
+    }
+
+    const id = jwtVerify(token);
+
+    // Check token present in redis or not
+    const valid = await redisClient.get(`token:${id}:${token}`);
+    if (!valid) {
+      return errRes(req, res, 401, "Token expired");
+    }
+    if (valid !== "valid") {
+      return errRes(req, res, 401, "Invalid token");
+    }
+
+    // Otp verification is done and now check user email id,
+    // send user data in response
+    const userData = await db
+      .select({ id: user.id, firstName: user.firstName, lastName: user.lastName, emailId: user.emailId })
+      .from(user)
+      .where(eq(user.id, id))
+      .limit(1)
+      .execute();
+
+    if (userData.length !== 1) {
+      return errRes(req, res, 400, "Invalid data");
+    }
+
+    // Update expiry in redis for token
+    await redisClient.setex(`token:${userData[0].id}:${token}`, fiveDaysInSeconds, "valid");
+
+    // Update expiry in cookies for token
+    return res.cookie(`${process.env["TOKEN_NAME"]}`, token, cookieOptions).status(200).json({
+      message: "User checked",
+      data: userData[0],
+    });
+  } catch (error) {
+    return internalErrRes(req, res, "checkUser", error);
+  }
 };

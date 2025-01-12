@@ -3,9 +3,9 @@ import z from "zod";
 // name
 export const nameSchema = z
   .string()
-  .min(1)
-  .max(30)
-  .regex(/^[a-zA-Z]{1,}$/)
+  .min(2)
+  .max(40)
+  .regex(/^[a-zA-Z]{2,}$/)
   .refine((value) => value === value.trim(), { message: "String contains leading or trailing whitespaces" });
 
 // email

@@ -25,15 +25,25 @@ export async function fetchApi<T>(
       url += `?${searchParams.toString()}`;
     }
 
-    const requestOptions: RequestInit = {
+    let requestOptions: RequestInit = {
       method,
       headers: requestHeaders,
       credentials: "include",
-      body:
-        data && headers?.["Content-Type"] === "application/json"
-          ? JSON.stringify(data)
-          : (data as FormData) || undefined,
     };
+
+    if (data) {
+      if (headers && headers["Content-Type"] === "application/json") {
+        requestOptions = {
+          ...requestOptions,
+          body: JSON.stringify(data),
+        };
+      } else {
+        requestOptions = {
+          ...requestOptions,
+          body: data as FormData,
+        };
+      }
+    }
 
     const response = await fetch(url, requestOptions);
     const responseData = await response.json();

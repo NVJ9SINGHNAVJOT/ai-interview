@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router";
 
 type OtpInputProps = {
   // eslint-disable-next-line no-unused-vars
@@ -8,6 +9,7 @@ type OtpInputProps = {
 
 const OtpInput = (props: OtpInputProps) => {
   const ref = useRef<HTMLInputElement[]>([]);
+  const { type } = useParams();
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
     const key = e.key;
@@ -57,7 +59,7 @@ const OtpInput = (props: OtpInputProps) => {
 
   return (
     <div className="flex w-full flex-col items-center justify-center gap-y-4 text-white">
-      <h2 className="font-be-veitnam-pro text-2xl">OTP Verification</h2>
+      <h2 className="font-be-veitnam-pro text-2xl">OTP {type === "login" ? "Validation" : "Verification"}</h2>
       <p>Enter the 6-digit OTP you have received</p>
       <div className=" mx-auto  flex justify-center  max-w-60 gap-x-4 ">
         {props.otpFields.map((value, index) => (

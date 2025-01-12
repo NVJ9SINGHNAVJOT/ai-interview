@@ -9,7 +9,7 @@ const OpenRoute = (props: OpenRouteProps) => {
   const children = props.children;
   const authUser = useAppSelector((state) => state.auth.authUser);
 
-  if (authUser === false) {
+  if (authUser === null) {
     return children;
   }
   return <Navigate to="/" />;

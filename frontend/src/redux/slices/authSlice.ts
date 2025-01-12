@@ -9,15 +9,13 @@ export type User = {
 };
 
 interface AuthState {
-  loading: boolean;
-  authUser: boolean;
-  user: User | null;
+  authLoading: boolean;
+  authUser: User | null;
 }
 
 const initialState = {
-  loading: false,
-  authUser: false,
-  user: null,
+  authLoading: false,
+  authUser: null,
 } satisfies AuthState as AuthState;
 
 const authSlice = createSlice({
@@ -25,19 +23,18 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setAuthLoading(state, action: PayloadAction<boolean>) {
-      state.loading = action.payload;
+      state.authLoading = action.payload;
     },
-    setUser(state, action: PayloadAction<User | null>) {
+    setAuthUser(state, action: PayloadAction<User | null>) {
       if (action.payload === null) {
-        state.authUser = false;
-        state.user = null;
+        state.authUser = null;
+        state.authLoading = false;
         return;
       }
-      state.user = action.payload;
-      state.authUser = true;
+      state.authUser = action.payload;
     },
   },
 });
 
-export const { setAuthLoading, setUser } = authSlice.actions;
+export const { setAuthLoading, setAuthUser } = authSlice.actions;
 export default authSlice.reducer;

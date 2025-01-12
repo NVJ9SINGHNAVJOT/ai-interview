@@ -59,13 +59,13 @@ async function main() {
 
   // NOTE: When starting the server for the first time or after making schema changes,
   // set the environment variable "POSTGRES_MIGRATE" to "yes".
-  if (process.env.POSTGRES_MIGRATE === "yes") {
+  if (process.env["POSTGRES_MIGRATE"] === "yes") {
     await migratePostgreSQL();
   }
 
   // NOTE: If tables are renamed, added, or deleted,
   // set the environment variable "POSTGRES_TRIGGER" to "yes".
-  if (process.env.POSTGRES_TRIGGER === "yes") {
+  if (process.env["POSTGRES_TRIGGER"] === "yes") {
     await setupPostgreSQLEventTrigger();
   }
 

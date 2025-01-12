@@ -80,7 +80,6 @@ input[type="number"]::-webkit-outer-spin-button {
   position: relative;
   transition: all 0.1s ease-in-out;
   box-shadow: 0px 10px 20px ();
-  margin-right: 0.75rem;
   padding-block: 0.4rem;
   padding-inline: 1.25rem;
   background-color: rgb(0, 0, 0);
