@@ -3,22 +3,10 @@ import LettersPull from "@/components/cards/LettersPull";
 import MainFooter from "@/components/common/MainFooter";
 import { Heading } from "@/components/core/home/Heading";
 import { TextRevealCard, TextRevealCardDescription, TextRevealCardTitle } from "@/components/core/home/TextRevealCard";
-import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    // Set the state to visible after 4 seconds
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 4000); // 4000 milliseconds = 4 seconds
-
-    // Clean up the timeout when the component unmounts or before setting a new timer
-    return () => clearTimeout(timer);
-  }, []); // Empty dependency array to run this effect only once when the component mounts
 
   return (
     <div className="w-full min-h-[calc(100%-3.8rem)]">
@@ -33,7 +21,7 @@ const Home = () => {
         </p>
       </section>
       {/* Tag line */}
-      <section className={`${isVisible === false ? "hidden" : ""} relative flex justify-center mx-auto py-16 cursor-default`}>
+      <section className={`relative flex justify-center mx-auto py-16 cursor-default`}>
         <TextGenerateEffect
           className="max-w-[50rem] text-center"
           words={

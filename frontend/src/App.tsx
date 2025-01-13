@@ -30,7 +30,7 @@ function App() {
       {/* ===== all pages will be rendered below ===== */}
       <main
         ref={pageRenderDivRef}
-        className="relative mx-auto w-full h-full min-w-minContent max-w-maxContent overflow-y-auto overflow-x-hidden"
+        className="relative mx-auto w-full h-full min-w-minContent max-w-maxContent overflow-scroll overflow-x-hidden"
       >
         {/* ===== main nav bar ===== */}
         <MainNavbar />
