@@ -9,9 +9,9 @@ const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full min-h-[calc(100%-3.8rem)]">
+    <div className="w-full min-h-[calc(100%-3.8rem)] flex flex-col justify-between">
       {/* Hero section */}
-      <section className="flex flex-col items-center mx-auto pt-28 pb-10 cursor-default">
+      <section className="flex flex-col items-center mx-auto p-40 cursor-default">
         <Heading />
 
         <LettersPull className="text-white text-5xl " words={"The future is now!"} delay={0.1} />
@@ -21,16 +21,12 @@ const Home = () => {
         </p>
       </section>
       {/* Tag line */}
-      <section className={`relative flex justify-center mx-auto py-16 cursor-default`}>
-        <TextGenerateEffect
-          className="max-w-[50rem] text-center"
-          words={
-            "Growth: With AI Interview, you'll enhance your skills and confidence, and then this real world will see the REAL you!"
-          }
-        />
-      </section>
-      <section className=" mx-auto flex justify-center items-center my-16">
-        <TextRevealCard className=" relative" text="You know the business" revealText="I know the chemistry ">
+      <section className="w-full mx-auto flex flex-col gap-y-32 xl:flex-row justify-evenly items-center my-16">
+        <TextRevealCard
+          className=" relative w-[35rem] md:w-[36rem] "
+          text="You know the business"
+          revealText="I know the chemistry "
+        >
           <div className="absolute right-2 bottom-2 z-50">
             <button type="button" onClick={() => navigate("/auth/signup")} className="ct-signInButton">
               Jump In
@@ -46,6 +42,14 @@ const Home = () => {
             effective. Get ready to ace your next interview with ease!
           </TextRevealCardDescription>
         </TextRevealCard>
+        <div className="w-[37rem] md:w-[40rem]">
+          <TextGenerateEffect
+            className="text-center"
+            words={
+              "Growth: With AI Interview, you'll enhance your skills and confidence, and then this real world will see the REAL you!"
+            }
+          />
+        </div>
       </section>
       <MainFooter />
     </div>

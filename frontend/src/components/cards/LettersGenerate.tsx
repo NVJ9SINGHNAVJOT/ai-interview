@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { motion, stagger, useAnimate } from "framer-motion";
 import { cn } from "@/utils/cn";
+import { useOnScreen } from "@/hooks/useOnScreen";
 
 export const TextGenerateEffect = ({
   words,
@@ -14,8 +15,8 @@ export const TextGenerateEffect = ({
   duration?: number;
 }) => {
   const [scope, animate] = useAnimate();
-  let wordsArray = words.split(" ");
-  useEffect(() => {
+  const divRef = useRef<HTMLDivElement>(null);
+  useOnScreen(divRef, () => {
     animate(
       "span",
       {
@@ -27,7 +28,8 @@ export const TextGenerateEffect = ({
         delay: stagger(0.2),
       }
     );
-  }, [scope.current]);
+  });
+  let wordsArray = words.split(" ");
 
   const renderWords = () => {
     return (
@@ -50,9 +52,9 @@ export const TextGenerateEffect = ({
   };
 
   return (
-    <div className={cn("font-bold", className)}>
+    <div ref={divRef} className={cn("font-bold", className)}>
       <div className="mt-4">
-        <div className=" dark:text-white text-black text-2xl leading-snug tracking-wide">{renderWords()}</div>
+        <div className=" dark:text-white text-black text-1xl md:text-2xl leading-snug tracking-wide">{renderWords()}</div>
       </div>
     </div>
   );
