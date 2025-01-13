@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <div className="w-full min-h-[calc(100%-3.8rem)] flex flex-col justify-between">
       {/* Hero section */}
-      <section className="flex flex-col items-center mx-auto p-40 cursor-default">
+      <section className="flex flex-col items-center mx-auto pt-48 pb-40 cursor-default">
         <Heading />
 
         <LettersPull className="text-white text-5xl " words={"The future is now!"} delay={0.1} />
