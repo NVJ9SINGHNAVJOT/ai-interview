@@ -1,12 +1,14 @@
+import MainFooter from "@/components/common/MainFooter";
+import ContactUs from "@/components/core/about/ContactUs";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const About = () => {
   return (
     <div className="w-full min-h-[calc(100%-3.8rem)] flex flex-col justify-between">
       {/* main info */}
-      <section className="flex justify-evenly items-center mt-28">
+      <section className="flex flex-col gap-y-16 xl:flex-row justify-evenly items-center mt-28">
         <img alt="Loading..." src="images/logo.jpg" className=" h-fit w-[25rem]" />
-        <div className="text-[#b0b0b0] text-[0.9rem] gap-y-4 flex flex-col justify-evenly p-5 w-[42rem] bg-[rgb(40,40,55)] bg-[linear-gradient(344deg,_rgba(40,40,55,1)_0%,_rgba(16,16,18,1)_50%)] [box-shadow:4px_6px_14px_#00000036] rounded-[3px] ">
+        <div className="text-[#b0b0b0] text-[0.9rem] gap-y-4 flex flex-col justify-evenly p-5 w-[30rem] xl:w-[42rem] bg-[rgb(40,40,55)] bg-[linear-gradient(344deg,_rgba(40,40,55,1)_0%,_rgba(16,16,18,1)_50%)] [box-shadow:4px_6px_14px_#00000036] rounded-[3px] ">
           <p>
             AI Interview is a project built with passion and dedication for individuals striving to become the best
             versions of themselves. Created by Navjot Singh, this platform harnesses the power of AI to generate
@@ -42,7 +44,10 @@ const About = () => {
         </div>
       </section>
       {/* contact us */}
-      <section className=" "></section>
+      <section className=" flex justify-center my-32">
+        <ContactUs />
+      </section>
+      <MainFooter />
     </div>
   );
 };

@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import { setAuthUser } from "@/redux/slices/authSlice";
 import { setSiteLoading } from "@/redux/slices/loadingSlice";
 import { useAppSelector } from "@/redux/store";
-import MultiCubeLoader from "@/components/loaders/multicubeloader/MultiCubeLoader";
+import SpheresLoading from "@/components/loaders/SpheresLoading/SpheresLoading";
 
 function App() {
   const pageRenderDivRef = useRef<HTMLDivElement>(null);
@@ -37,7 +37,7 @@ function App() {
         {siteLoading === true ? (
           // Site loading
           <div className="w-full min-h-[calc(100%-3.8rem)] bg-neutral-800 flex justify-center items-center">
-            <MultiCubeLoader className=" animate-pulse" />
+            <SpheresLoading />
           </div>
         ) : (
           // All pages
