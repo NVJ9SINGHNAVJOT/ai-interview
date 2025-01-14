@@ -16,7 +16,7 @@ const Home = () => {
 
         <LettersPull className="text-white text-5xl " words={"The future is now!"} delay={0.1} />
 
-        <p className=" max-w-[80%] w-full text-[1.2rem] text-center text-wrap text-white ">
+        <p className=" max-w-[80%] w-full text-[1rem] text-center text-wrap text-snow-500 ">
           Get ready to shine like never before - step into any interview fully prepared and unstoppable!
         </p>
       </section>

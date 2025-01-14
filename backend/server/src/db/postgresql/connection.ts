@@ -8,6 +8,7 @@ import { interviewResult, interviewResultRelations } from "@/db/postgresql/schem
 import { mcq } from "@/db/postgresql/schema/mcq";
 import { mcqResult, mcqResultRelations } from "@/db/postgresql/schema/mcqResult";
 import { logError } from "@/logger/error";
+import { query } from "@/db/postgresql/schema/query";
 
 configDotenv();
 
@@ -48,5 +49,6 @@ export const db = drizzle(pool, {
     mcq,
     mcqResult,
     mcqResultRelations,
+    query,
   },
 });

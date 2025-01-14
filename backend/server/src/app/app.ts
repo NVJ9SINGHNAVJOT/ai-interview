@@ -6,6 +6,7 @@ import logging from "@/middlewares/logging";
 import authRoutes from "@/routes/authRoutes";
 import interviewRoutes from "@/routes/interviewRoutes";
 import mcqRoutes from "@/routes/mcqRoutes";
+import queryRoutes from "@/routes/queryRoutes";
 const app = express();
 
 app.use(
@@ -29,6 +30,7 @@ app.use(serverKey);
 app.use("/api/v1/auths", authRoutes);
 app.use("/api/v1/interviews", interviewRoutes);
 app.use("/api/v1/mcqs", mcqRoutes);
+app.use("/api/v1/queries", queryRoutes);
 
 app.get("/", (_req: Request, res: Response) => {
   res.json({
