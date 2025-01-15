@@ -3,6 +3,6 @@ import { Router } from "express";
 
 const router = Router();
 
-router.post("/createInterview", createInterview);
+router.post("/create-interview", createInterview);
 
 export default router;

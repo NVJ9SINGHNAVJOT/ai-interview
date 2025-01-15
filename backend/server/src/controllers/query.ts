@@ -1,14 +1,24 @@
+import { db } from "@/db/postgresql/connection";
+import { query } from "@/db/postgresql/schema/query";
 import { logger } from "@/logger/logger";
 import { createQueryReqSchema } from "@/types/controllers/queryReq";
-import { errRes } from "@/utils/error";
+import { errRes, internalErrRes } from "@/utils/error";
 import { Request, Response } from "express";
 
 export const createQuery = async (req: Request, res: Response): Promise<Response> => {
-  logger.debug("TODO: in progress", { req: req.body });
-  const { data, success, error } = createQueryReqSchema.safeParse(req.body);
-  if (!success) {
-    return errRes(req, res, 400, "Invalid data", error.toString());
+  try {
+    const { data, success, error } = createQueryReqSchema.safeParse(req.body);
+    if (!success) {
+      return errRes(req, res, 400, "Invalid data", error.toString());
+    }
+
+    // insert new query in database
+    await db
+      .insert(query)
+      .values({ emailId: data.emailId, fullName: data.fullName, queryText: data.queryText })
+      .execute();
+    return res.status(210).json({ message: "Query submitted" });
+  } catch (error) {
+    return internalErrRes(req, res, "createQuery", error);
   }
-  logger.debug("data", data);
-  return res.status(500).json({ todo: "todo" });
 };

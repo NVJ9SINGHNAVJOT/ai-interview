@@ -3,6 +3,6 @@ import { Router } from "express";
 
 const router = Router();
 
-router.post("/createMcq", createMcq);
+router.post("/create-mcq", createMcq);
 
 export default router;
