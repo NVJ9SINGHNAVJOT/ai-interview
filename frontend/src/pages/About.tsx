@@ -44,7 +44,8 @@ const About = () => {
         </div>
       </section>
       {/* contact us */}
-      <section className=" flex justify-center my-32">
+      <section className=" flex flex-col items-center gap-y-10 my-32">
+        <h4 className=" text-white text-6xl font-semibold">Contact Us</h4>
         <ContactUs />
       </section>
       <MainFooter />

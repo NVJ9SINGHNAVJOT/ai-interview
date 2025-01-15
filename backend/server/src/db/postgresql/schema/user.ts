@@ -6,6 +6,6 @@ export const user = pgTable("user", {
   lastName: varchar("last_name", { length: 50 }).notNull(),
   imageUrl: varchar("image_url", { length: 255 }),
   emailId: varchar("email_id", { length: 255 }).notNull().unique(),
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });

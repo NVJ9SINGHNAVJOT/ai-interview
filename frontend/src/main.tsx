@@ -27,19 +27,11 @@ const router = createBrowserRouter([
       /* ===== public route ===== */
       {
         index: true,
-        element: (
-          <OpenRoute>
-            <Home />
-          </OpenRoute>
-        ),
+        element: <Home />,
       },
       {
         path: "about",
-        element: (
-          <OpenRoute>
-            <About />
-          </OpenRoute>
-        ),
+        element: <About />,
       },
       {
         path: "auth/:type",

@@ -12,10 +12,10 @@ export type AnswersArray = Answer[];
 export const mcqResult = pgTable("mcq_result", {
   id: serial("id").primaryKey(),
   userId: integer("user_id")
-    .notNull()
-    .references(() => user.id),
-  checked: boolean("checked").notNull().default(false),
-  answers: jsonb("answers").$type<AnswersArray>(),
+    .references(() => user.id)
+    .notNull(),
+  checked: boolean("checked").default(false).notNull(),
+  answers: jsonb("answers").$type<AnswersArray>().notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
