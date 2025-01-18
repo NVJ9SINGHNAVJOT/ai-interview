@@ -1,6 +1,5 @@
 import { db } from "@/db/postgresql/connection";
 import { query } from "@/db/postgresql/schema/query";
-import { logger } from "@/logger/logger";
 import { createQueryReqSchema } from "@/types/controllers/queryReq";
 import { errRes, internalErrRes } from "@/utils/error";
 import { Request, Response } from "express";
