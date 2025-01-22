@@ -20,7 +20,7 @@ const initialState = {
 
 const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: initialState,
   reducers: {
     setAuthLoading(state, action: PayloadAction<boolean>) {
       state.authLoading = action.payload;
