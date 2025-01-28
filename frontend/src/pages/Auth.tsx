@@ -1,6 +1,4 @@
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { CiMail } from "react-icons/ci";
-import SignInButton from "@/components/buttons/SignInButton";
 import { SignUpForm } from "@/components/core/auth/SignUpForm";
 import LogInForm from "@/components/core/auth/LogInForm";
 

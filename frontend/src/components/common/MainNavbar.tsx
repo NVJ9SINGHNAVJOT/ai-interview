@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import SignInButton from "@/components/buttons/SignInButton";
 import { useAppSelector } from "@/redux/store";
 
@@ -16,7 +16,7 @@ const MainNavbar = () => {
         justify-between shadow-[inset_0px_-15px_20px_rgba(41,41,41,0.5)]
         ${siteLoading === true && "*:hidden animate-pulse"} `}
     >
-      {/* main logo and name */}
+      {/* Main logo and name */}
       <div
         onClick={() => navigate("/")}
         className=" h-[94%] flex flex-col justify-evenly lm:justify-end items-center rounded-md cursor-pointer"
@@ -25,32 +25,26 @@ const MainNavbar = () => {
         <p className="text-[0.48rem]  lm:text-xs font-be-veitnam-pro ">AI Interview</p>
       </div>
 
-      {/* menu items */}
-      <div className=" flex gap-x-2 lm:gap-x-5">
+      {/* Menu items */}
+      <div className="flex gap-x-2 lm:gap-x-5">
         {menuItems.map((item, index) => {
           return (
-            <ul
+            <NavLink
               key={index}
-              className={`ct-botton-elegante px-[10px] lm:px-[15px] py-[3px] lm:py-[5px] text-[0.85rem] lm:text-base ${
-                ((location.pathname === "/" && item === "Home") ||
-                  location.pathname.includes(item.toLocaleLowerCase()) === true) &&
-                "after:scale-[4] border-[#666666] bg-[#292929]"
-              } hover:after:scale-[4] hover:border-[#666666] hover:bg-[#292929]`}
-              onClick={() => {
-                if (item === "Home") {
-                  navigate("/");
-                } else {
-                  navigate(`/${item.toLocaleLowerCase()}`);
-                }
-              }}
+              className={({ isActive }) =>
+                `ct-botton-elegante px-[10px] lm:px-[15px] py-[3px] lm:py-[5px] text-[0.85rem] lm:text-base ${
+                  isActive ? "after:scale-[4] border-[#666666] bg-[#292929]" : ""
+                } hover:after:scale-[4] hover:border-[#666666] hover:bg-[#292929]`
+              }
+              to={item === "Home" ? "/" : `/${item.toLowerCase()}`}
             >
               {item}
-            </ul>
+            </NavLink>
           );
         })}
       </div>
 
-      {/* sign in buttons or user name */}
+      {/* Sign in buttons or user name */}
 
       {authUser === null ? (
         <SignInButton />

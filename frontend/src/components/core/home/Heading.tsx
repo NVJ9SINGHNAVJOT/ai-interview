@@ -14,22 +14,24 @@ export const Heading = () => {
       />
       {heading.map((letter, index) => {
         // Calculate the range of indices to apply the white text effect
-        const isWithinRange = hoveredIndex !== null ? hoveredIndex - index : 100;
+        const isWithinRange = hoveredIndex !== null ? Math.abs(hoveredIndex - index) : 100;
 
         return (
-          <ul
+          <span
             key={index}
             className={`hover:text-white transition-all ease-linear py-16 text-8xl lm:text-9xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 ${
-              isWithinRange === 100 || isWithinRange < -2 || isWithinRange > 2
+              isWithinRange === 100 || isWithinRange > 2
                 ? ""
-                : isWithinRange === -1 || 1
-                  ? "text-snow-500"
-                  : " text-snow-900"
+                : isWithinRange === 2
+                  ? "text-snow-600"
+                  : isWithinRange === 1
+                    ? "text-snow-400"
+                    : "text-white"
             }`}
             onMouseEnter={() => setHoveredIndex(index)}
           >
             {letter === "empty" ? <>&nbsp;</> : letter}
-          </ul>
+          </span>
         );
       })}
     </div>
