@@ -1,5 +1,5 @@
 import { Navigate, useNavigate, useParams } from "react-router-dom";
-import { SignUpForm } from "@/components/core/auth/SignUpForm";
+import SignUpForm from "@/components/core/auth/SignUpForm";
 import LogInForm from "@/components/core/auth/LogInForm";
 
 const Auth = () => {

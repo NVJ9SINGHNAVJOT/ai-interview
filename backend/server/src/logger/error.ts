@@ -4,7 +4,7 @@ export const getErrorDetails = (error: unknown) => {
   if (error instanceof Error) {
     return {
       name: error.name,
-      mesage: error.message,
+      message: error.message,
       stack: error.stack || "unknown",
       cause: error.cause || "unknown",
     };
@@ -17,7 +17,7 @@ export const logError = (message: string, error: unknown) => {
     logger.error(message, {
       error: {
         name: error.name,
-        mesage: error.message,
+        message: error.message,
         stack: error.stack || "unknown",
         cause: error.cause || "unknown",
       },

@@ -15,7 +15,7 @@ export type SignUpData = {
   otp: string;
 };
 
-export const SignUpForm = () => {
+const SignUpForm = () => {
   const dispatch = useDispatch();
   const authLoading = useAppSelector((state) => state.auth.authLoading);
   const [otpFields, setOtpFields] = useState<string[]>(new Array(6).fill(""));
@@ -132,3 +132,5 @@ export const SignUpForm = () => {
     </form>
   );
 };
+
+export default SignUpForm;
