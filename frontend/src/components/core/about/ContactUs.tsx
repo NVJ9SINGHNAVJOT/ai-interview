@@ -68,7 +68,7 @@ const ContactUs = () => {
               maxLength={500}
             ></textarea>
             <button disabled={sending} type="submit" className="ct-signInButton mt-4 ">
-              {sending === false ? "Submit" : "Submiting..."}
+              {sending === false ? "Submit" : "Submitting..."}
             </button>
           </form>
         </div>

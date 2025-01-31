@@ -127,7 +127,7 @@ const SignUpForm = () => {
         type="submit"
         className="ml-[0] mr-[0] my-[20px] bg-[#2d79f3] border-[none] text-[white] text-[15px] font-medium rounded-[10px] h-[50px] w-full cursor-pointer"
       >
-        {authLoading === false ? "Submit" : "Submiting..."}
+        {authLoading === false ? "Submit" : "Submitting..."}
       </button>
     </form>
   );
