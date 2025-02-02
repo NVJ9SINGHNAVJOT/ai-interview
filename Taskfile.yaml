@@ -59,21 +59,21 @@ tasks:
     desc: start backend services using Docker Compose
     cmds:
       - task: create-networks
-      - docker-compose -f ./backend/databases/docker-compose.yml up -d
-      - docker-compose -f ./backend/server/docker-compose.yml up -d
+      - docker-compose -f ./backend/databases/docker-compose.yaml up -d
+      - docker-compose -f ./backend/server/docker-compose.yaml up -d
 
   compose-down-backend:
     desc: stop backend services using Docker Compose
     cmds:
-      - docker-compose -f ./backend/server/docker-compose.yml down
-      - docker-compose -f ./backend/databases/docker-compose.yml down
+      - docker-compose -f ./backend/server/docker-compose.yaml down
+      - docker-compose -f ./backend/databases/docker-compose.yaml down
 
   compose-up-frontend:
     desc: start frontend services using Docker Compose
     cmds:
-      - docker-compose -f ./frontend/docker-compose.yml up -d
+      - docker-compose -f ./frontend/docker-compose.yaml up -d
 
   compose-down-frontend:
     desc: stop frontend services using Docker Compose
     cmds:
-      - docker-compose -f ./frontend/docker-compose.yml down
+      - docker-compose -f ./frontend/docker-compose.yaml down
