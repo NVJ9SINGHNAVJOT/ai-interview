@@ -8,6 +8,8 @@ import { SignUpData } from "@/components/core/auth/SignUpForm";
 import OtpInput from "@/components/core/auth/OtpInput";
 import { setAuthLoading, setAuthUser } from "@/redux/slices/authSlice";
 import { useAppSelector } from "@/redux/store";
+import FormField from "@/components/form/FormField";
+import CustomInput from "@/components/form/CustomInput";
 
 export type LogInData = Omit<SignUpData, "firstName" | "lastName">;
 
@@ -28,7 +30,7 @@ const LogInForm = () => {
       const { error, response } = await sendOtpApi(data.emailId, "login");
       dispatch(setAuthLoading(false));
       if (error) {
-        toast.error(error.message);
+        toast.error("Error Occurred!");
         return;
       }
       toast.success(response.message);
@@ -59,21 +61,17 @@ const LogInForm = () => {
       <p className=" text-white self-center text-4xl py-5 font-semibold">Log In</p>
 
       {toggleOtp === false ? (
-        <div className=" flex flex-col gap-y-[0.15rem]">
-          <label className=" text-[#f1f1f1] font-semibold">Email </label>
-          <div className=" focus-within:border-[1.5px] focus-within:border-[solid] focus-within:border-[#2d79f3] border-[1.5px] border-[solid] border-[#333] rounded-[10px] h-[50px] flex items-center pl-[10px] [transition:0.2s_ease-in-out] bg-[#2b2b2b]">
-            <CiMail className=" text-black size-6" />
-            <input
-              type="email"
-              className=" focus:outline-none ml-[10px] rounded-[10px] border-[none] w-full h-full bg-[#2b2b2b] text-[#f1f1f1]"
-              placeholder="Enter your Email"
-              required
-              {...register("emailId", {
-                required: true,
-              })}
-            />
-          </div>
-        </div>
+        <FormField title="Email" error={errors.emailId}>
+          <CustomInput
+            type="email"
+            {...register("emailId", {
+              required: true,
+              setValueAs(value: string) {
+                return value.trim();
+              },
+            })}
+          />
+        </FormField>
       ) : (
         <OtpInput otpFields={otpFields} setOtpFields={setOtpFields} />
       )}

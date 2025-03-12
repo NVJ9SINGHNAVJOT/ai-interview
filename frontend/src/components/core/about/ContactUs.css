@@ -2,8 +2,8 @@
   --border: 4px;
   --rounded: 16px;
   --quantity: 12;
-  --w-contact-card: 540px;
-  --h-contact-card: 600px;
+  --w-contact-card: 840px;
+  --h-contact-card: 680px;
   margin: 0;
   width: var(--w-contact-card);
   height: var(--h-contact-card);

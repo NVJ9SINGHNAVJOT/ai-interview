@@ -11,8 +11,6 @@ export default {
         "3xl": "1660px",
       },
       colors: {
-        green: "#25b510",
-        brightGreen: "rgba(0, 255, 115, 0.692)",
         whitesmoke: "#d3d3d3",
         grayblack: "#212121",
         white: "#fff",

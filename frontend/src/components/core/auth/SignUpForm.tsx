@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import { setAuthLoading, setAuthUser } from "@/redux/slices/authSlice";
+import FormField from "@/components/form/FormField";
+import CustomInput from "@/components/form/CustomInput";
 
 export type SignUpData = {
   firstName: string;
@@ -33,8 +35,7 @@ const SignUpForm = () => {
       const { error, response } = await sendOtpApi(data.emailId, "signup");
       dispatch(setAuthLoading(false));
       if (error) {
-        // INFO: For now message is only show for 400 status
-        toast.error(error.status === 400 ? error.message : "Error Occurred!");
+        toast.error("Error Occurred!");
         return;
       }
       toast.success(response.message);
@@ -65,57 +66,47 @@ const SignUpForm = () => {
         // fields
         <div className=" flex flex-col gap-y-4">
           {/* first name */}
-          <div className=" flex flex-col gap-y-[0.15rem]">
-            <label className=" text-[#f1f1f1] font-semibold">First Name </label>
-            <div className=" focus-within:border-[1.5px] focus-within:border-[solid] focus-within:border-[#2d79f3] border-[1.5px] border-[solid] border-[#333] rounded-[10px] h-[50px] flex items-center pl-[10px] [transition:0.2s_ease-in-out] bg-[#2b2b2b]">
-              <input
-                type="text"
-                className=" focus:outline-none ml-[10px] rounded-[10px] border-[none] w-full h-full bg-[#2b2b2b] text-[#f1f1f1]"
-                placeholder="Enter First Name"
-                required
-                {...register("firstName", {
-                  required: true,
-                  minLength: 2,
-                  maxLength: 40,
-                  pattern: /^[a-zA-Z]{2,}$/,
-                })}
-              />
-            </div>
-          </div>
+          <FormField title="First Name" error={errors.firstName}>
+            <CustomInput
+              type="text"
+              {...register("firstName", {
+                required: true,
+                minLength: 2,
+                maxLength: 40,
+                pattern: /^[a-zA-Z]{2,}$/,
+                setValueAs(value: string) {
+                  return value.trim();
+                },
+              })}
+            />
+          </FormField>
           {/* last name */}
-          <div className=" flex flex-col gap-y-[0.15rem]">
-            <label className=" text-[#f1f1f1] font-semibold">Last Name </label>
-            <div className=" focus-within:border-[1.5px] focus-within:border-[solid] focus-within:border-[#2d79f3] border-[1.5px] border-[solid] border-[#333] rounded-[10px] h-[50px] flex items-center pl-[10px] [transition:0.2s_ease-in-out] bg-[#2b2b2b]">
-              <input
-                type="text"
-                className=" focus:outline-none ml-[10px] rounded-[10px] border-[none] w-full h-full bg-[#2b2b2b] text-[#f1f1f1]"
-                placeholder="Enter Last Name "
-                required
-                {...register("lastName", {
-                  required: true,
-                  minLength: 2,
-                  maxLength: 40,
-                  pattern: /^[a-zA-Z]{2,}$/,
-                })}
-              />
-            </div>
-          </div>
+          <FormField title="Last Name" error={errors.lastName}>
+            <CustomInput
+              type="text"
+              {...register("lastName", {
+                required: true,
+                minLength: 2,
+                maxLength: 40,
+                pattern: /^[a-zA-Z]{2,}$/,
+                setValueAs(value: string) {
+                  return value.trim();
+                },
+              })}
+            />
+          </FormField>
           {/* email */}
-          <div className=" flex flex-col gap-y-[0.15rem]">
-            <label className=" text-[#f1f1f1] font-semibold">Email </label>
-            <div className=" focus-within:border-[1.5px] focus-within:border-[solid] focus-within:border-[#2d79f3] border-[1.5px] border-[solid] border-[#333] rounded-[10px] h-[50px] flex items-center pl-[10px] [transition:0.2s_ease-in-out] bg-[#2b2b2b]">
-              <CiMail className=" text-black size-6" />
-              <input
-                type="email"
-                className=" focus:outline-none ml-[10px] rounded-[10px] border-[none] w-full h-full bg-[#2b2b2b] text-[#f1f1f1]"
-                placeholder="Enter your Email"
-                required
-                {...register("emailId", {
-                  required: true,
-                })}
-              />
-            </div>
-          </div>
+          <FormField title="Email" error={errors.emailId}>
+            <CustomInput
+              type="email"
+              {...register("emailId", {
+                required: true,
+                setValueAs(value: string) {
+                  return value.trim();
+                },
+              })}
+            />
+          </FormField>
         </div>
       ) : (
         <OtpInput otpFields={otpFields} setOtpFields={setOtpFields} />

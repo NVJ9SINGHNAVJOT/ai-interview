@@ -15,6 +15,7 @@ import Dashboard from "@/pages/Dashboard";
 import OpenRoute from "@/components/auth/OpenRoute";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import Auth from "@/pages/Auth";
+import ErrorBoundary from "@/components/error/ErrorBoundary";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +23,11 @@ const router = createBrowserRouter([
     // only MainNavbar is used in outlet in App element
     // and childrens are used as routes
     path: "/",
-    element: <App />,
+    element: (
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
+    ),
     children: [
       /* ===== public route ===== */
       {

@@ -38,7 +38,7 @@ export const nameSchema = stringSchema(
 );
 
 // email
-export const emailSchema = stringSchema(z.string().email());
+export const emailSchema = stringSchema(z.string().email().max(255));
 
 // otp
 export const otpSchema = z

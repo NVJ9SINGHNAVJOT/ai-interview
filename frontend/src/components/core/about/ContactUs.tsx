@@ -1,7 +1,9 @@
 import "@/components/core/about/ContactUs.css";
+import CustomInput from "@/components/form/CustomInput";
+import CustomTextarea from "@/components/form/CustomTextarea";
+import FormField from "@/components/form/FormField";
 import { sendQueryApi } from "@/services/operations/queryApi";
 import { trimWhitespaceAndNewlines } from "@/utils/stringFormat";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
@@ -12,17 +14,19 @@ export type ContactUsQuery = {
 };
 
 const ContactUs = () => {
-  const { register, handleSubmit, reset } = useForm<ContactUsQuery>();
-  const [sending, setSending] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting, errors },
+  } = useForm<ContactUsQuery>();
 
   const formHandler = async (data: ContactUsQuery) => {
-    setSending(true);
     data.queryText = trimWhitespaceAndNewlines(data.queryText);
     if (data.queryText.length === 0) {
       return;
     }
     const { error } = await sendQueryApi(data);
-    setSending(false);
+
     if (error) {
       toast("Error Occurred!");
       return;
@@ -34,41 +38,56 @@ const ContactUs = () => {
       <div className="contact-content">
         {/* query form */}
         <div className="relative w-full px-16 mt-7 flex justify-center">
-          <form onSubmit={handleSubmit(formHandler)} className=" w-full mt-12  flex flex-col text-black ">
-            <label className="mb-1 text-white">Full Name</label>
-            <input
-              type="text"
-              className=" mb-4 outline-none rounded-lg p-2 bg-snow-600"
-              {...register("fullName", {
-                required: true,
-                minLength: 2,
-                maxLength: 80,
-                pattern: /^[a-zA-Z\s]{2,}$/,
-              })}
-              placeholder="Full Name"
-            />
-            <label className="mb-1 text-white">Email</label>
-            <input
-              type="email"
-              className=" mb-4 outline-none rounded-lg p-2 bg-snow-600"
-              {...register("emailId", {
-                required: true,
-              })}
-              placeholder="Email"
-            />
-            <label className="mb-1 text-white">Message</label>
-            <textarea
-              className="outline-none h-48 resize-none rounded-lg p-2 bg-snow-600"
-              {...register("queryText", {
-                required: true,
-                minLength: 1,
-                maxLength: 500,
-              })}
-              placeholder="Message"
-              maxLength={500}
-            ></textarea>
-            <button disabled={sending} type="submit" className="ct-signInButton mt-4 ">
-              {sending === false ? "Submit" : "Submitting..."}
+          <form onSubmit={handleSubmit(formHandler)} className=" w-full mt-12 flex flex-col gap-y-4 text-black ">
+            <FormField title="Full Name" error={errors.fullName}>
+              <CustomInput
+                className=" bg-snow-600 text-black"
+                type="text"
+                {...register("fullName", {
+                  required: true,
+                  minLength: 2,
+                  maxLength: 80,
+                  pattern: /^[a-zA-Z\s]{2,}$/,
+                  setValueAs(value: string) {
+                    return value.trim();
+                  },
+                })}
+              />
+            </FormField>
+            <FormField title="Email" error={errors.emailId}>
+              <CustomInput
+                className=" bg-snow-600 text-black"
+                type="email"
+                {...register("emailId", {
+                  required: true,
+                  setValueAs(value: string) {
+                    return value.trim();
+                  },
+                })}
+              />
+            </FormField>
+
+            <FormField title="Message" error={errors.queryText}>
+              <CustomTextarea
+                className=" bg-snow-600 text-black resize-none h-40"
+                {...register("queryText", {
+                  required: true,
+                  minLength: 1,
+                  maxLength: 500,
+                  setValueAs(value: string) {
+                    return trimWhitespaceAndNewlines(value);
+                  },
+                })}
+                maxLength={500}
+              />
+            </FormField>
+
+            <button
+              disabled={isSubmitting}
+              type="submit"
+              className={`ct-signInButton mt-4 ${isSubmitting && "animate-pulse"}`}
+            >
+              {isSubmitting === false ? "Submit" : "Submitting..."}
             </button>
           </form>
         </div>
