@@ -5,9 +5,9 @@ interface LoadingState {
   siteLoading: boolean;
 }
 
-const initialState = {
+const initialState: LoadingState = {
   siteLoading: true,
-} satisfies LoadingState as LoadingState;
+};
 
 const loadingSlice = createSlice({
   name: "loading",

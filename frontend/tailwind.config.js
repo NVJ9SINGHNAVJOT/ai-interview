@@ -89,7 +89,7 @@ export default {
         maxContent: "2000px",
       },
       minWidth: {
-        minContent: "640px",
+        minContent: "768px",
       },
       fontFamily: {
         "be-veitnam-pro": '"Be Vietnam Pro", sans-serif',

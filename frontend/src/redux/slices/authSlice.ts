@@ -13,10 +13,10 @@ interface AuthState {
   authUser: User | null;
 }
 
-const initialState = {
+const initialState: AuthState = {
   authLoading: false,
   authUser: null,
-} satisfies AuthState as AuthState;
+};
 
 const authSlice = createSlice({
   name: "auth",

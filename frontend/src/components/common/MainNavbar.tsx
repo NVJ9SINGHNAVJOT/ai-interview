@@ -5,7 +5,6 @@ import { useAppSelector } from "@/redux/store";
 const menuItems = ["Home", "Interview", "MCQ", "Dashboard", "About"];
 
 const MainNavbar = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const authUser = useAppSelector((state) => state.auth.authUser);
   const siteLoading = useAppSelector((state) => state.loading.siteLoading);

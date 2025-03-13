@@ -1,6 +1,7 @@
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import SignUpForm from "@/components/core/auth/SignUpForm";
 import LogInForm from "@/components/core/auth/LogInForm";
+import Page from "@/components/wrapper/Page";
 
 const Auth = () => {
   const { type } = useParams();
@@ -10,7 +11,7 @@ const Auth = () => {
     return <Navigate to="/error" />;
   }
   return (
-    <div className="w-full min-h-[calc(100%-3.8rem)] bg-neutral-800 flex justify-center items-center">
+    <Page className="bg-neutral-800 flex justify-center items-center py-10">
       {/* auth forms */}
       <section className=" flex flex-col bg-black w-[25rem] rounded-2xl px-7 py-5">
         {type === "login" ? <LogInForm /> : <SignUpForm />}
@@ -24,7 +25,7 @@ const Auth = () => {
           </span>
         </p>
       </section>
-    </div>
+    </Page>
   );
 };
 

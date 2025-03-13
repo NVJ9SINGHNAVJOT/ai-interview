@@ -1,10 +1,11 @@
 import MainFooter from "@/components/common/MainFooter";
 import ContactUs from "@/components/core/about/ContactUs";
+import Page from "@/components/wrapper/Page";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 const About = () => {
   return (
-    <div className="w-full min-h-[calc(100%-3.8rem)] flex flex-col justify-between">
+    <Page className="flex flex-col justify-between">
       {/* main info */}
       <section className="flex flex-col gap-y-16 xl:flex-row justify-evenly items-center mt-28">
         <img alt="Loading..." src="images/logo.jpg" className=" h-fit w-[25rem]" />
@@ -49,7 +50,7 @@ const About = () => {
         <ContactUs />
       </section>
       <MainFooter />
-    </div>
+    </Page>
   );
 };
 

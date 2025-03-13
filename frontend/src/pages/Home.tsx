@@ -3,13 +3,14 @@ import LettersPull from "@/components/cards/LettersPull";
 import MainFooter from "@/components/common/MainFooter";
 import { Heading } from "@/components/core/home/Heading";
 import { TextRevealCard, TextRevealCardDescription, TextRevealCardTitle } from "@/components/core/home/TextRevealCard";
+import Page from "@/components/wrapper/Page";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="w-full min-h-[calc(100%-3.8rem)] flex flex-col justify-between">
+    <Page className="flex flex-col justify-between">
       {/* Hero section */}
       <section className="flex flex-col items-center mx-auto pt-48 pb-40 cursor-default">
         <Heading />
@@ -23,7 +24,7 @@ const Home = () => {
       {/* Tag line */}
       <section className="w-full mx-auto flex flex-col gap-y-32 xl:flex-row justify-evenly items-center my-16">
         <TextRevealCard
-          className=" relative w-[35rem] md:w-[36rem] "
+          className=" relative w-[36rem] "
           text="You know the business"
           revealText="I know the chemistry "
         >
@@ -42,7 +43,7 @@ const Home = () => {
             effective. Get ready to ace your next interview with ease!
           </TextRevealCardDescription>
         </TextRevealCard>
-        <div className="w-[37rem] md:w-[40rem]">
+        <div className="w-[40rem]">
           <TextGenerateEffect
             className="text-center"
             words={
@@ -52,7 +53,7 @@ const Home = () => {
         </div>
       </section>
       <MainFooter />
-    </div>
+    </Page>
   );
 };
 
