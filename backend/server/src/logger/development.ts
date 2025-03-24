@@ -16,7 +16,9 @@ const developmentLogger = () => {
       }),
       new transports.Console({
         level: "silly",
-        format: format.combine(format.json(), format.prettyPrint()),
+        format: format.combine(
+          format.printf(({ timestamp, level, message, ...args }) => JSON.stringify(args, null, 2))
+        ),
       }),
 
       // saved in logs

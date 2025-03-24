@@ -2,7 +2,7 @@ import "@/components/core/about/ContactUs.css";
 import CustomInput from "@/components/form/CustomInput";
 import CustomTextarea from "@/components/form/CustomTextarea";
 import FormField from "@/components/form/FormField";
-import { sendQueryApi } from "@/services/operations/queryApi";
+import { sendQueryApi } from "@/services/operations/queryRoutesApi";
 import { trimWhitespaceAndNewlines } from "@/utils/stringFormat";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";

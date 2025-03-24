@@ -1,7 +1,5 @@
-import { logInApi, sendOtpApi } from "@/services/operations/authApi";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { CiMail } from "react-icons/ci";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { SignUpData } from "@/components/core/auth/SignUpForm";
@@ -10,6 +8,7 @@ import { setAuthLoading, setAuthUser } from "@/redux/slices/authSlice";
 import { useAppSelector } from "@/redux/store";
 import FormField from "@/components/form/FormField";
 import CustomInput from "@/components/form/CustomInput";
+import { authRoutes } from "@/services/operations/authRoutes";
 
 export type LogInData = Omit<SignUpData, "firstName" | "lastName">;
 
@@ -27,7 +26,7 @@ const LogInForm = () => {
     dispatch(setAuthLoading(true));
     // send otp for user login
     if (toggleOtp === false) {
-      const { error, response } = await sendOtpApi(data.emailId, "login");
+      const { error, response } = await authRoutes.sendOtpApi(data.emailId, "login");
       dispatch(setAuthLoading(false));
       if (error) {
         toast.error("Error Occurred!");
@@ -39,7 +38,7 @@ const LogInForm = () => {
     }
 
     data.otp = otpFields.join("");
-    const { error, response } = await logInApi(data);
+    const { error, response } = await authRoutes.logInApi(data);
     if (error) {
       toast.error(error.message);
       return;
@@ -48,9 +47,9 @@ const LogInForm = () => {
     toast.success(response.message);
     dispatch(
       setAuthUser({
-        id: response.data.id,
-        firstName: response.data.firstName,
-        lastName: response.data.lastName,
+        id: response.data.user.id,
+        firstName: response.data.user.firstName,
+        lastName: response.data.user.lastName,
         emailId: data.emailId,
       })
     );
@@ -66,6 +65,7 @@ const LogInForm = () => {
             type="email"
             {...register("emailId", {
               required: true,
+              maxLength: 255,
               setValueAs(value: string) {
                 return value.trim();
               },

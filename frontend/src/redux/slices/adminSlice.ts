@@ -1,9 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { User } from "@/redux/slices/authSlice";
+
+export type Admin = {
+  id: number;
+  emailId: string;
+};
 
 interface AdminState {
-  authAdmin: User | null;
+  authAdmin: Admin | null;
 }
 
 const initialState: AdminState = {
@@ -14,7 +18,7 @@ const adminSlice = createSlice({
   name: "admin",
   initialState: initialState,
   reducers: {
-    setAdmin(state, action: PayloadAction<User | null>) {
+    setAdmin(state, action: PayloadAction<Admin | null>) {
       state.authAdmin = action.payload;
     },
   },

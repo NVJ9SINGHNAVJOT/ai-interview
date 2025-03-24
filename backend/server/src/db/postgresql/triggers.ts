@@ -4,7 +4,7 @@ import { logger } from "@/logger/logger";
 import { pool } from "@/db/postgresql/connection";
 import { logError } from "@/logger/error";
 
-const tables = ["user", "mcq", "mcq_result", "interview", "interview_result", "query"];
+const tables = ["admin", "user", "mcq", "mcq_result", "interview", "interview_result", "query"];
 
 // Function to set up PostgreSQL triggers globally
 export async function setupPostgreSQLEventTrigger() {

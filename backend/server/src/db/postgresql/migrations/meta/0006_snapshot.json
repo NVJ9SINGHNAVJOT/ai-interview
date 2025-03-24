@@ -1,0 +1,606 @@
+{
+  "id": "651c69e1-90cf-4586-aa6d-737d527d2a81",
+  "prevId": "1457791b-3031-4114-87d8-46953a3ac320",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.admin": {
+      "name": "admin",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "email_id": {
+          "name": "email_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "admin_email_id_unique": {
+          "name": "admin_email_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email_id"
+          ]
+        }
+      }
+    },
+    "public.interview": {
+      "name": "interview",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "job_role": {
+          "name": "job_role",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "year_of_exp": {
+          "name": "year_of_exp",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "question_1": {
+          "name": "question_1",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "answer_1": {
+          "name": "answer_1",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "question_2": {
+          "name": "question_2",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "answer_2": {
+          "name": "answer_2",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "question_3": {
+          "name": "question_3",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "answer_3": {
+          "name": "answer_3",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "question_4": {
+          "name": "question_4",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "answer_4": {
+          "name": "answer_4",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "question_5": {
+          "name": "question_5",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "answer_5": {
+          "name": "answer_5",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.interview_result": {
+      "name": "interview_result",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "interview_id": {
+          "name": "interview_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "checked": {
+          "name": "checked",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "job_description": {
+          "name": "job_description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "user_answer_1": {
+          "name": "user_answer_1",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "review_1": {
+          "name": "review_1",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rating_1": {
+          "name": "rating_1",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_answer_2": {
+          "name": "user_answer_2",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "review_2": {
+          "name": "review_2",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rating_2": {
+          "name": "rating_2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_answer_3": {
+          "name": "user_answer_3",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "review_3": {
+          "name": "review_3",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rating_3": {
+          "name": "rating_3",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_answer_4": {
+          "name": "user_answer_4",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "review_4": {
+          "name": "review_4",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rating_4": {
+          "name": "rating_4",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "user_answer_5": {
+          "name": "user_answer_5",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "review_5": {
+          "name": "review_5",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rating_5": {
+          "name": "rating_5",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "interview_result_interview_id_interview_id_fk": {
+          "name": "interview_result_interview_id_interview_id_fk",
+          "tableFrom": "interview_result",
+          "tableTo": "interview",
+          "columnsFrom": [
+            "interview_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "interview_result_user_id_user_id_fk": {
+          "name": "interview_result_user_id_user_id_fk",
+          "tableFrom": "interview_result",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "interview_result_interview_id_user_id_unique": {
+          "name": "interview_result_interview_id_user_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "interview_id",
+            "user_id"
+          ]
+        }
+      }
+    },
+    "public.mcq": {
+      "name": "mcq",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "question": {
+          "name": "question",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "option_1": {
+          "name": "option_1",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "option_2": {
+          "name": "option_2",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "option_3": {
+          "name": "option_3",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "option_4": {
+          "name": "option_4",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reason": {
+          "name": "reason",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "answer": {
+          "name": "answer",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "job_role": {
+          "name": "job_role",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "year_of_exp": {
+          "name": "year_of_exp",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tags": {
+          "name": "tags",
+          "type": "varchar(255)[]",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.mcq_result": {
+      "name": "mcq_result",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "user_id": {
+          "name": "user_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "checked": {
+          "name": "checked",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "answers": {
+          "name": "answers",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "mcq_result_user_id_user_id_fk": {
+          "name": "mcq_result_user_id_user_id_fk",
+          "tableFrom": "mcq_result",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.query": {
+      "name": "query",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "full_name": {
+          "name": "full_name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email_id": {
+          "name": "email_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "query_text": {
+          "name": "query_text",
+          "type": "varchar(500)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.user": {
+      "name": "user",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "first_name": {
+          "name": "first_name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "image_url": {
+          "name": "image_url",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email_id": {
+          "name": "email_id",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "user_email_id_unique": {
+          "name": "user_email_id_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email_id"
+          ]
+        }
+      }
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

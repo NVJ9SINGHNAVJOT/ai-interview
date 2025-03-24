@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom";
 import MainNavbar from "@/components/common/MainNavbar";
-import { useEffect, useRef } from "react";
-import { checkUserApi } from "@/services/operations/authApi";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setAuthUser } from "@/redux/slices/authSlice";
 import { setSiteLoading } from "@/redux/slices/loadingSlice";
 import { useAppSelector } from "@/redux/store";
 import SpheresLoading from "@/components/loaders/SpheresLoading/SpheresLoading";
 import Page from "@/components/wrapper/Page";
+import { authRoutes } from "@/services/operations/authRoutes";
 
 function App() {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ function App() {
 
   useEffect(() => {
     (async () => {
-      const { error, response } = await checkUserApi();
+      const { error, response } = await authRoutes.checkUserApi();
       if (!error && response.data) {
         dispatch(setAuthUser(response.data));
       }

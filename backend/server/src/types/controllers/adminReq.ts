@@ -1,9 +1,7 @@
 import { emailSchema, nameSchema, otpSchema } from "@/validators/zod";
-import { z } from "zod";
+import z from "zod";
 
-export const signUpReqSchema = z.object({
+export const adminSignupReqSchema = z.object({
   emailId: emailSchema,
-  firstName: nameSchema,
-  lastName: nameSchema,
   otp: otpSchema,
 });

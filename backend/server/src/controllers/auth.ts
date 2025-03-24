@@ -1,7 +1,7 @@
 import { db } from "@/db/postgresql/connection";
 import { user } from "@/db/postgresql/schema/user";
 import { redisClient } from "@/db/redis/connection";
-import { logInReqSchema, SendOtpReqSchema, signUpReqSchema } from "@/types/controllers/authReq";
+import { signUpReqSchema } from "@/types/controllers/authReq";
 import { errRes, internalErrRes } from "@/utils/error";
 import { generateOTP } from "@/utils/otp";
 import { sendValidationMail, sendVerficationMail, verifyEmail } from "@/utils/email";
@@ -9,6 +9,7 @@ import { eq } from "drizzle-orm";
 import { CookieOptions, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { jwtVerify } from "@/utils/token";
+import { otpReqSchema, logInReqSchema } from "@/types/controllers/common";
 
 const fiveDaysInSeconds = 5 * 24 * 60 * 60; // 5 days in seconds
 const fiveDaysInMilliseconds = 5 * 24 * 60 * 60 * 1000; // 5 days in ms
@@ -23,7 +24,7 @@ const cookieOptions: CookieOptions = {
 
 export const sendOtp = async (req: Request, res: Response): Promise<Response> => {
   try {
-    const { data, success, error } = SendOtpReqSchema.safeParse(req.body);
+    const { data, success, error } = otpReqSchema.safeParse(req.body);
     if (!success) {
       return errRes(req, res, 400, "Invalid data", error.toString());
     }
@@ -49,7 +50,7 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
 
       // Create otp and save with email id in redis
       const newOtp = generateOTP();
-      await redisClient.setex(`otp:signup:${data.emailId}`, 300, newOtp);
+      await redisClient.setex(`user:otp:signup:${data.emailId}`, 300, newOtp);
       const mailSent = await sendVerficationMail(data.emailId, newOtp);
       if (!mailSent) {
         return internalErrRes(req, res, "sentOtp", "Failed to send verification otp email");
@@ -64,7 +65,7 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
       return errRes(req, res, 400, "Invalid credentials");
     }
     const newOtp = generateOTP();
-    await redisClient.setex(`otp:login:${data.emailId}`, 300, newOtp);
+    await redisClient.setex(`user:otp:login:${data.emailId}`, 300, newOtp);
     const mailSent = await sendValidationMail(data.emailId, newOtp);
     if (!mailSent) {
       return internalErrRes(req, res, "sentOtp", "Failed to send validation otp email");
@@ -86,7 +87,7 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
     }
 
     // Check otp in redis
-    const signUpOtp = await redisClient.get(`otp:signup:${data.emailId}`);
+    const signUpOtp = await redisClient.get(`user:otp:signup:${data.emailId}`);
 
     if (!signUpOtp) {
       return errRes(req, res, 400, "Otp expired");
@@ -103,6 +104,7 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
       .returning({ id: user.id })
       .execute();
 
+    // User already present for email
     if (newUser.length === 0) {
       return errRes(req, res, 400, "Invalid credentials");
     }
@@ -111,7 +113,7 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
     const newToken = jwt.sign({ id: newUser[0].id }, `${process.env["JWT_SECRET"]}`);
 
     // Save token in redis
-    await redisClient.setex(`token:${newUser[0].id}:${newToken}`, fiveDaysInSeconds, "valid");
+    await redisClient.setex(`user:token:${newUser[0].id}:${newToken}`, fiveDaysInSeconds, "valid");
 
     return res.cookie(`${process.env["TOKEN_NAME"]}`, newToken, cookieOptions).status(201).json({
       message: "Sign up completed",
@@ -131,7 +133,7 @@ export const logIn = async (req: Request, res: Response): Promise<Response> => {
     }
 
     // Check otp in redis
-    const logInOtp = await redisClient.get(`otp:login:${data.emailId}`);
+    const logInOtp = await redisClient.get(`user:otp:login:${data.emailId}`);
     if (!logInOtp) {
       return errRes(req, res, 400, "Otp expired");
     }
@@ -156,12 +158,15 @@ export const logIn = async (req: Request, res: Response): Promise<Response> => {
     const newToken = jwt.sign({ id: userData[0].id }, `${process.env["JWT_SECRET"]}`);
 
     // Save token in redis
-    await redisClient.setex(`token:${userData[0].id}:${newToken}`, fiveDaysInSeconds, "valid");
+    await redisClient.setex(`user:token:${userData[0].id}:${newToken}`, fiveDaysInSeconds, "valid");
 
-    return res.cookie(`${process.env["TOKEN_NAME"]}`, newToken, cookieOptions).status(200).json({
-      message: "Login completed!",
-      data: userData[0],
-    });
+    return res
+      .cookie(`${process.env["TOKEN_NAME"]}`, newToken, cookieOptions)
+      .status(200)
+      .json({
+        message: "Login completed!",
+        data: { user: userData[0] },
+      });
   } catch (error) {
     return internalErrRes(req, res, "logIn", error);
   }
@@ -203,13 +208,16 @@ export const checkUser = async (req: Request, res: Response): Promise<Response> 
     }
 
     // Update expiry in redis for token
-    await redisClient.setex(`token:${userData[0].id}:${token}`, fiveDaysInSeconds, "valid");
+    await redisClient.setex(`user:token:${userData[0].id}:${token}`, fiveDaysInSeconds, "valid");
 
     // Update expiry in cookies for token
-    return res.cookie(`${process.env["TOKEN_NAME"]}`, token, cookieOptions).status(200).json({
-      message: "User checked",
-      data: userData[0],
-    });
+    return res
+      .cookie(`${process.env["TOKEN_NAME"]}`, token, cookieOptions)
+      .status(200)
+      .json({
+        message: "User checked",
+        data: { user: userData[0] },
+      });
   } catch (error) {
     return internalErrRes(req, res, "checkUser", error);
   }

@@ -7,6 +7,8 @@ import authRoutes from "@/routes/authRoutes";
 import interviewRoutes from "@/routes/interviewRoutes";
 import mcqRoutes from "@/routes/mcqRoutes";
 import queryRoutes from "@/routes/queryRoutes";
+import adminRoutes from "@/routes/adminRoutes";
+
 const app = express();
 
 app.use(
@@ -27,6 +29,7 @@ app.use(logging);
 app.use(serverKey);
 
 // routes
+app.use("api/v1/admins", adminRoutes);
 app.use("/api/v1/auths", authRoutes);
 app.use("/api/v1/interviews", interviewRoutes);
 app.use("/api/v1/mcqs", mcqRoutes);

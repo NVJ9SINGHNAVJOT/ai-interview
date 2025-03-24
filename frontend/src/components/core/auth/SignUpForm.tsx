@@ -1,14 +1,13 @@
-import { CiMail } from "react-icons/ci";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import OtpInput from "@/components/core/auth/OtpInput";
-import { sendOtpApi, signUpApi } from "@/services/operations/authApi";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import { setAuthLoading, setAuthUser } from "@/redux/slices/authSlice";
 import FormField from "@/components/form/FormField";
 import CustomInput from "@/components/form/CustomInput";
+import { authRoutes } from "@/services/operations/authRoutes";
 
 export type SignUpData = {
   firstName: string;
@@ -32,7 +31,7 @@ const SignUpForm = () => {
     dispatch(setAuthLoading(true));
     // send otp for user signup
     if (toggleOtp === false) {
-      const { error, response } = await sendOtpApi(data.emailId, "signup");
+      const { error, response } = await authRoutes.sendOtpApi(data.emailId, "signup");
       dispatch(setAuthLoading(false));
       if (error) {
         toast.error("Error Occurred!");
@@ -44,7 +43,7 @@ const SignUpForm = () => {
     }
 
     data.otp = otpFields.join("");
-    const { error, response } = await signUpApi(data);
+    const { error, response } = await authRoutes.signUpApi(data);
     dispatch(setAuthLoading(false));
     if (error) {
       // INFO: For now message is only show for 400 status
@@ -101,6 +100,7 @@ const SignUpForm = () => {
               type="email"
               {...register("emailId", {
                 required: true,
+                maxLength: 255,
                 setValueAs(value: string) {
                   return value.trim();
                 },
