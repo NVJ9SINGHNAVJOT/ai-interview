@@ -186,7 +186,7 @@ export const checkUser = async (req: Request, res: Response): Promise<Response> 
     const id = jwtVerify(token);
 
     // Check token present in redis or not
-    const valid = await redisClient.get(`token:${id}:${token}`);
+    const valid = await redisClient.get(`user:token:${id}:${token}`);
     if (!valid) {
       return errRes(req, res, 401, "Token expired");
     }

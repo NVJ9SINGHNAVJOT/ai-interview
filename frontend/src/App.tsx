@@ -17,11 +17,12 @@ function App() {
     (async () => {
       const { error, response } = await authRoutes.checkUserApi();
       if (!error && response.data) {
-        dispatch(setAuthUser(response.data));
+        dispatch(setAuthUser(response.data.user));
       }
       dispatch(setSiteLoading(false));
     })();
   }, []);
+  
   return (
     // wrapper
     <div className="h-screen w-screen bg-black">
