@@ -16,7 +16,9 @@ function logging(req: Request, res: Response, next: NextFunction) {
       clientIP: req.ip,
       query: req.query,
       requestBody: req.body,
+      token: req.cookies[`${process.env["TOKEN_NAME"]}`] || "",
       requestHeaders: {
+        content: req.headers["content-type"],
         "sec-ch-ua-platform": req.headers["sec-ch-ua-platform"],
         origin: req.headers["origin"],
         "sec-fetch-site": req.headers["sec-fetch-site"],

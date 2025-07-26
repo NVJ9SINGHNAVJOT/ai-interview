@@ -4,12 +4,11 @@ import { adminEndPoints } from "@/services/apis";
 import { LogInData } from "@/components/core/auth/LogInForm";
 
 export const adminRoutes = {
-  sendOtpApi: async (emailId: string, type: "signup" | "login") => {
+  sendOtpApi: async (emailId: string, type: "signup" | "login", signal?: AbortSignal) => {
     return await fetchApi<CommonRs>(
       "POST",
       adminEndPoints.OTP,
-      { emailId: emailId, type: type },
-      { "Content-Type": "application/json" }
+      { emailId: emailId, type: type }
     );
   },
 

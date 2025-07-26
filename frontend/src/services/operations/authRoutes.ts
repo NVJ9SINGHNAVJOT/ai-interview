@@ -6,25 +6,16 @@ import { CommonRs, IdRs } from "@/types/routeApiRs/common";
 import { CheckUserApiRs, LogInApiRs } from "@/types/routeApiRs/authRoutesApiRs";
 
 export const authRoutes = {
-  sendOtpApi: async (emailId: string, type: "signup" | "login") => {
-    return await fetchApi<CommonRs>(
-      "POST",
-      authEndPoints.OTP,
-      { emailId: emailId, type: type },
-      { "Content-Type": "application/json" }
-    );
+  sendOtpApi: async (emailId: string, type: "signup" | "login", signal?: AbortSignal) => {
+    return await fetchApi<CommonRs>("POST", authEndPoints.OTP, { emailId: emailId, type: type }, signal);
   },
 
   signUpApi: async (data: SignUpData) => {
-    return await fetchApi<IdRs>("POST", authEndPoints.SIGNUP, data, {
-      "Content-Type": "application/json",
-    });
+    return await fetchApi<IdRs>("POST", authEndPoints.SIGNUP, data,);
   },
 
   logInApi: async (data: LogInData) => {
-    return await fetchApi<LogInApiRs>("POST", authEndPoints.LOGIN, data, {
-      "Content-Type": "application/json",
-    });
+    return await fetchApi<LogInApiRs>("POST", authEndPoints.LOGIN, data);
   },
 
   checkUserApi: async () => {
