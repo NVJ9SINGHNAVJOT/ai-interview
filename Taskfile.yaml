@@ -11,20 +11,14 @@ tasks:
   i:
     desc: Install all necessary dependencies for the project across backend and frontend services.
     cmds:
-      - npm install
-      - cd backend/server && npm run install
-      - cd frontend && npm run install
+      - cd backend/server && npm i
+      - cd frontend && npm i
 
   build:
     desc: Builds the project locally
     cmds:
       - cd backend/server && npm run build
       - cd frontend && npm run build
-
-  dev:
-    desc: start all development servers concurrently (backend and frontend)
-    cmds:
-      - npm run conc
 
   server:
     desc: start server from backend service
