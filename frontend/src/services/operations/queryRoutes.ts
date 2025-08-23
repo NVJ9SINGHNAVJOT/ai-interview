@@ -5,8 +5,13 @@ import { CommonRs } from "@/types/routeApiRs/common";
 
 export const queryRoutes = {
   sendQueryApi: async (data: ContactUsQuery) => {
-    return await fetchApi<CommonRs>("POST", queryEndPoints.CREATE_QUERY, data, {
-      "Content-Type": "application/json",
+    return await fetchApi<CommonRs>({
+      method: "POST",
+      url: queryEndPoints.CREATE_QUERY,
+      data,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
   },
 };

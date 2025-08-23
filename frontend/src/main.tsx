@@ -17,9 +17,7 @@ import PrivateRoute from "@/components/auth/PrivateRoute";
 import Auth from "@/pages/Auth";
 import ErrorBoundary from "@/components/error/ErrorBoundary";
 import AdminPrivateRoute from "@/components/auth/AdminPrivateRoute";
-import AdminDashboard from "@/pages/AdminDashboard";
 import AdminOpenRoute from "@/components/auth/AdminOpenRoute";
-import AdminAuth from "@/pages/AdminAuth";
 
 const router = createBrowserRouter([
   {
@@ -50,14 +48,6 @@ const router = createBrowserRouter([
           </OpenRoute>
         ),
       },
-      {
-        path: "auth/admin",
-        element: (
-          <AdminOpenRoute>
-            <AdminAuth />
-          </AdminOpenRoute>
-        ),
-      },
       /* ===== private routes ===== */
       {
         path: "interview",
@@ -81,14 +71,6 @@ const router = createBrowserRouter([
           <PrivateRoute>
             <Dashboard />
           </PrivateRoute>
-        ),
-      },
-      {
-        path: "admin/dashboard",
-        element: (
-          <AdminPrivateRoute>
-            <AdminDashboard />
-          </AdminPrivateRoute>
         ),
       },
       /* ===== error route ===== */

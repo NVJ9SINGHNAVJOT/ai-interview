@@ -2,15 +2,18 @@ export type ApiError = { status: number; message: string };
 
 export type ApiResponse<T> = { error: null; response: T } | { error: ApiError; response: null };
 
-export async function fetchApi<T>(
-  method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | "HEAD",
-  url: string,
-  data?: object | FormData | null,
-  signal?: AbortSignal,
-  headers?: Record<string, string> | null,
-  params?: Record<string, string>
-): Promise<ApiResponse<T>> {
+type FetchApiOptions = {
+  method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | "HEAD";
+  url: string;
+  data?: object | FormData;
+  signal?: AbortSignal;
+  headers?: Record<string, string>;
+  params?: Record<string, string>;
+};
+
+export async function fetchApi<T>(options: FetchApiOptions): Promise<ApiResponse<T>> {
   try {
+    const { method, url: initialUrl, data, signal, headers, params } = options;
     const requestHeaders = new Headers();
 
     if (headers) {
@@ -21,6 +24,7 @@ export async function fetchApi<T>(
     requestHeaders.append("Authorization", process.env.SERVER_KEY as string);
 
     // Add query parameters to the URL
+    let url = initialUrl;
     if (params) {
       const searchParams = new URLSearchParams(params);
       url += `?${searchParams.toString()}`;

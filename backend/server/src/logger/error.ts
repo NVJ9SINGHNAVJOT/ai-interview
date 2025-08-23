@@ -8,7 +8,7 @@ const extractErrorDetails = (error: unknown) =>
         stack: error.stack || "unknown",
         cause: error.cause || "unknown",
       }
-    : "Unknown";
+    : { error: "Unknown error type", details: String(error) };
 
 export const getErrorDetails = extractErrorDetails;
 

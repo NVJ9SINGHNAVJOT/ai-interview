@@ -9,6 +9,7 @@ import { useAppSelector } from "@/redux/store";
 import FormField from "@/components/form/FormField";
 import CustomInput from "@/components/form/CustomInput";
 import { authRoutes } from "@/services/operations/authRoutes";
+import { useApi } from "@/hooks/useApi";
 
 export type LogInData = Omit<SignUpData, "firstName" | "lastName">;
 
@@ -22,11 +23,15 @@ const LogInForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LogInData>();
+
+  const { execute: sendOtp } = useApi(authRoutes.sendOtpApi);
+  const { execute: logIn } = useApi(authRoutes.logInApi);
+
   const formHandler = async (data: LogInData) => {
     dispatch(setAuthLoading(true));
     // send otp for user login
     if (toggleOtp === false) {
-      const { error, response } = await authRoutes.sendOtpApi(data.emailId, "login");
+      const { error, response } = await sendOtp({ emailId: data.emailId, type: "login" });
       dispatch(setAuthLoading(false));
       if (error) {
         toast.error("Error Occurred!");
@@ -37,8 +42,9 @@ const LogInForm = () => {
       return;
     }
 
-    data.otp = otpFields.join("");
-    const { error, response } = await authRoutes.logInApi(data);
+    const loginData = { ...data, otp: otpFields.join("") };
+    const { error, response } = await logIn(loginData);
+    dispatch(setAuthLoading(false));
     if (error) {
       toast.error(error.message);
       return;

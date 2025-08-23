@@ -8,6 +8,7 @@ import { setAuthLoading, setAuthUser } from "@/redux/slices/authSlice";
 import FormField from "@/components/form/FormField";
 import CustomInput from "@/components/form/CustomInput";
 import { authRoutes } from "@/services/operations/authRoutes";
+import { useApi } from "@/hooks/useApi";
 
 export type SignUpData = {
   firstName: string;
@@ -27,11 +28,14 @@ const SignUpForm = () => {
     formState: { errors },
   } = useForm<SignUpData>();
 
+  const { execute: sendOtp } = useApi(authRoutes.sendOtpApi);
+  const { execute: signUp } = useApi(authRoutes.signUpApi);
+
   const formHandler = async (data: SignUpData) => {
     dispatch(setAuthLoading(true));
     // send otp for user signup
     if (toggleOtp === false) {
-      const { error, response } = await authRoutes.sendOtpApi(data.emailId, "signup");
+      const { error, response } = await sendOtp({ emailId: data.emailId, type: "signup" });
       dispatch(setAuthLoading(false));
       if (error) {
         toast.error("Error Occurred!");
@@ -42,8 +46,8 @@ const SignUpForm = () => {
       return;
     }
 
-    data.otp = otpFields.join("");
-    const { error, response } = await authRoutes.signUpApi(data);
+    const signUpData = { ...data, otp: otpFields.join("") };
+    const { error, response } = await signUp(signUpData);
     dispatch(setAuthLoading(false));
     if (error) {
       // INFO: For now message is only show for 400 status

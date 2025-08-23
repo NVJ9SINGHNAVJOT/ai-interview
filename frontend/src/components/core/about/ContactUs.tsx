@@ -6,6 +6,7 @@ import { queryRoutes } from "@/services/operations/queryRoutes";
 import { trimWhitespaceAndNewlines } from "@/utils/stringFormat";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { useApi } from "@/hooks/useApi";
 
 export type ContactUsQuery = {
   fullName: string;
@@ -20,12 +21,14 @@ const ContactUs = () => {
     formState: { isSubmitting, errors },
   } = useForm<ContactUsQuery>();
 
+  const { execute } = useApi(queryRoutes.sendQueryApi);
+
   const formHandler = async (data: ContactUsQuery) => {
     data.queryText = trimWhitespaceAndNewlines(data.queryText);
     if (data.queryText.length === 0) {
       return;
     }
-    const { error } = await queryRoutes.sendQueryApi(data);
+    const { error } = await execute(data);
 
     if (error) {
       toast("Error Occurred!");

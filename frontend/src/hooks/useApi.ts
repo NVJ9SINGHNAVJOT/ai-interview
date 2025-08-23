@@ -1,14 +1,17 @@
 import { useRef, useState } from "react";
 import type { ApiError, ApiResponse } from "@/services/fetchApi";
 
-export function useApi<T, Args extends any[]>(apiFn: (...args: [...Args, AbortSignal?]) => Promise<ApiResponse<T>>) {
+export function useApi<T, Options>(apiFn: (options: Options) => Promise<ApiResponse<T>>) {
   const [response, setResponse] = useState<T | null>(null);
   const [error, setError] = useState<ApiError | null>(null);
   const [loading, setLoading] = useState(false);
   const abortControllerRef = useRef<AbortController | null>(null);
 
-  const execute = async (...args: Args) => {
-    abortControllerRef.current?.abort();
+  // Add autoCancel param (default false)
+  const execute = async (options: Options, autoCancel: boolean = false) => {
+    if (autoCancel) {
+      abortControllerRef.current?.abort();
+    }
     const controller = new AbortController();
     abortControllerRef.current = controller;
 
@@ -16,7 +19,8 @@ export function useApi<T, Args extends any[]>(apiFn: (...args: [...Args, AbortSi
     setError(null);
     setResponse(null);
 
-    const result = await apiFn(...args, controller.signal);
+    // Inject signal into options
+    const result = await apiFn({ ...options, signal: controller.signal });
     if (result.error) {
       setError(result.error);
     } else {
