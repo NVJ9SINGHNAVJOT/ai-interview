@@ -2,7 +2,7 @@ export type ApiError = { status: number; message: string };
 
 export type ApiResponse<T> = { error: null; response: T } | { error: ApiError; response: null };
 
-type FetchApiOptions = {
+export type FetchApiOptions = {
   method: "GET" | "POST" | "PATCH" | "PUT" | "DELETE" | "HEAD";
   url: string;
   data?: object | FormData;

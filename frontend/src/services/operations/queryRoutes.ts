@@ -1,17 +1,12 @@
 import { ContactUsQuery } from "@/components/core/about/ContactUs";
-import { fetchApi } from "@/services/fetchApi";
 import { queryEndPoints } from "@/services/apis";
 import { CommonRs } from "@/types/routeApiRs/common";
+import { createRoute } from "@/services/apiRoute";
 
 export const queryRoutes = {
-  sendQueryApi: async (data: ContactUsQuery) => {
-    return await fetchApi<CommonRs>({
-      method: "POST",
-      url: queryEndPoints.CREATE_QUERY,
-      data,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-  },
+  sendQueryApi: createRoute<[ContactUsQuery], CommonRs>((data) => ({
+    method: "POST",
+    url: queryEndPoints.CREATE_QUERY,
+    data,
+  })),
 };

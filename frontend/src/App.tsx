@@ -9,22 +9,19 @@ import SpheresLoading from "@/components/loaders/SpheresLoading/SpheresLoading";
 import Page from "@/components/wrapper/Page";
 import { authRoutes } from "@/services/operations/authRoutes";
 import { useApi } from "@/hooks/useApi";
-import { em } from "framer-motion/client";
 
 function App() {
   const dispatch = useDispatch();
   const siteLoading = useAppSelector((state) => state.loading.siteLoading);
+  const { execute } = useApi(authRoutes.checkUserApi);
 
   useEffect(() => {
     (async () => {
-      // const { error, response } = await authRoutes.checkUserApi();
-      // if (!error && response.data) {
-      //   dispatch(setAuthUser(response.data.user));
-      // }
-      // dispatch(setSiteLoading(false));
-      const { execute, cancel, response, error, loading } = useApi(authRoutes.logInApi);
-
-      await execute(emailId, password);
+      const { error, response } = await execute();
+      if (!error && response.data) {
+        dispatch(setAuthUser(response.data.user));
+      }
+      dispatch(setSiteLoading(false));
     })();
   }, []);
 

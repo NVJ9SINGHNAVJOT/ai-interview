@@ -28,7 +28,7 @@ const ContactUs = () => {
     if (data.queryText.length === 0) {
       return;
     }
-    const { error } = await execute(data);
+    const { error } = await execute(data, "ste");
 
     if (error) {
       toast("Error Occurred!");
