@@ -16,8 +16,6 @@ import OpenRoute from "@/components/auth/OpenRoute";
 import PrivateRoute from "@/components/auth/PrivateRoute";
 import Auth from "@/pages/Auth";
 import ErrorBoundary from "@/components/error/ErrorBoundary";
-import AdminPrivateRoute from "@/components/auth/AdminPrivateRoute";
-import AdminOpenRoute from "@/components/auth/AdminOpenRoute";
 
 const router = createBrowserRouter([
   {

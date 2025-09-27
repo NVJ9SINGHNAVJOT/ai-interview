@@ -19,7 +19,7 @@ const cookieOptions: CookieOptions = {
   expires: new Date(Date.now() + fiveDaysInMilliseconds),
   httpOnly: true,
   secure: true,
-  sameSite: true,
+  sameSite: "none",
 };
 
 export const sendOtp = async (req: Request, res: Response): Promise<Response> => {

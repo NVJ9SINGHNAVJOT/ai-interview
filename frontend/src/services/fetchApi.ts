@@ -21,7 +21,7 @@ export async function fetchApi<T>(options: FetchApiOptions): Promise<ApiResponse
     }
 
     // Append server key for backend authorization
-    requestHeaders.append("Authorization", process.env.SERVER_KEY as string);
+    requestHeaders.append("Authorization", `Bearer ${process.env.SERVER_KEY}`);
 
     // Add query parameters to the URL
     let url = initialUrl;
