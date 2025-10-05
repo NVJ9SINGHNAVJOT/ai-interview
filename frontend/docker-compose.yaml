@@ -11,7 +11,3 @@ services:
       - proxy
     ports: [4173:4173] # disable in production
     env_file: .env
-
-networks:
-  proxy:
-    external: true
