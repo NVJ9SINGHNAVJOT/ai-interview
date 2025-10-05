@@ -1,16 +1,6 @@
 ---
 version: '3.8'
 
-volumes:
-  aiinterview-redis-data:
-    name: aiinterview-redis-data
-  aiinterview-postgres-db:
-    name: aiinterview-postgres-db
-
-networks:
-  aiinterview-backend-proxy:
-    external: true
-
 services:
   aiinterview-redis:
     image: redis/redis-stack-server:latest
@@ -47,3 +37,13 @@ services:
     networks:
       - aiinterview-backend-proxy
     # ports: [5432:5432]
+
+volumes:
+  aiinterview-redis-data:
+    name: aiinterview-redis-data
+  aiinterview-postgres-db:
+    name: aiinterview-postgres-db
+
+networks:
+  aiinterview-backend-proxy:
+    external: true

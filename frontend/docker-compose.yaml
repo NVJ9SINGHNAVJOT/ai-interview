@@ -1,10 +1,6 @@
 ---
 version: "3.8"
 
-networks:
-  proxy:
-    external: true
-
 services:
   aiinterview-client:
     build:
@@ -15,3 +11,7 @@ services:
       - proxy
     ports: [4173:4173] # disable in production
     env_file: .env
+
+networks:
+  proxy:
+    external: true
