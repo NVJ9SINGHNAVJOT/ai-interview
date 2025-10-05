@@ -1,4 +1,5 @@
 import { createLogger, transports, format } from "winston";
+import LokiTransport from "winston-loki";
 
 const developmentLogger = () => {
   return createLogger({
@@ -21,18 +22,23 @@ const developmentLogger = () => {
         ),
       }),
 
-      // saved in logs
-      new transports.File({
+      // Loki logging
+      new LokiTransport({
         level: "silly",
-        dirname: "logs",
-        filename: "development.log",
+        host: process.env["LOKI_URL"] as string,
+        json: true,
         format: format.combine(
           format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-          format.json(),
-          format.printf(({ timestamp, level, message, ...args }) => {
-            return JSON.stringify({ timestamp: timestamp, level: level, message: message, data: args });
-          })
+          format.printf(({ timestamp, level, message, ...meta }) =>
+            JSON.stringify({ timestamp, level, message, ...meta })
+          )
         ),
+        labels: {
+          service: "ai-interview-server",
+          project: "ai-interview",
+          environment: "development",
+          language: "nodejs",
+        },
       }),
     ],
   });

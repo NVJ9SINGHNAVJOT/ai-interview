@@ -5,6 +5,8 @@ declare namespace NodeJS {
     SERVER_KEY: string;
     PORT: string;
 
+    LOKI_URL: string;
+
     MAIL_HOST: string;
     MAIL_USER: string;
     MAIL_PASS: string;

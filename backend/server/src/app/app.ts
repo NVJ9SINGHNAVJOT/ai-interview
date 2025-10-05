@@ -7,6 +7,8 @@ import authRoutes from "@/routes/authRoutes";
 import interviewRoutes from "@/routes/interviewRoutes";
 import mcqRoutes from "@/routes/mcqRoutes";
 import queryRoutes from "@/routes/queryRoutes";
+import client from "@/config/prometheus";
+import prometheus from "@/middlewares/prometheus";
 
 const app = express();
 
@@ -27,12 +29,22 @@ app.use(logging);
 // server only accessible with serverKey
 app.use(serverKey);
 
+// prometheus metrics
+app.use(prometheus);
+
 // routes
 app.use("/api/v1/auths", authRoutes);
 app.use("/api/v1/interviews", interviewRoutes);
 app.use("/api/v1/mcqs", mcqRoutes);
 app.use("/api/v1/queries", queryRoutes);
 
+// metrics endpoint
+app.get("/metrics", async (_req, res) => {
+  res.set("Content-Type", client.register.contentType);
+  res.end(await client.register.metrics());
+});
+
+// health check endpoint
 app.get("/", (_req: Request, res: Response) => {
   res.json({
     success: true,
