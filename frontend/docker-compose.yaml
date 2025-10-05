@@ -7,7 +7,5 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: aiinterview-client
-    networks:
-      - proxy
     ports: [4173:4173] # disable in production
     env_file: .env
