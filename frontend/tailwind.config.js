@@ -92,8 +92,8 @@ export default {
         minContent: "768px",
       },
       fontFamily: {
-        "be-veitnam-pro": '"Be Vietnam Pro", sans-serif',
-        "roboto-condensed": '"Roboto Condensed", sans-serif',
+        "be-veitnam-pro": ["Be Vietnam Pro", "sans-serif"],
+        "roboto-condensed": ["Roboto Condensed", "sans-serif"],
       },
     },
   },

@@ -5,10 +5,9 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "@/redux/store";
 import { setAuthLoading, setAuthUser } from "@/redux/slices/authSlice";
-import FormField from "@/components/form/FormField";
-import CustomInput from "@/components/form/CustomInput";
 import { authRoutes } from "@/services/operations/authRoutes";
 import { useApi } from "@/hooks/useApi";
+import { FormField } from "@/components/common/FormFields";
 
 export type SignUpData = {
   firstName: string;
@@ -22,11 +21,7 @@ const SignUpForm = () => {
   const authLoading = useAppSelector((state) => state.auth.authLoading);
   const [otpFields, setOtpFields] = useState<string[]>(new Array(6).fill(""));
   const [toggleOtp, setToggleOtp] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<SignUpData>();
+  const { register, handleSubmit, control } = useForm<SignUpData>();
 
   const { execute: sendOtp } = useApi(authRoutes.sendOtpApi);
   const { execute: signUp } = useApi(authRoutes.signUpApi);
@@ -69,48 +64,50 @@ const SignUpForm = () => {
         // fields
         <div className=" flex flex-col gap-y-4">
           {/* first name */}
-          <FormField title="First Name" error={errors.firstName}>
-            <CustomInput
-              type="text"
-              {...register("firstName", {
-                required: true,
-                minLength: 2,
-                maxLength: 40,
-                pattern: /^[a-zA-Z]{2,}$/,
-                setValueAs(value: string) {
-                  return value.trim();
-                },
-              })}
-            />
-          </FormField>
+          <FormField
+            control={control}
+            label="First Name"
+            type="text"
+            {...register("firstName", {
+              required: true,
+              minLength: 2,
+              maxLength: 40,
+              pattern: /^[a-zA-Z]{2,}$/,
+              setValueAs(value: string) {
+                return value.trim();
+              },
+            })}
+          />
+
           {/* last name */}
-          <FormField title="Last Name" error={errors.lastName}>
-            <CustomInput
-              type="text"
-              {...register("lastName", {
-                required: true,
-                minLength: 2,
-                maxLength: 40,
-                pattern: /^[a-zA-Z]{2,}$/,
-                setValueAs(value: string) {
-                  return value.trim();
-                },
-              })}
-            />
-          </FormField>
+          <FormField
+            control={control}
+            label="Last Name"
+            type="text"
+            {...register("lastName", {
+              required: true,
+              minLength: 2,
+              maxLength: 40,
+              pattern: /^[a-zA-Z]{2,}$/,
+              setValueAs(value: string) {
+                return value.trim();
+              },
+            })}
+          />
+
           {/* email */}
-          <FormField title="Email" error={errors.emailId}>
-            <CustomInput
-              type="email"
-              {...register("emailId", {
-                required: true,
-                maxLength: 255,
-                setValueAs(value: string) {
-                  return value.trim();
-                },
-              })}
-            />
-          </FormField>
+          <FormField
+            control={control}
+            label="Email"
+            type="email"
+            {...register("emailId", {
+              required: true,
+              maxLength: 255,
+              setValueAs(value: string) {
+                return value.trim();
+              },
+            })}
+          />
         </div>
       ) : (
         <OtpInput otpFields={otpFields} setOtpFields={setOtpFields} />

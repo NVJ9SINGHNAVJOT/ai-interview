@@ -6,10 +6,9 @@ import { SignUpData } from "@/components/core/auth/SignUpForm";
 import OtpInput from "@/components/core/auth/OtpInput";
 import { setAuthLoading, setAuthUser } from "@/redux/slices/authSlice";
 import { useAppSelector } from "@/redux/store";
-import FormField from "@/components/form/FormField";
-import CustomInput from "@/components/form/CustomInput";
 import { authRoutes } from "@/services/operations/authRoutes";
 import { useApi } from "@/hooks/useApi";
+import { FormField } from "@/components/common/FormFields";
 
 export type LogInData = Omit<SignUpData, "firstName" | "lastName">;
 
@@ -18,11 +17,7 @@ const LogInForm = () => {
   const authLoading = useAppSelector((state) => state.auth.authLoading);
   const [otpFields, setOtpFields] = useState<string[]>(new Array(6).fill(""));
   const [toggleOtp, setToggleOtp] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<LogInData>();
+  const { register, handleSubmit, control } = useForm<LogInData>();
 
   const { execute: sendOtp } = useApi(authRoutes.sendOtpApi);
   const { execute: logIn } = useApi(authRoutes.logInApi);
@@ -66,18 +61,18 @@ const LogInForm = () => {
       <p className=" text-white self-center text-4xl py-5 font-semibold">Log In</p>
 
       {toggleOtp === false ? (
-        <FormField title="Email" error={errors.emailId}>
-          <CustomInput
-            type="email"
-            {...register("emailId", {
-              required: true,
-              maxLength: 255,
-              setValueAs(value: string) {
-                return value.trim();
-              },
-            })}
-          />
-        </FormField>
+        <FormField
+          control={control}
+          label="Email"
+          type="email"
+          {...register("emailId", {
+            required: true,
+            maxLength: 255,
+            setValueAs(value: string) {
+              return value.trim();
+            },
+          })}
+        />
       ) : (
         <OtpInput otpFields={otpFields} setOtpFields={setOtpFields} />
       )}
