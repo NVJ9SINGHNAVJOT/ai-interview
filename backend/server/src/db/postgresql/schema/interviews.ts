@@ -1,6 +1,6 @@
 import { integer, pgTable, serial, text, timestamp, varchar } from "drizzle-orm/pg-core";
 
-export const interview = pgTable("interview", {
+export const interviews = pgTable("interviews", {
   id: serial("id").primaryKey(),
   jobRole: varchar("job_role", { length: 255 }).notNull(),
   yearOfExp: integer("year_of_exp").notNull(),

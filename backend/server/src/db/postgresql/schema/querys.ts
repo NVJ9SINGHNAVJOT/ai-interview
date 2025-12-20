@@ -1,6 +1,6 @@
 import { pgTable, serial, timestamp, varchar } from "drizzle-orm/pg-core";
 
-export const query = pgTable("query", {
+export const querys = pgTable("querys", {
   id: serial("id").primaryKey(),
   fullName: varchar("full_name").notNull(),
   emailId: varchar("email_id").notNull(),

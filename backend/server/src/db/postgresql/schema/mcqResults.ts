@@ -1,5 +1,5 @@
 import { pgTable, serial, integer, timestamp, jsonb, boolean } from "drizzle-orm/pg-core";
-import { user } from "@/db/postgresql/schema/user";
+import { users } from "@/db/postgresql/schema/users";
 import { relations } from "drizzle-orm";
 
 export type Answer = {
@@ -9,10 +9,10 @@ export type Answer = {
 
 export type AnswersArray = Answer[];
 
-export const mcqResult = pgTable("mcq_result", {
+export const mcqResults = pgTable("mcq_results", {
   id: serial("id").primaryKey(),
   userId: integer("user_id")
-    .references(() => user.id)
+    .references(() => users.id)
     .notNull(),
   checked: boolean("checked").default(false).notNull(),
   answers: jsonb("answers").$type<AnswersArray>().notNull(),
@@ -20,6 +20,6 @@ export const mcqResult = pgTable("mcq_result", {
   updatedAt: timestamp("updated_at", { withTimezone: true }).defaultNow().notNull(),
 });
 
-export const mcqResultRelations = relations(mcqResult, ({ one }) => ({
-  user: one(user, { fields: [mcqResult.userId], references: [user.id] }),
+export const mcqResultRelations = relations(mcqResults, ({ one }) => ({
+  user: one(users, { fields: [mcqResults.userId], references: [users.id] }),
 }));

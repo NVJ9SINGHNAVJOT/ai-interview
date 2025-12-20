@@ -5,57 +5,8 @@
     {
       "idx": 0,
       "version": "7",
-      "when": 1735666396478,
-      "tag": "0000_smooth_beyonder",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1736182990692,
-      "tag": "0001_dizzy_warlock",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1736262837244,
-      "tag": "0002_true_squirrel_girl",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1736846820298,
-      "tag": "0003_redundant_ultimates",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "7",
-      "when": 1736929296996,
-      "tag": "0004_wandering_speedball",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "7",
-      "when": 1736958600879,
-      "tag": "0005_productive_naoko",
-      "breakpoints": true
-    },
-    {
-      "idx": 6,
-      "version": "7",
-      "when": 1741876426813,
-      "tag": "0006_past_nick_fury",
-      "breakpoints": true
-    },
-    {
-      "idx": 7,
-      "version": "7",
-      "when": 1759001114428,
-      "tag": "0007_sad_lethal_legion",
+      "when": 1766246253345,
+      "tag": "0000_dazzling_chamber",
       "breakpoints": true
     }
   ]

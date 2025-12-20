@@ -1,18 +1,18 @@
 import { pgTable, serial, text, integer, timestamp, boolean, unique } from "drizzle-orm/pg-core";
-import { user } from "@/db/postgresql/schema/user";
-import { interview } from "@/db/postgresql/schema/interview";
+import { users } from "@/db/postgresql/schema/users";
+import { interviews } from "@/db/postgresql/schema/interviews";
 import { relations } from "drizzle-orm";
 
-export const interviewResult = pgTable(
-  "interview_result",
+export const interviewResults = pgTable(
+  "interview_results",
   {
     id: serial("id").primaryKey(),
     interviewId: integer("interview_id")
-      .references(() => interview.id)
+      .references(() => interviews.id)
       .notNull(),
 
     userId: integer("user_id")
-      .references(() => user.id)
+      .references(() => users.id)
       .notNull(),
 
     checked: boolean("checked").default(false).notNull(),
@@ -49,7 +49,7 @@ export const interviewResult = pgTable(
   })
 );
 
-export const interviewResultRelations = relations(interviewResult, ({ one }) => ({
-  user: one(user, { fields: [interviewResult.userId], references: [user.id] }),
-  interview: one(interview, { fields: [interviewResult.interviewId], references: [interview.id] }),
+export const interviewResultRelations = relations(interviewResults, ({ one }) => ({
+  user: one(users, { fields: [interviewResults.userId], references: [users.id] }),
+  interview: one(interviews, { fields: [interviewResults.interviewId], references: [interviews.id] }),
 }));

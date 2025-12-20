@@ -2,13 +2,13 @@ import { configDotenv } from "dotenv";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { logger } from "@/logger/logger";
-import { user } from "@/db/postgresql/schema/user";
-import { interview } from "@/db/postgresql/schema/interview";
-import { interviewResult, interviewResultRelations } from "@/db/postgresql/schema/interviewResult";
-import { mcq } from "@/db/postgresql/schema/mcq";
-import { mcqResult, mcqResultRelations } from "@/db/postgresql/schema/mcqResult";
+import { user } from "@/db/postgresql/schema/users";
+import { interview } from "@/db/postgresql/schema/interviews";
+import { interviewResult, interviewResultRelations } from "@/db/postgresql/schema/interviewResults";
+import { mcq } from "@/db/postgresql/schema/mcqs";
+import { mcqResult, mcqResultRelations } from "@/db/postgresql/schema/mcqResults";
 import { logError } from "@/logger/error";
-import { query } from "@/db/postgresql/schema/query";
+import { query } from "@/db/postgresql/schema/querys";
 
 configDotenv();
 

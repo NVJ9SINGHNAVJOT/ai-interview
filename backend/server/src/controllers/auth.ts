@@ -1,5 +1,5 @@
 import { db } from "@/db/postgresql/connection";
-import { user } from "@/db/postgresql/schema/user";
+import { users } from "@/db/postgresql/schema/users";
 import { redisClient } from "@/db/redis/connection";
 import { signUpReqSchema } from "@/types/controllers/authReq";
 import { errRes, internalErrRes } from "@/utils/error";
@@ -36,9 +36,9 @@ export const sendOtp = async (req: Request, res: Response): Promise<Response> =>
     }
     // Check if use already present
     const checkUserAlreadyExist = await db
-      .select({ id: user.id })
-      .from(user)
-      .where(eq(user.emailId, data.emailId))
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.emailId, data.emailId))
       .limit(1)
       .execute();
 
@@ -98,10 +98,10 @@ export const signUp = async (req: Request, res: Response): Promise<Response> => 
 
     // Otp verification is done and now create user
     const newUser = await db
-      .insert(user)
+      .insert(users)
       .values({ firstName: data.firstName, lastName: data.lastName, emailId: data.emailId })
-      .onConflictDoNothing({ target: user.emailId })
-      .returning({ id: user.id })
+      .onConflictDoNothing({ target: users.emailId })
+      .returning({ id: users.id })
       .execute();
 
     // User already present for email
@@ -144,9 +144,9 @@ export const logIn = async (req: Request, res: Response): Promise<Response> => {
     // Otp verification is done and now check user email id,
     // send user data in response
     const userData = await db
-      .select({ id: user.id, firstName: user.firstName, lastName: user.lastName })
-      .from(user)
-      .where(eq(user.emailId, data.emailId))
+      .select({ id: users.id, firstName: users.firstName, lastName: users.lastName })
+      .from(users)
+      .where(eq(users.emailId, data.emailId))
       .limit(1)
       .execute();
 
@@ -197,9 +197,9 @@ export const checkUser = async (req: Request, res: Response): Promise<Response> 
     // Otp verification is done and now check user email id,
     // send user data in response
     const userData = await db
-      .select({ id: user.id, firstName: user.firstName, lastName: user.lastName, emailId: user.emailId })
-      .from(user)
-      .where(eq(user.id, id))
+      .select({ id: users.id, firstName: users.firstName, lastName: users.lastName, emailId: users.emailId })
+      .from(users)
+      .where(eq(users.id, id))
       .limit(1)
       .execute();
 
